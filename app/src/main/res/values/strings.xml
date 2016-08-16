@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Lets Go Shoppin</string>
+
+    <!-- For navigation drawer -->
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+
+    <!--    <string name="drawer_menu_login">Login / Sign Up</string>
+        <string name="drawer_menu_change_suburb">Change Suburb</string>
+        <string name="drawer_menu_store_list">Store List</string>
+        <string name="drawer_menu_my_order">My Order</string>
+        <string name="drawer_menu_cart">Cart</string>
+        <string name="drawer_menu_offers">Offers</string>
+        <string name="drawer_menu_about_us">About Us</string>-->
+
+    <!-- Other -->
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="submit">Submit</string>
+    <string name="retry">Retry</string>
+    <string name="user_login_id">Mobile Number</string>
+
+    <!-- Error messages -->
+    <string name="error_title">Error : </string>
+    <string name="error_technichal_problem">Having some technical problem</string>
+    <string name="error_internet_check">Internet connection is not available. Please enable wifi or internet data.</string>
+    <string name="error_required">Required</string>
+    <string name="error_valid_suburb">Select valid suburb</string>
+    <string name="error_confirm_password">Password and Confirm Password must be same</string>
+
+    <!-- Textview -->
+    <string name="text_dont_have_account">Don\'t have an account</string>
+    <string name="text_already_have_account">Already have an account</string>
+    <string name="text_or">Or</string>
+    <string name="text_explore_guest">Explore as</string>
+
+    <!-- Edit text hint-->
+    <string name="edittext_hint_mobile_number">Mobile Number</string>
+    <string name="edittext_hint_password">Password</string>
+    <string name="edittext_hint_name">Name</string>
+    <string name="edittext_hint_street">Street</string>
+    <string name="edittext_hint_suburb">Suburb</string>
+    <string name="edittext_hint_postcode">Postcode</string>
+    <string name="edittext_hint_confirm_password">Confirm Password</string>
+
+    <!-- Button text -->
+    <string name="button_signin">Sign In</string>
+    <string name="button_signup">Sign Up</string>
+    <string name="button_guest">Guest</string>
+    <string name="button_go">Go</string>
+
+    <!--dialog -->
+    <string name="dialog_title_guest">Guest Login</string>
+
+    <!-- Menu Action -->
+    <string name="action_search_product">Search</string>
+    <string name="action_view_cart">Cart</string>
+</resources>

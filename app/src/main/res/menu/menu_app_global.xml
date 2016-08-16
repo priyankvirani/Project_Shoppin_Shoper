@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search_product"
+        android:icon="@drawable/search"
+        android:orderInCategory="100"
+        android:title="@string/action_search_product"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_view_cart"
+        android:icon="@drawable/cart"
+        android:orderInCategory="100"
+        android:title="@string/action_view_cart"
+        app:showAsAction="always" />
+</menu>

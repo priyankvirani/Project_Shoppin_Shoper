@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Bottom 1dp Shadow -->
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:angle="270"
+                android:endColor="@color/white"
+                android:startColor="@color/white" />
+
+            <padding
+                android:bottom="@dimen/margin_tiny"
+                android:left="@dimen/margin_tiny"
+                android:right="@dimen/margin_tiny"
+                android:top="@dimen/margin_tiny" />
+        </shape>
+    </item>
+
+    <!--    &lt;!&ndash; White Top color &ndash;&gt;
+        <item
+            android:bottom="2dp"
+            android:left="1dp"
+            android:right="1dp">
+            <shape android:shape="oval" >
+                <gradient
+                    android:angle="270"
+                    android:endColor="@color/white"
+                    android:startColor="@color/white" />
+            </shape>
+        </item>-->
+
+</layer-list>

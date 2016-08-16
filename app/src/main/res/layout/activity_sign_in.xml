@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_sign_in"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/margin_medium"
+        android:paddingRight="@dimen/margin_medium"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/app_logo_transparent" />
+
+            <EditText
+                android:id="@+id/etxSigninId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@drawable/edittext_bottom_line_white"
+                android:drawableLeft="@drawable/mobilenumber"
+                android:drawablePadding="@dimen/margin_tiny"
+                android:hint="@string/edittext_hint_mobile_number"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/margin_edittext_bottom"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="@dimen/font_size_edittext" />
+
+            <EditText
+                android:id="@+id/etxPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@drawable/edittext_bottom_line_white"
+                android:drawableLeft="@drawable/lock_password"
+                android:drawablePadding="@dimen/margin_tiny"
+                android:hint="@string/edittext_hint_password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/margin_edittext_bottom"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="@dimen/font_size_edittext" />
+
+            <TextView
+                android:id="@+id/txtSignin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@drawable/button_background_green"
+                android:gravity="center"
+                android:padding="@dimen/margin_button"
+                android:text="@string/button_signin"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_button"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_dont_have_account"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_edittext" />
+
+                <TextView
+                    android:id="@+id/txtSignup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_tiny"
+                    android:text="@string/button_signup"
+                    android:textColor="@color/app_theme_1"
+                    android:textSize="@dimen/font_size_button"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:paddingLeft="@dimen/margin_tiny"
+                android:text="@string/text_or"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_button" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_explore_guest"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_edittext" />
+
+                <TextView
+                    android:id="@+id/txtGuest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_tiny"
+                    android:text="@string/button_guest"
+                    android:textColor="@color/app_theme_1"
+                    android:textSize="@dimen/font_size_button"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/progressbar" />
+</RelativeLayout>

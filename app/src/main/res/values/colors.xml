@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    <color name="colorPrimary">#3F51B5</color>
+        <color name="colorPrimaryDark">#303F9F</color>
+        <color name="colorAccent">#FF4081</color>-->
+
+    <color name="colorPrimary">@color/app_theme_1</color>
+    <color name="colorPrimaryDark">@color/app_theme_2</color>
+    <color name="colorAccent">@color/app_theme_3</color>
+
+    <color name="app_theme_1">#80cc28</color>
+    <color name="app_theme_2">#649f1f</color>
+    <!--<color name="app_theme_3">#FF4081</color>-->
+    <color name="app_theme_3">#ffffff</color>
+
+    <color name="white">#ffffff</color>
+    <color name="white_50">#80ffffff</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="gray">#d4d4d4</color>
+    <color name="shadow">#d8d8d8</color>
+    <color name="text_black">#464646</color>
+    <color name="text_black_50">#80464646</color>
+
+
+</resources>

@@ -1,0 +1,34 @@
+<resources>
+    <dimen name="margin_tiny">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+    <dimen name="margin_huge">64dp</dimen>
+
+    <dimen name="margin_edittext_bottom">14dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">@dimen/margin_medium</dimen>
+    <dimen name="activity_vertical_margin">@dimen/margin_medium</dimen>
+
+    <dimen name="font_size_splash_title">36sp</dimen>
+    <dimen name="font_size_toolbar_title">20sp</dimen>
+    <dimen name="font_size_title">18sp</dimen>
+    <dimen name="font_size_edittext">16sp</dimen>
+    <dimen name="font_size_button">18sp</dimen>
+
+    <dimen name="margin_button">12dp</dimen>
+
+    <!-- XML drawables -->
+    <dimen name="drawable_progressbar">50dp</dimen>
+    <dimen name="drawable_round_corner">6dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- image size -->
+    <dimen name="grid_subcategory">150dp</dimen>
+
+</resources>
