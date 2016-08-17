@@ -26,6 +26,7 @@ import com.shoppin.customer.fragment.BaseFragment;
 import com.shoppin.customer.fragment.HomeFragment;
 import com.shoppin.customer.fragment.IUpdateFragment;
 import com.shoppin.customer.fragment.MyAccountFragment;
+import com.shoppin.customer.fragment.OrderOngoingFragment;
 import com.shoppin.customer.fragment.UnderDevelopmentFragment;
 import com.shoppin.customer.model.NavigationDrawerMenuItem;
 
@@ -101,41 +102,19 @@ public class NavigationDrawerActivity extends BaseActivity {
                 int menuTagId = (int) view.getTag();
                 Fragment newContent = null;
                 switch (menuTagId) {
-
-                    case IDrawerMenu.LOGIN_SIGNUP_ID:
+                    case IDrawerMenu.ONGOING_ORDERS_ID:
+                        newContent = new UnderDevelopmentFragment();
+                        break;
+                    case IDrawerMenu.ORDER_REQUEST_ID:
+                        newContent = new UnderDevelopmentFragment();
+                        break;
+                    case IDrawerMenu.ORDER_HISTORY_ID:
+                        newContent = new UnderDevelopmentFragment();
+                        break;
+                    case IDrawerMenu.MY_PROFILE_ID:
                         newContent = new UnderDevelopmentFragment();
                         break;
 
-                    case IDrawerMenu.WELCOME_ID:
-                        newContent = new MyAccountFragment();
-                        break;
-
-                    case IDrawerMenu.CHANGE_SUBURB_ID:
-                        newContent = new UnderDevelopmentFragment();
-                        break;
-
-//                    case IDrawerMenu.HOME_ID:
-//                        newContent = new HomeFragment();
-//                        break;
-
-                    case IDrawerMenu.STORE_LIST_ID:
-                        newContent = new UnderDevelopmentFragment();
-                        break;
-
-                    case IDrawerMenu.MY_ORDER_ID:
-                        newContent = new UnderDevelopmentFragment();
-                        break;
-
-                    case IDrawerMenu.CART_ID:
-                        newContent = new UnderDevelopmentFragment();
-                        break;
-
-                    case IDrawerMenu.OFFERS_ID:
-                        newContent = new UnderDevelopmentFragment();
-                        break;
-                    case IDrawerMenu.ABOUT_US_ID:
-                        newContent = new UnderDevelopmentFragment();
-                        break;
                 }
                 if (newContent != null) {
                     isNavMenuchange = true;
@@ -172,7 +151,7 @@ public class NavigationDrawerActivity extends BaseActivity {
         if (content == null) {
             Log.i(TAG, "content is null");
             isNavMenuchange = true;
-            switchContent(new HomeFragment());
+            switchContent(new OrderOngoingFragment());
             // switchContent(new ProductDetailFragment());
         }
         getSupportFragmentManager().addOnBackStackChangedListener(
@@ -222,32 +201,15 @@ public class NavigationDrawerActivity extends BaseActivity {
     private void setMenuAdapter() {
         drawerMenuAdapter = new NavigationDrawerMenuAdapter(
                 NavigationDrawerActivity.this);
-        if (DBAdapter.getMapKeyValueBoolean(NavigationDrawerActivity.this, IMap.IS_LOGIN)) {
-            drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.WELCOME,
-                    IDrawerMenu.WELCOME_ID, R.drawable.user));
-        } else {
-            drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.LOGIN_SIGNUP,
-                    IDrawerMenu.LOGIN_SIGNUP_ID, R.drawable.user));
-        }
+        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.ONGOING_ORDERS,
+                IDrawerMenu.ONGOING_ORDERS_ID, R.drawable.user));
+        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.ORDER_REQUEST,
+                IDrawerMenu.ORDER_REQUEST_ID, R.drawable.user));
+        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.ORDER_HISTORY,
+                IDrawerMenu.ORDER_HISTORY_ID, R.drawable.user));
+        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.MY_PROFILE,
+                IDrawerMenu.MY_PROFILE_ID, R.drawable.user));
 
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.CHANGE_SUBURB,
-                IDrawerMenu.CHANGE_SUBURB_ID, R.drawable.street));
-//        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.HOME,
-//                IDrawerMenu.HOME_ID, R.drawable.user));
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.STORE_LIST,
-                IDrawerMenu.STORE_LIST_ID, R.drawable.storelist));
-
-        if (DBAdapter.getMapKeyValueBoolean(NavigationDrawerActivity.this, IMap.IS_LOGIN)) {
-            drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.MY_ORDER,
-                    IDrawerMenu.MY_ORDER_ID, R.drawable.myorder));
-        }
-
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.CART,
-                IDrawerMenu.CART_ID, R.drawable.mycart));
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.OFFERS,
-                IDrawerMenu.OFFERS_ID, R.drawable.offers));
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.ABOUT_US,
-                IDrawerMenu.ABOUT_US_ID, R.drawable.aboutus));
     }
 
     private void initDrawer() {

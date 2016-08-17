@@ -5,21 +5,39 @@
     android:layout_gravity="center_vertical"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/rowIcon"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rlvCategory"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:padding="@dimen/margin_small" />
+        android:padding="@dimen/margin_small">
 
-    <TextView
-        android:id="@+id/rowTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_small"
-        android:paddingRight="@dimen/margin_small"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_size_title" />
+        <ImageView
+            android:id="@+id/rowIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_small" />
 
+        <TextView
+            android:id="@+id/rowTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_small"
+            android:layout_toRightOf="@+id/rowIcon"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_title" />
+
+        <ImageView
+            android:id="@+id/imgViewAllCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/margin_small"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:src="@drawable/right_arrow" />
+    </RelativeLayout>
 </LinearLayout>
