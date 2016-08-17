@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shoppin.customer">
+    package="com.shoppin.shoper">
 
     <supports-screens
         android:anyDensity="true"
@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashScreenActivity"
+            android:name="com.shoppin.shoper.activity.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize">
@@ -33,17 +33,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SigninActivity"
+            android:name="com.shoppin.shoper.activity.SigninActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.SignupActivity"
+            android:name="com.shoppin.shoper.activity.SignupActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.NavigationDrawerActivity"
+            android:name="com.shoppin.shoper.activity.NavigationDrawerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait" />
     </application>
