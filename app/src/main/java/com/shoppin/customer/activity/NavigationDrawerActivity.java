@@ -23,9 +23,7 @@ import com.shoppin.customer.R;
 import com.shoppin.customer.adapter.NavigationDrawerMenuAdapter;
 import com.shoppin.customer.database.DBAdapter;
 import com.shoppin.customer.fragment.BaseFragment;
-import com.shoppin.customer.fragment.HomeFragment;
 import com.shoppin.customer.fragment.IUpdateFragment;
-import com.shoppin.customer.fragment.MyAccountFragment;
 import com.shoppin.customer.fragment.OrderOngoingFragment;
 import com.shoppin.customer.fragment.UnderDevelopmentFragment;
 import com.shoppin.customer.model.NavigationDrawerMenuItem;
@@ -183,7 +181,7 @@ public class NavigationDrawerActivity extends BaseActivity {
     @OnClick(R.id.imgHome)
     public void launchHome() {
         isNavMenuchange = true;
-        switchContent(new HomeFragment());
+        switchContent(new OrderOngoingFragment());
     }
 
     @OnClick(R.id.imgSearch)

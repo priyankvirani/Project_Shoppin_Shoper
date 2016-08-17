@@ -5,11 +5,7 @@
     android:layout_gravity="center_vertical"
     android:orientation="horizontal">
 
-    <RelativeLayout
-        android:id="@+id/rlvCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/margin_small">
+
 
         <ImageView
             android:id="@+id/rowIcon"
@@ -28,16 +24,5 @@
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_title" />
 
-        <ImageView
-            android:id="@+id/imgViewAllCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/margin_small"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:src="@drawable/right_arrow" />
-    </RelativeLayout>
+
 </LinearLayout>
