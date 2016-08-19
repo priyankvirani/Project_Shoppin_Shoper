@@ -37,8 +37,7 @@ public class MyAccountFragment extends BaseFragment {
 
     @OnClick(R.id.btnLogOut)
     void logOut() {
-        DBAdapter.insertUpdateMap(getActivity(), IMap.SUBURB_ID, "");
-        DBAdapter.insertUpdateMap(getActivity(), IMap.SUBURB_NAME, "");
+        DBAdapter.deleteUsers(getActivity());
 
         Intent intent = new Intent(getActivity(), SigninActivity.class);
         startActivity(intent);

@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.activity.SignupActivity;
+import com.shoppin.shoper.database.DBAdapter;
 
 import butterknife.ButterKnife;
 
@@ -30,6 +31,7 @@ public class OrderOngoingFragment extends BaseFragment {
         layoutView = inflater.inflate(R.layout.fragment_order_ongoing, container, false);
         ButterKnife.bind(this, layoutView);
         initView();
+
 
 
         return layoutView;

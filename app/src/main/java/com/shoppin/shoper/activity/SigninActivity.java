@@ -88,12 +88,14 @@ public class SigninActivity extends AppCompatActivity {
 
                                 JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
-//                                DBAdapter.insertEmployeeData(SigninActivity.this, dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME),
-//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_ID),
-//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME),
-//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL),
-//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE),
-//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID));
+                                DBAdapter.insertUpdateEmployeeData(SigninActivity.this, IDatabase.IEmployeData.KEY_EMPLOYEE_KEY,
+                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_ID),
+                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME),
+                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL),
+                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE),
+                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID),
+                                        false);
+
 
 
                                 Intent intent = new Intent(SigninActivity.this, NavigationDrawerActivity.class);

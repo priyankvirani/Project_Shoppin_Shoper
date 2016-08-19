@@ -1,5 +1,6 @@
 package com.shoppin.shoper.database;
 
+import static com.shoppin.shoper.database.IDatabase.IMap.IS_LOGIN;
 import static com.shoppin.shoper.database.IDatabase.IMap.KEY_MAP_KEY;
 import static com.shoppin.shoper.database.IDatabase.IMap.KEY_MAP_VALUE;
 import static com.shoppin.shoper.database.IDatabase.IMap.TABLE_MAP;
@@ -20,7 +21,7 @@ public interface IDatabase {
 
         String KEY_EMPLOYEE_KEY = "employee_key";
         String KEY_EMPLOYEE_VALUE = "employee_value";
-        String IS_LOGIN = "is_login";
+
 
         String KEY_ID = "_id";
         String KEY_EMPLOYEE_ID = "employee_id";
@@ -28,6 +29,7 @@ public interface IDatabase {
         String KEY_EMPLOYEE_EMAIL = "employee_email";
         String KEY_EMPLOYEE_MOBILE = "employee_mobile";
         String KEY_EMPLOYEE_STORE_ID = "employee_store_id";
+        String KEY_EMPLOYEE_IS_LOGIN = "employee_is_login";
 
         String CREATE_TABLE_EMPLOYEE = "create table " + TABLE_EMPLOYEE + " ("
                 + KEY_ID + " integer primary key autoincrement, "
@@ -35,7 +37,8 @@ public interface IDatabase {
                 + KEY_EMPLOYEE_NAME + " text, "
                 + KEY_EMPLOYEE_EMAIL + " text, "
                 + KEY_EMPLOYEE_MOBILE + " text, "
-                + KEY_EMPLOYEE_STORE_ID + " text);";
+                + KEY_EMPLOYEE_STORE_ID + " text,"
+                + KEY_EMPLOYEE_IS_LOGIN +" text);";
 
     }
 

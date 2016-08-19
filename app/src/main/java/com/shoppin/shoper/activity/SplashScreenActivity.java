@@ -11,8 +11,6 @@ import com.shoppin.shoper.R;
 import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.utils.Utils;
 
-import static com.shoppin.shoper.database.IDatabase.IMap;
-
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static final String TAG = SplashScreenActivity.class.getSimpleName();
@@ -84,13 +82,13 @@ public class SplashScreenActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            DBAdapter.getEmployeDetails(SplashScreenActivity.this);
 
-            if (Utils.isNullOrEmpty(DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IMap.SUBURB_ID))) {
+            if (Utils.isNullOrEmpty(DBAdapter.getEmployeValueString(SplashScreenActivity.this))) {
                 Intent intent = new Intent(SplashScreenActivity.this, SigninActivity.class);
                 startActivity(intent);
                 finish();
             } else {
-//                if (DBAdapter.getMapKeyValueBoolean(SplashScreenActivity.this, IMap.IS_LOGIN)) {
                 Intent intent = new Intent(SplashScreenActivity.this, NavigationDrawerActivity.class);
                 startActivity(intent);
                 finish();

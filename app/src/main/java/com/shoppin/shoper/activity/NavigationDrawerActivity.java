@@ -25,6 +25,7 @@ import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.fragment.BaseFragment;
 import com.shoppin.shoper.fragment.IUpdateFragment;
+import com.shoppin.shoper.fragment.MyAccountFragment;
 import com.shoppin.shoper.fragment.OrderOngoingFragment;
 import com.shoppin.shoper.fragment.UnderDevelopmentFragment;
 import com.shoppin.shoper.model.NavigationDrawerMenuItem;
@@ -111,7 +112,7 @@ public class NavigationDrawerActivity extends BaseActivity {
                         newContent = new UnderDevelopmentFragment();
                         break;
                     case IDrawerMenu.MY_PROFILE_ID:
-                        newContent = new UnderDevelopmentFragment();
+                        newContent = new MyAccountFragment();
                         break;
 
                 }

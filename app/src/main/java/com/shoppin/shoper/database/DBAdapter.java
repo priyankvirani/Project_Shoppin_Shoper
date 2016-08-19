@@ -6,7 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.HashMap;
+
+import static android.R.attr.id;
+import static android.R.attr.key;
+import static android.R.attr.name;
 import static android.R.attr.value;
+import static com.shoppin.shoper.R.drawable.user;
+import static com.shoppin.shoper.database.IDatabase.IEmployeData.KEY_EMPLOYEE_ID;
 import static com.shoppin.shoper.database.IDatabase.IMap;
 
 /**
@@ -15,35 +22,80 @@ import static com.shoppin.shoper.database.IDatabase.IMap;
 public class DBAdapter {
     private static final String TAG = DBAdapter.class.getSimpleName();
 
-    public static void insertEmployeeData(Context context, String key, String employee_id,String employee_name,String employee_email,String employee_mobile,String employee_store_id) {
 
+    public static void insertUpdateEmployeeData(Context context, String key, String employee_id, String employee_name,
+                                                String employee_email, String employee_mobile, String employee_store_id, boolean is_login) {
         SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_ID,employee_id);
-        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME,employee_name);
-        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL,employee_email);
-        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE,employee_mobile);
-        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID,employee_store_id);
 
-        Cursor cursor = db.query(IDatabase.IEmployeData.TABLE_EMPLOYEE, new String[]{IDatabase.IEmployeData.KEY_ID}, IDatabase.IEmployeData.KEY_EMPLOYEE_NAME + " = '" + key + "'", null, null, null, null, null);
-        int index = -1;
-        if (cursor != null && cursor.getCount() > 0) { //if the row exist then return the id
-            cursor.moveToFirst();
-            index = cursor.getInt(cursor.getColumnIndex(IDatabase.IEmployeData.KEY_ID));
-            cursor.close();
-        }
-
-        if (index == -1) {
-            contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME, key);
-            db.insert(IDatabase.IEmployeData.TABLE_EMPLOYEE, null, contentValues);
+        ContentValues values = new ContentValues();
+        values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_ID, employee_id);
+        values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME, employee_name);
+        values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL, employee_email);
+        values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE, employee_mobile);
+        values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID, employee_store_id);
+        if (is_login) {
+            values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_IS_LOGIN, IDatabase.IEmployeData.TRUE);
         } else {
-            db.update(IDatabase.IEmployeData.TABLE_EMPLOYEE, contentValues, IDatabase.IEmployeData.KEY_ID + " = '" + index + "'", null);
+            values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_IS_LOGIN, IDatabase.IEmployeData.FALSE);
         }
-        Log.e(TAG, "insertUpdateMap key = " + key + ", value = " + value);
+
+
+        // Inserting Row
+        long id = db.insert(IDatabase.IEmployeData.TABLE_EMPLOYEE, null, values);
+        db.close(); // Closing database connection
+
+        Log.d(TAG, "New user inserted into sqlite: " + id);
 
     }
 
+    public static HashMap<String, String> getEmployeDetails(Context context) {
+        HashMap<String, String> employee = new HashMap<String, String>();
+        String selectQuery = "SELECT  * FROM " + IDatabase.IEmployeData.TABLE_EMPLOYEE;
 
+        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            employee.put("id", cursor.getString(0));
+            employee.put("employee_id", cursor.getString(1));
+            employee.put("employee_name", cursor.getString(2));
+            employee.put("employee_email", cursor.getString(3));
+            employee.put("employee_mobile", cursor.getString(4));
+            employee.put("employee_store_id", cursor.getString(5));
+            employee.put("employee_is_login", cursor.getString(6));
+
+        }
+        cursor.close();
+        db.close();
+        // return user
+        Log.e(TAG, "Fetching user from Sqlite: " + employee.toString());
+
+        return employee;
+    }
+
+    public static String getEmployeValueString(Context context) {
+        String is_login = null;
+        String selectQuery = "SELECT  * FROM " + IDatabase.IEmployeData.TABLE_EMPLOYEE;
+        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            is_login = cursor.getString(6);
+        }
+        return is_login;
+    }
+
+    public static void deleteUsers(Context context) {
+        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
+        // Delete All Rows
+        db.delete(IDatabase.IEmployeData.TABLE_EMPLOYEE, null, null);
+        db.close();
+
+        Log.d(TAG, "Deleted all user info from sqlite");
+    }
 
 
     public static void insertUpdateMap(Context context, String key, String value) {
