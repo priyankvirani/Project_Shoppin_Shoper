@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.adapter.NavigationDrawerMenuAdapter;
 import com.shoppin.shoper.database.DBAdapter;
+import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.fragment.BaseFragment;
 import com.shoppin.shoper.fragment.IUpdateFragment;
 import com.shoppin.shoper.fragment.OrderOngoingFragment;

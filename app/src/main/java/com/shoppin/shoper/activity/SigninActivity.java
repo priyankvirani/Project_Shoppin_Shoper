@@ -2,19 +2,16 @@ package com.shoppin.shoper.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.database.DBAdapter;
@@ -22,6 +19,7 @@ import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.model.Suburb;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
+import com.shoppin.shoper.utils.IConstants;
 import com.shoppin.shoper.utils.Utils;
 
 import org.json.JSONObject;
@@ -32,8 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.shoppin.shoper.database.IDatabase.IMap;
-import static com.shoppin.shoper.utils.Utils.getSelectedSuburb;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -49,10 +45,7 @@ public class SigninActivity extends AppCompatActivity {
 
     @BindView(R.id.txtSignin)
     TextView txtSignin;
-    @BindView(R.id.txtSignup)
-    TextView txtSignup;
-    @BindView(R.id.txtGuest)
-    TextView txtGuest;
+
 
     private ArrayList<Suburb> suburbArrayList;
     private ArrayAdapter<Suburb> suburbArrayAdapter;
@@ -67,22 +60,23 @@ public class SigninActivity extends AppCompatActivity {
 //        rlvGlobalProgressbar.setVisibility(View.VISIBLE);
         suburbArrayList = new ArrayList<>();
         suburbArrayAdapter = new ArrayAdapter<>(SigninActivity.this, android.R.layout.simple_dropdown_item_1line, suburbArrayList);
-        getSuburbs();
+        //getSuburbs();
     }
 
     @OnClick(R.id.txtSignin)
     void singIn() {
+
         try {
             if (loginValidation()) {
                 JSONObject loginParam = new JSONObject();
-                loginParam.put(IWebService.KEY_REQ_CUSTOMER_MOBILE, etxSigninId.getText().toString());
-                loginParam.put(IWebService.KEY_REQ_CUSTOMER_PASSWORD, etxPassword.getText().toString());
-                loginParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_TYPE, etxSigninId.getText().toString());
-                loginParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_TOKEN, etxSigninId.getText().toString());
-                loginParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_ID, etxSigninId.getText().toString());
+                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_MOBILE, etxSigninId.getText().toString());
+                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_PASSWORD, etxPassword.getText().toString());
+                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TYPE, IConstants.ISignin.DEVICE_TYPE);
+                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TOKEN, etxSigninId.getText().toString());
+                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_ID, etxSigninId.getText().toString());
 
                 DataRequest signinDataRequest = new DataRequest(SigninActivity.this);
-                signinDataRequest.execute(IWebService.CUSTOMER_LOGIN, loginParam.toString(), new DataRequest.CallBack() {
+                signinDataRequest.execute(IWebService.EMPLOYEE_LOGIN, loginParam.toString(), new DataRequest.CallBack() {
                     public void onPreExecute() {
                         rlvGlobalProgressbar.setVisibility(View.VISIBLE);
                     }
@@ -94,11 +88,13 @@ public class SigninActivity extends AppCompatActivity {
 
                                 JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
-                                DBAdapter.insertUpdateMap(SigninActivity.this, IMap.SUBURB_ID,
-                                        dataJObject.getString(IWebService.KEY_RES_SUBURB_ID));
-                                DBAdapter.insertUpdateMap(SigninActivity.this, IMap.SUBURB_NAME,
-                                        dataJObject.getString(IWebService.KEY_RES_SUBURB_NAME));
-                                DBAdapter.setMapKeyValueBoolean(SigninActivity.this, IMap.IS_LOGIN, true);
+//                                DBAdapter.insertEmployeeData(SigninActivity.this, dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME),
+//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_ID),
+//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME),
+//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL),
+//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE),
+//                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID));
+
 
                                 Intent intent = new Intent(SigninActivity.this, NavigationDrawerActivity.class);
                                 startActivity(intent);
@@ -132,12 +128,6 @@ public class SigninActivity extends AppCompatActivity {
         return isValid;
     }
 
-    @OnClick(R.id.txtSignup)
-    void singUp() {
-        Intent intent = new Intent(SigninActivity.this, SignupActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     private void getSuburbs() {
         DataRequest getSuburbsDataRequest = new DataRequest(SigninActivity.this);
@@ -170,55 +160,5 @@ public class SigninActivity extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.txtGuest)
-    void guestLogin() {
-        showAlertForLocation();
-    }
 
-    // For custom alert dialog of location
-    private void showAlertForLocation() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SigninActivity.this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_guest_suburb, null);
-        dialogBuilder.setView(dialogView);
-        dialogBuilder.setCancelable(false);
-        final AlertDialog alertDialog = dialogBuilder.create();
-
-        final AutoCompleteTextView atxSuburbDialog = (AutoCompleteTextView) dialogView.findViewById(R.id.atxSuburbDialog);
-        atxSuburbDialog.setAdapter(suburbArrayAdapter);
-
-        dialogView.findViewById(R.id.txtCancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.dismiss();
-            }
-        });
-
-        dialogView.findViewById(R.id.txtGo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                atxSuburbDialog.setError(null);
-                selectedSuburb = getSelectedSuburb(suburbArrayList, atxSuburbDialog.getText().toString());
-                if (selectedSuburb == null) {
-                    atxSuburbDialog.setError(getString(R.string.error_valid_suburb));
-                    atxSuburbDialog.requestFocus();
-                } else {
-                    DBAdapter.insertUpdateMap(SigninActivity.this, IDatabase.IMap.SUBURB_ID,
-                            selectedSuburb.suburb_id);
-                    DBAdapter.insertUpdateMap(SigninActivity.this, IDatabase.IMap.SUBURB_NAME,
-                            selectedSuburb.suburb_name);
-                    DBAdapter.setMapKeyValueBoolean(SigninActivity.this, IDatabase.IMap.IS_LOGIN, false);
-
-                    Intent intent = new Intent(SigninActivity.this, NavigationDrawerActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-
-        alertDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
-        alertDialog.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        alertDialog.show();
-    }
 }

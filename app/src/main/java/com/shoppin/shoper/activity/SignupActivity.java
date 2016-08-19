@@ -80,43 +80,43 @@ public class SignupActivity extends AppCompatActivity {
         getSuburbs();
     }
 
-    @OnClick(R.id.txtSignup)
-    void singUp() {
-        if (signupValidation()) {
-            DataRequest signupDataRequest = new DataRequest(SignupActivity.this);
-            JSONObject signupParam = new JSONObject();
-            try {
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_NAME, etxName.getText().toString());
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_MOBILE, etxSigninId.getText().toString());
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_STREET, etxStreet.getText().toString());
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_SUBURB_ID, selectedSuburb.suburb_id);
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_POSTCODE, etxPostcode.getText().toString());
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_PASSWORD, etxPassword.getText().toString());
-
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_TYPE, etxSigninId.getText().toString());
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_TOKEN, etxSigninId.getText().toString());
-                signupParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_ID, etxSigninId.getText().toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            signupDataRequest.execute(IWebService.CUSTOMER_REGISTRATION, signupParam.toString(), new DataRequest.CallBack() {
-                public void onPreExecute() {
-                    Log.d(TAG, "onPreExecute");
-                    rlvGlobalProgressbar.setVisibility(View.VISIBLE);
-                }
-
-                public void onPostExecute(String response) {
-                    rlvGlobalProgressbar.setVisibility(View.GONE);
-                    Log.d(TAG, "response = " + response);
-                    if (!DataRequest.hasError(SignupActivity.this, response, true)) {
-                        Intent intent = new Intent(SignupActivity.this, SigninActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            });
-        }
-    }
+//    @OnClick(R.id.txtSignup)
+//    void singUp() {
+//        if (signupValidation()) {
+//            DataRequest signupDataRequest = new DataRequest(SignupActivity.this);
+//            JSONObject signupParam = new JSONObject();
+//            try {
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_NAME, etxName.getText().toString());
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_MOBILE, etxSigninId.getText().toString());
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_STREET, etxStreet.getText().toString());
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_SUBURB_ID, selectedSuburb.suburb_id);
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_POSTCODE, etxPostcode.getText().toString());
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_PASSWORD, etxPassword.getText().toString());
+//
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_TYPE, etxSigninId.getText().toString());
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_TOKEN, etxSigninId.getText().toString());
+//                signupParam.put(IWebService.KEY_REQ_CUSTOMER_DEVICE_ID, etxSigninId.getText().toString());
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            signupDataRequest.execute(IWebService.CUSTOMER_REGISTRATION, signupParam.toString(), new DataRequest.CallBack() {
+//                public void onPreExecute() {
+//                    Log.d(TAG, "onPreExecute");
+//                    rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+//                }
+//
+//                public void onPostExecute(String response) {
+//                    rlvGlobalProgressbar.setVisibility(View.GONE);
+//                    Log.d(TAG, "response = " + response);
+//                    if (!DataRequest.hasError(SignupActivity.this, response, true)) {
+//                        Intent intent = new Intent(SignupActivity.this, SigninActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                }
+//            });
+//        }
+//    }
 
     private boolean signupValidation() {
         boolean isValid = true;
@@ -239,6 +239,7 @@ public class SignupActivity extends AppCompatActivity {
                     atxSuburbDialog.setError(getString(R.string.error_valid_suburb));
                     atxSuburbDialog.requestFocus();
                 } else {
+
                     DBAdapter.insertUpdateMap(SignupActivity.this, IDatabase.IMap.SUBURB_ID,
                             selectedSuburb.suburb_id);
                     DBAdapter.insertUpdateMap(SignupActivity.this, IDatabase.IMap.SUBURB_NAME,

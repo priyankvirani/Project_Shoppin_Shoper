@@ -6,12 +6,45 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import static android.R.attr.value;
 import static com.shoppin.shoper.database.IDatabase.IMap;
+
 /**
  * Created by ubuntu on 27/4/16.
  */
 public class DBAdapter {
     private static final String TAG = DBAdapter.class.getSimpleName();
+
+    public static void insertEmployeeData(Context context, String key, String employee_id,String employee_name,String employee_email,String employee_mobile,String employee_store_id) {
+
+        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_ID,employee_id);
+        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME,employee_name);
+        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL,employee_email);
+        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE,employee_mobile);
+        contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID,employee_store_id);
+
+        Cursor cursor = db.query(IDatabase.IEmployeData.TABLE_EMPLOYEE, new String[]{IDatabase.IEmployeData.KEY_ID}, IDatabase.IEmployeData.KEY_EMPLOYEE_NAME + " = '" + key + "'", null, null, null, null, null);
+        int index = -1;
+        if (cursor != null && cursor.getCount() > 0) { //if the row exist then return the id
+            cursor.moveToFirst();
+            index = cursor.getInt(cursor.getColumnIndex(IDatabase.IEmployeData.KEY_ID));
+            cursor.close();
+        }
+
+        if (index == -1) {
+            contentValues.put(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME, key);
+            db.insert(IDatabase.IEmployeData.TABLE_EMPLOYEE, null, contentValues);
+        } else {
+            db.update(IDatabase.IEmployeData.TABLE_EMPLOYEE, contentValues, IDatabase.IEmployeData.KEY_ID + " = '" + index + "'", null);
+        }
+        Log.e(TAG, "insertUpdateMap key = " + key + ", value = " + value);
+
+    }
+
+
+
 
     public static void insertUpdateMap(Context context, String key, String value) {
         SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();

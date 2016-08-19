@@ -20,4 +20,9 @@ public interface IConstants {
         int MY_PROFILE_ID = 1004;
 
     }
+
+    interface  ISignin {
+
+        String DEVICE_TYPE = "andriod";
+    }
 }
