@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        card_view:cardCornerRadius="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cardview_background">
+
+            <TextView
+                android:id="@+id/txtOrderNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Order Number" />
+
+            <TextView
+                android:id="@+id/txtOrderStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_background_green"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/shipping"
+                android:padding="@dimen/margin_button"
+                android:text="9988776655"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_button" />
+
+            <TextView
+                android:id="@+id/txtOrderDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/txtOrderStatus"
+                android:layout_margin="5dp"
+                android:text="20/08/2016" />
+
+            <TextView
+                android:id="@+id/txtStreetName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtOrderNumber"
+                android:layout_margin="5dp"
+                android:text="Street Name" />
+
+            <TextView
+                android:id="@+id/txtOrderTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/txtOrderDate"
+                android:layout_margin="5dp"
+                android:text="03:30 PM" />
+
+            <TextView
+                android:id="@+id/txtOrderPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/txtOrderTime"
+                android:layout_margin="5dp"
+                android:text="$250.00"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtSuburb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtStreetName"
+                android:layout_margin="5dp"
+                android:text="Total Price" />
+
+            <TextView
+                android:id="@+id/txtTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtSuburb"
+                android:layout_margin="5dp"
+                android:text="Total Price" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/txtView"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_below="@id/txtOrderTime"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:text="Order Ongoing"-->
+            <!--android:visibility="invisible" />-->
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

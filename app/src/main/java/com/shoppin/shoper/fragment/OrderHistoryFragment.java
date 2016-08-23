@@ -21,9 +21,9 @@ import butterknife.ButterKnife;
  * Created by ubuntu on 15/8/16.
  */
 
-public class OrderOngoingFragment extends BaseFragment {
+public class OrderHistoryFragment extends BaseFragment {
 
-    private static final String TAG = OrderOngoingFragment.class.getSimpleName();
+    private static final String TAG = OrderHistoryFragment.class.getSimpleName();
     private ListView lvOrderList;
     private OrderOngoingAdapter orderOngoingAdapter;
     private ArrayList<OrderOngoing> orderOngoingArrayList;
@@ -33,9 +33,8 @@ public class OrderOngoingFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        layoutView = inflater.inflate(R.layout.fragment_home, null);
-        layoutView = inflater.inflate(R.layout.fragment_order_ongoing, container, false);
+        layoutView = inflater.inflate(R.layout.fragment_order_history, container, false);
         ButterKnife.bind(this, layoutView);
-
         initView();
         lvOrderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,7 +54,7 @@ public class OrderOngoingFragment extends BaseFragment {
         lvOrderList = (ListView) layoutView.findViewById(R.id.lvOrderList);
 
         orderOngoingAdapter = new OrderOngoingAdapter(getActivity(),
-                orderOngoingArrayList, 1);
+                orderOngoingArrayList,3);
         lvOrderList.setAdapter(orderOngoingAdapter);
         setData();
 
@@ -75,7 +74,7 @@ public class OrderOngoingFragment extends BaseFragment {
     public void updateFragment() {
         super.updateFragment();
         if (getActivity() != null && getActivity() instanceof NavigationDrawerActivity) {
-            ((NavigationDrawerActivity) getActivity()).setToolbarTitle("Order Ongoing");
+            ((NavigationDrawerActivity) getActivity()).setToolbarTitle("Order History");
         }
     }
 }

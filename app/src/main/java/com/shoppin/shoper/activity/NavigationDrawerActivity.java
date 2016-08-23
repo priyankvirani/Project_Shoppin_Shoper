@@ -22,12 +22,12 @@ import android.widget.Toast;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.adapter.NavigationDrawerMenuAdapter;
 import com.shoppin.shoper.database.DBAdapter;
-import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.fragment.BaseFragment;
 import com.shoppin.shoper.fragment.IUpdateFragment;
 import com.shoppin.shoper.fragment.MyAccountFragment;
 import com.shoppin.shoper.fragment.OrderOngoingFragment;
-import com.shoppin.shoper.fragment.UnderDevelopmentFragment;
+import com.shoppin.shoper.fragment.OrderRequestFragment;
+import com.shoppin.shoper.fragment.OrderHistoryFragment;
 import com.shoppin.shoper.model.NavigationDrawerMenuItem;
 
 import butterknife.BindView;
@@ -39,7 +39,7 @@ import static com.shoppin.shoper.utils.IConstants.IDrawerMenu;
 
 public class NavigationDrawerActivity extends BaseActivity {
 
-    private static final String TAG = SignupActivity.class.getSimpleName();
+    private static final String TAG = NavigationDrawerActivity.class.getSimpleName();
 
     @BindView(R.id.txtFragmentTitle)
     public TextView txtFragmentTitle;
@@ -103,13 +103,13 @@ public class NavigationDrawerActivity extends BaseActivity {
                 Fragment newContent = null;
                 switch (menuTagId) {
                     case IDrawerMenu.ONGOING_ORDERS_ID:
-                        newContent = new UnderDevelopmentFragment();
+                        newContent = new OrderOngoingFragment();
                         break;
                     case IDrawerMenu.ORDER_REQUEST_ID:
-                        newContent = new UnderDevelopmentFragment();
+                        newContent = new OrderRequestFragment();
                         break;
                     case IDrawerMenu.ORDER_HISTORY_ID:
-                        newContent = new UnderDevelopmentFragment();
+                        newContent = new OrderHistoryFragment();
                         break;
                     case IDrawerMenu.MY_PROFILE_ID:
                         newContent = new MyAccountFragment();
@@ -127,6 +127,13 @@ public class NavigationDrawerActivity extends BaseActivity {
      * For double back exit functionality
      */
     private boolean doubleBackToExitPressedOnce;
+
+    /**
+     * Set title in toolbar
+     */
+    public void mSetTitle(String toolbarTitle) {
+        txtFragmentTitle.setText(toolbarTitle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,11 +187,6 @@ public class NavigationDrawerActivity extends BaseActivity {
 //        return super.onOptionsItemSelected(item);
 //    }
 
-    @OnClick(R.id.imgHome)
-    public void launchHome() {
-        isNavMenuchange = true;
-        switchContent(new OrderOngoingFragment());
-    }
 
     @OnClick(R.id.imgSearch)
     public void searchProduct() {
@@ -192,11 +194,6 @@ public class NavigationDrawerActivity extends BaseActivity {
 //        switchContent(new HomeFragment());
     }
 
-    @OnClick(R.id.imgCart)
-    public void openCart() {
-        isNavMenuchange = true;
-        switchContent(new UnderDevelopmentFragment());
-    }
 
     private void setMenuAdapter() {
 

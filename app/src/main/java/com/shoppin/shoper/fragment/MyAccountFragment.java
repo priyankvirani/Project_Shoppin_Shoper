@@ -8,14 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shoppin.shoper.R;
+import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.activity.SigninActivity;
-import com.shoppin.shoper.activity.SignupActivity;
 import com.shoppin.shoper.database.DBAdapter;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.shoppin.shoper.database.IDatabase.IMap;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -23,7 +21,7 @@ import static com.shoppin.shoper.database.IDatabase.IMap;
 
 public class MyAccountFragment extends BaseFragment {
 
-    private static final String TAG = SignupActivity.class.getSimpleName();
+    private static final String TAG = MyAccountFragment.class.getSimpleName();
 
     @Nullable
     @Override
@@ -38,10 +36,18 @@ public class MyAccountFragment extends BaseFragment {
     @OnClick(R.id.btnLogOut)
     void logOut() {
         DBAdapter.deleteUsers(getActivity());
-
         Intent intent = new Intent(getActivity(), SigninActivity.class);
         startActivity(intent);
         getActivity().finish();
     }
 
+    @Override
+    public void updateFragment() {
+        super.updateFragment();
+        if (getActivity() != null && getActivity() instanceof NavigationDrawerActivity) {
+            ((NavigationDrawerActivity) getActivity()).setToolbarTitle("My Profile");
+        }
+    }
+
 }
+

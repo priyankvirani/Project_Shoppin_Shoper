@@ -7,7 +7,7 @@ public interface IConstants {
 
     interface IDrawerMenu {
 
-        String ONGOING_ORDERS = "Ongoing Orders";
+        String ONGOING_ORDERS = "Order Ongoing";
         int ONGOING_ORDERS_ID = 1001;
 
         String ORDER_REQUEST = "Order Request";
