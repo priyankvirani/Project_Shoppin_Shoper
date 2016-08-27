@@ -10,12 +10,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.database.IDatabase;
+import com.shoppin.shoper.fcm.FirebaseInstanceIDService;
 import com.shoppin.shoper.model.Suburb;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
@@ -29,6 +31,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.google.android.gms.drive.DriveSpace.Fi;
 
 
 public class SigninActivity extends AppCompatActivity {
@@ -72,7 +76,7 @@ public class SigninActivity extends AppCompatActivity {
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_MOBILE, etxSigninId.getText().toString());
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_PASSWORD, etxPassword.getText().toString());
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TYPE, IConstants.ISignin.DEVICE_TYPE);
-                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TOKEN, etxSigninId.getText().toString());
+                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TOKEN, FirebaseInstanceId.getInstance().getToken());
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_ID, etxSigninId.getText().toString());
 
                 DataRequest signinDataRequest = new DataRequest(SigninActivity.this);
@@ -95,7 +99,6 @@ public class SigninActivity extends AppCompatActivity {
                                         dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE),
                                         dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID),
                                         false);
-
 
 
                                 Intent intent = new Intent(SigninActivity.this, NavigationDrawerActivity.class);

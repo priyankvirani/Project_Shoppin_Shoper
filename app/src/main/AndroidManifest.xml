@@ -41,6 +41,7 @@
             android:name="com.shoppin.shoper.activity.NavigationDrawerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

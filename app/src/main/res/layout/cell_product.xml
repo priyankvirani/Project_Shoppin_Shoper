@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lltCell"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="6">
+
+    <ImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_small"
+        android:layout_weight="2"
+        android:scaleType="fitXY"
+        android:src="@drawable/placeholder" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtOrderNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:padding="@dimen/margin_tiny"
+            android:text="txtProductName"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_edittext"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtProductUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_tiny"
+            android:text="$00.00"
+            android:textColor="@color/app_theme_1"
+            android:textSize="@dimen/font_size_edittext"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/txtProductPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:padding="@dimen/margin_tiny"
+                android:text="500 gram"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_title" />
+
+            <TextView
+                android:id="@+id/txtItemStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/completed"
+                android:padding="@dimen/margin_tiny"
+                android:text="Available"
+                android:textSize="@dimen/font_size_title"
+                android:textColor="@color/app_theme_1" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

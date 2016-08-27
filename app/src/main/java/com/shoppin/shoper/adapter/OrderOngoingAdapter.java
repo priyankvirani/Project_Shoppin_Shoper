@@ -50,8 +50,10 @@ public class OrderOngoingAdapter extends BaseAdapter {
                 convertView = View.inflate(context, R.layout.cell_order_ongoing, null);
             } else if (fragmentNumber == 2) {
                 convertView = View.inflate(context, R.layout.cell_order_request, null);
-            } else {
+            } else if (fragmentNumber == 3) {
                 convertView = View.inflate(context, R.layout.cell_order_history, null);
+            }else{
+                convertView = View.inflate(context, R.layout.cell_product, null);
             }
             holder = new ViewHolder();
             holder.txtOrderNumber = (TextView) convertView.findViewById(R.id.txtOrderNumber);

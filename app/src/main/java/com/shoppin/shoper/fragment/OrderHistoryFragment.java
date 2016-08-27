@@ -54,10 +54,9 @@ public class OrderHistoryFragment extends BaseFragment {
         lvOrderList = (ListView) layoutView.findViewById(R.id.lvOrderList);
 
         orderOngoingAdapter = new OrderOngoingAdapter(getActivity(),
-                orderOngoingArrayList,3);
+                orderOngoingArrayList, 3);
         lvOrderList.setAdapter(orderOngoingAdapter);
         setData();
-
     }
 
     private void setData() {
@@ -66,8 +65,6 @@ public class OrderHistoryFragment extends BaseFragment {
             orderOngoingSched.setOrder_number("Order Number : " + (i + 1));
             orderOngoingArrayList.add(orderOngoingSched);
         }
-
-
     }
 
     @Override
