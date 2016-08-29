@@ -71,7 +71,9 @@ public class OrderHistoryFragment extends BaseFragment {
     public void updateFragment() {
         super.updateFragment();
         if (getActivity() != null && getActivity() instanceof NavigationDrawerActivity) {
+
             ((NavigationDrawerActivity) getActivity()).setToolbarTitle("Order History");
+
         }
     }
 }
