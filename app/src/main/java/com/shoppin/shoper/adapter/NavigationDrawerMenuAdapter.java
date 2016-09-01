@@ -12,9 +12,6 @@ import com.shoppin.shoper.R;
 import com.shoppin.shoper.model.NavigationDrawerMenuItem;
 
 
-
-
-
 /**
  * To set Left side drawer
  *
