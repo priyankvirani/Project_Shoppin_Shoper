@@ -2,112 +2,143 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_margin="@dimen/margin_tiny">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:layout_gravity="center"
-        card_view:cardCornerRadius="4dp">
+        android:layout_margin="@dimen/margin_small"
+        card_view:cardCornerRadius="@dimen/margin_tiny">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cardview_background">
 
-            <TextView
-                android:id="@+id/txtOrderNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Order Number" />
-
-            <TextView
-                android:id="@+id/txtOrderDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_margin="5dp"
-                android:text="20/08/2016" />
-
-            <TextView
-                android:id="@+id/txtStreetName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtOrderNumber"
-                android:layout_margin="5dp"
-                android:text="Street Name" />
-
-            <TextView
-                android:id="@+id/txtOrderTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/txtOrderNumber"
-                android:layout_margin="5dp"
-                android:text="03:30 PM" />
-
-            <TextView
-                android:id="@+id/txtSuburb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtStreetName"
-                android:layout_margin="5dp"
-                android:text="Total Price" />
-
-            <TextView
-                android:id="@+id/txtTotalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtSuburb"
-                android:layout_margin="5dp"
-                android:text="Total Price" />
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTotalPrice"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/margin_tiny"
+                android:paddingRight="@dimen/margin_tiny"
+                android:paddingTop="@dimen/margin_small">
 
                 <TextView
-                    android:id="@+id/txtAccepted"
-                    android:layout_width="0dp"
+                    android:id="@+id/txtOrderNumber"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/txtOrderTime"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_background_green"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/accepted"
-                    android:padding="@dimen/margin_button"
-                    android:text="Accepted"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_size_button" />
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:text="Order Number" />
+
                 <TextView
-                    android:id="@+id/txtReject"
-                    android:layout_width="0dp"
+                    android:id="@+id/txtOrderDate"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/txtOrderTime"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_background_red"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/reject"
-                    android:padding="@dimen/margin_button"
-                    android:text="Reject"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_size_button" />
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:text="20/08/2016" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/txtStreetName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtOrderNumber"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:text="Street Name" />
+
+                <TextView
+                    android:id="@+id/txtOrderTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/txtOrderNumber"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:text="03:30 PM" />
+
+                <TextView
+                    android:id="@+id/txtSuburb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtStreetName"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:text="Total Price" />
+
+                <TextView
+                    android:id="@+id/txtTotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtSuburb"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:text="Total Price" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtTotalPrice"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/margin_small"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_background_green"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingRight="@dimen/margin_small">
+
+                        <TextView
+                            android:id="@+id/txtAccepted"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/txtOrderTime"
+                            android:layout_margin="@dimen/margin_tiny"
+                            android:drawablePadding="@dimen/margin_small"
+                            android:drawableRight="@drawable/accepted"
+                            android:gravity="top"
+                            android:padding="@dimen/margin_all"
+                            android:text="Accepted"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_size_button" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_background_red"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtReject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/txtOrderTime"
+                            android:layout_margin="@dimen/margin_tiny"
+                            android:drawablePadding="@dimen/margin_small"
+                            android:drawableRight="@drawable/reject"
+                            android:gravity="top"
+                            android:padding="@dimen/margin_all"
+                            android:text="Reject"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_size_button" />
+
+                    </LinearLayout>
 
 
+                </LinearLayout>
+
+
+            </RelativeLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

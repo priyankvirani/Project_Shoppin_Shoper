@@ -20,6 +20,9 @@
 
     <dimen name="margin_button">12dp</dimen>
 
+    <dimen name="margin_all">8dp</dimen>
+
+
     <!-- XML drawables -->
     <dimen name="drawable_progressbar">50dp</dimen>
     <dimen name="drawable_round_corner">6dp</dimen>
