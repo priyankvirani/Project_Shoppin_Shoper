@@ -12,12 +12,10 @@ import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
-import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.database.IDatabase;
-import com.shoppin.shoper.fcm.FirebaseInstanceIDService;
 import com.shoppin.shoper.model.Suburb;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
@@ -31,8 +29,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.google.android.gms.drive.DriveSpace.Fi;
 
 
 public class SigninActivity extends AppCompatActivity {
@@ -97,7 +93,7 @@ public class SigninActivity extends AppCompatActivity {
                                         dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME),
                                         dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL),
                                         dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE),
-                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID),
+                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_SUBURB_ID),
                                         false);
 
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lets Go Shoppin</string>
+    <string name="app_name">Shoppin</string>
 
     <!-- For navigation drawer -->
     <string name="drawer_open">Drawer Open</string>

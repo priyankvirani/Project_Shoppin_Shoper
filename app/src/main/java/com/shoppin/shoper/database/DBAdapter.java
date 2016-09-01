@@ -8,12 +8,6 @@ import android.util.Log;
 
 import java.util.HashMap;
 
-import static android.R.attr.id;
-import static android.R.attr.key;
-import static android.R.attr.name;
-import static android.R.attr.value;
-import static com.shoppin.shoper.R.drawable.user;
-import static com.shoppin.shoper.database.IDatabase.IEmployeData.KEY_EMPLOYEE_ID;
 import static com.shoppin.shoper.database.IDatabase.IMap;
 
 /**
@@ -32,7 +26,7 @@ public class DBAdapter {
         values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME, employee_name);
         values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL, employee_email);
         values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE, employee_mobile);
-        values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_STORE_ID, employee_store_id);
+        values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_SUBURB_ID, employee_store_id);
         if (is_login) {
             values.put(IDatabase.IEmployeData.KEY_EMPLOYEE_IS_LOGIN, IDatabase.IEmployeData.TRUE);
         } else {
@@ -86,6 +80,18 @@ public class DBAdapter {
             is_login = cursor.getString(6);
         }
         return is_login;
+    }
+    public static String getEmployeSururbIDString(Context context) {
+        String sururb_id = null;
+        String selectQuery = "SELECT  * FROM " + IDatabase.IEmployeData.TABLE_EMPLOYEE;
+        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            sururb_id = cursor.getString(5);
+        }
+        return sururb_id;
     }
 
     public static void deleteUsers(Context context) {

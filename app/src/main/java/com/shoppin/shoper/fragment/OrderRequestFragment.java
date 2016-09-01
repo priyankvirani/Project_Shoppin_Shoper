@@ -8,10 +8,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
-import com.shoppin.shoper.adapter.OrderOngoingAdapter;
+import com.shoppin.shoper.adapter.OrderRequestAdapter;
+import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.model.OrderOngoing;
+import com.shoppin.shoper.model.OrderRequest;
+import com.shoppin.shoper.network.DataRequest;
+import com.shoppin.shoper.network.IWebService;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -25,8 +33,8 @@ public class OrderRequestFragment extends BaseFragment {
 
     private static final String TAG = OrderRequestFragment.class.getSimpleName();
     private ListView lvOrderList;
-    private OrderOngoingAdapter orderOngoingAdapter;
-    private ArrayList<OrderOngoing> orderOngoingArrayList;
+    private OrderRequestAdapter orderRequestAdapter;
+    private ArrayList<OrderRequest> orderRequestArrayList;
 
 
     @Nullable
@@ -49,22 +57,66 @@ public class OrderRequestFragment extends BaseFragment {
     }
 
     private void initView() {
-        orderOngoingArrayList = new ArrayList<OrderOngoing>();
+        orderRequestArrayList = new ArrayList<OrderRequest>();
 
         lvOrderList = (ListView) layoutView.findViewById(R.id.lvOrderList);
 
-        orderOngoingAdapter = new OrderOngoingAdapter(getActivity(),
-                orderOngoingArrayList,2);
-        lvOrderList.setAdapter(orderOngoingAdapter);
+        orderRequestAdapter = new OrderRequestAdapter(getActivity(),
+                orderRequestArrayList);
+        lvOrderList.setAdapter(orderRequestAdapter);
         setData();
 
     }
 
     private void setData() {
-        for (int i = 0; i < 10; i++) {
-            OrderOngoing orderOngoingSched = new OrderOngoing();
-            orderOngoingSched.setOrder_number("Order Number : " + (i + 1));
-            orderOngoingArrayList.add(orderOngoingSched);
+//        for (int i = 0; i < 10; i++) {
+//            OrderOngoing orderOngoingSched = new OrderOngoing();
+//            orderOngoingSched.setOrder_number("Order Number : " + (i + 1));
+//            orderRequestArrayList.add(orderOngoingSched);
+//        }
+
+        try {
+
+            JSONObject loginParam = new JSONObject();
+            loginParam.put(IWebService.KEY_REQ_ORDER_SUBURB_ID, DBAdapter.getEmployeSururbIDString(getActivity()));
+
+
+            DataRequest signinDataRequest = new DataRequest(getActivity());
+            signinDataRequest.execute(IWebService.ORDER_REQUEST, loginParam.toString(), new DataRequest.CallBack() {
+                public void onPreExecute() {
+
+                }
+
+                public void onPostExecute(String response) {
+                    try {
+
+                        if (!DataRequest.hasError(getActivity(), response, true)) {
+
+                            JSONObject dataJObject = DataRequest.getJObjWebdata(response);
+
+                            Gson gson = new Gson();
+
+                            ArrayList<OrderRequest> tmpOrderRequestArrayList = gson.fromJson(
+                                    dataJObject.getJSONArray(
+                                            IWebService.KEY_RES_ORDER_LIST)
+                                            .toString(),
+                                    new TypeToken<ArrayList<OrderRequest>>() {
+                                    }.getType());
+
+                            if (tmpOrderRequestArrayList != null) {
+                                orderRequestArrayList.addAll(tmpOrderRequestArrayList);
+                                orderRequestAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 

@@ -1,9 +1,6 @@
 package com.shoppin.shoper.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by ubuntu on 4/8/16.
