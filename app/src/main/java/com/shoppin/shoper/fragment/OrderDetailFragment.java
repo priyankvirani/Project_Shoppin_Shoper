@@ -5,19 +5,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
-import com.shoppin.shoper.adapter.OrderOngoingAdapter;
+import com.shoppin.shoper.adapter.UnderDevlopmentAdapter;
 import com.shoppin.shoper.model.OrderOngoing;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -33,7 +28,7 @@ public class OrderDetailFragment extends BaseFragment {
     }
 
     private ListView lvOrderList;
-    private OrderOngoingAdapter orderOngoingAdapter;
+    private UnderDevlopmentAdapter orderOngoingAdapter;
     private ArrayList<OrderOngoing> orderOngoingArrayList;
 
 
@@ -51,7 +46,7 @@ public class OrderDetailFragment extends BaseFragment {
 
         lvOrderList = (ListView) layoutView.findViewById(R.id.lvOrderList);
 
-        orderOngoingAdapter = new OrderOngoingAdapter(getActivity(),
+        orderOngoingAdapter = new UnderDevlopmentAdapter(getActivity(),
                 orderOngoingArrayList, 4);
         lvOrderList.setAdapter(orderOngoingAdapter);
         setData();

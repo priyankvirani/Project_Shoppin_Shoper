@@ -1,67 +1,78 @@
 package com.shoppin.shoper.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.shoppin.shoper.R;
-import com.shoppin.shoper.model.OrderOngoing;
+import com.shoppin.shoper.fragment.OrderRequestFragment;
 import com.shoppin.shoper.model.OrderRequest;
 
 import java.util.ArrayList;
 
-public class OrderRequestAdapter extends BaseAdapter {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * Created by ubuntu on 8/8/16.
+ */
+
+public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapter.MyViewHolder> {
 
     private static final String TAG = OrderRequestAdapter.class.getSimpleName();
-
-    private Context context;
+    private Context mContext;
     private ArrayList<OrderRequest> orderRequestArrayList;
+    private OrderRequestFragment orderRequestFragment;
 
-
-    public OrderRequestAdapter(Context context, ArrayList<OrderRequest> orderRequestArrayList) {
-        this.context = context;
+    public OrderRequestAdapter(Context context, ArrayList<OrderRequest> orderRequestArrayList, OrderRequestFragment requestFragment) {
+        this.mContext = context;
         this.orderRequestArrayList = orderRequestArrayList;
-
+        this.orderRequestFragment = requestFragment;
     }
 
-    @Override
-    public int getCount() {
-        return orderRequestArrayList == null ? 0 : orderRequestArrayList.size();
-    }
 
-    @Override
-    public Object getItem(int position) {
-        return orderRequestArrayList.get(position);
-    }
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.txtOrderNumber)
+        public TextView txtOrderNumber;
+        @BindView(R.id.txtStreetName)
+        public TextView txtStreetName;
+        @BindView(R.id.txtSuburb)
+        public TextView txtSuburb;
+        @BindView(R.id.txtTotalPrice)
+        public TextView txtTotalPrice;
+        @BindView(R.id.txtOrderDate)
+        public TextView txtOrderDate;
+        @BindView(R.id.txtOrderTime)
+        public TextView txtOrderTime;
+        @BindView(R.id.txtAccepted)
+        public TextView txtAccepted;
+        @BindView(R.id.txtReject)
+        public TextView txtReject;
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+        public MyViewHolder(View view) {
+            super(view);
 
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+            ButterKnife.bind(this, view);
 
-        if (convertView == null) {
-            convertView = View.inflate(context, R.layout.cell_order_request, null);
-
-            holder = new ViewHolder();
-            holder.txtOrderNumber = (TextView) convertView.findViewById(R.id.txtOrderNumber);
-            holder.txtStreetName = (TextView) convertView.findViewById(R.id.txtStreetName);
-            holder.txtSuburb = (TextView) convertView.findViewById(R.id.txtSuburb);
-            holder.txtTotalPrice = (TextView) convertView.findViewById(R.id.txtTotalPrice);
-            holder.txtOrderDate = (TextView) convertView.findViewById(R.id.txtOrderDate);
-            holder.txtOrderTime = (TextView) convertView.findViewById(R.id.txtOrderTime);
-            holder.txtAccepted = (TextView) convertView.findViewById(R.id.txtAccepted);
-            holder.txtReject = (TextView) convertView.findViewById(R.id.txtReject);
-
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
         }
+    }
+
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.cell_order_request, parent, false);
+
+        return new MyViewHolder(itemView);
+    }
+
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+
         holder.txtOrderNumber.setText(orderRequestArrayList.get(position).order_number);
         holder.txtStreetName.setText(orderRequestArrayList.get(position).address1);
         holder.txtSuburb.setText(orderRequestArrayList.get(position).suburb_name);
@@ -69,37 +80,44 @@ public class OrderRequestAdapter extends BaseAdapter {
         holder.txtOrderDate.setText(orderRequestArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(orderRequestArrayList.get(position).delivery_time);
 
+        holder.txtAccepted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number);
 
-        return convertView;
+            }
+        });
+        holder.txtReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number);
 
+            }
+        });
     }
 
-    class ViewHolder {
-        public TextView txtOrderNumber;
-        public TextView txtStreetName;
-        public TextView txtSuburb;
-        public TextView txtTotalPrice;
-        public TextView txtOrderDate;
-        public TextView txtOrderTime;
-        public TextView txtAccepted;
-        public TextView txtReject;
-
+    @Override
+    public int getItemCount() {
+        return orderRequestArrayList.size();
     }
 
-    private class OnItemClickListener implements View.OnClickListener {
-        private int mPosition;
-
-        OnItemClickListener(int position) {
-            mPosition = position;
-        }
-
-        @Override
-        public void onClick(View arg0) {
-
-        }
-
-
-    }
-
-
+//    private class OnItemClickListener implements View.OnClickListener {
+//
+//
+//        OnItemClickListener(SubCategory listModelSubCategory) {
+//            tempValues1 = listModelSubCategory;
+//        }
+//
+//        @Override
+//        public void onClick(View arg0) {
+//
+//            Toast.makeText(
+//
+//                    mContext,
+//                    "Test", Toast.LENGTH_LONG)
+//                    .show();
+//
+//
+//        }
+//    }
 }

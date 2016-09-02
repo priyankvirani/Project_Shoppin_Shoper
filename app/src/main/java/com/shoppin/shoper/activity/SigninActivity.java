@@ -89,11 +89,11 @@ public class SigninActivity extends AppCompatActivity {
                                 JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
                                 DBAdapter.insertUpdateEmployeeData(SigninActivity.this, IDatabase.IEmployeData.KEY_EMPLOYEE_KEY,
-                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_ID),
-                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_NAME),
-                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_EMAIL),
-                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_MOBILE),
-                                        dataJObject.getString(IDatabase.IEmployeData.KEY_EMPLOYEE_SUBURB_ID),
+                                        dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_ID),
+                                        dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_NAME),
+                                        dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_EMAIL),
+                                        dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_MOBILE),
+                                        dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_SUBURB_ID),
                                         false);
 
 

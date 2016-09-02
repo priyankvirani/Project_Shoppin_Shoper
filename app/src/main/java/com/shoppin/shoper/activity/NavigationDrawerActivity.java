@@ -142,8 +142,8 @@ public class NavigationDrawerActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        Log.d(TAG, "suburb_id = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_ID));
-        Log.d(TAG, "suburb_name = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_NAME));
+        //Log.d(TAG, "suburb_id = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_ID));
+        //Log.d(TAG, "suburb_name = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_NAME));
 
         if (toolbar != null) {
 //            toolbar.setNavigationIcon(R.drawable.menu_icon);

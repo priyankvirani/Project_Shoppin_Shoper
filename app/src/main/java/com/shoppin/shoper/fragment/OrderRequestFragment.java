@@ -2,11 +2,13 @@ package com.shoppin.shoper.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -14,7 +16,6 @@ import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.adapter.OrderRequestAdapter;
 import com.shoppin.shoper.database.DBAdapter;
-import com.shoppin.shoper.model.OrderOngoing;
 import com.shoppin.shoper.model.OrderRequest;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -32,62 +34,61 @@ import butterknife.ButterKnife;
 public class OrderRequestFragment extends BaseFragment {
 
     private static final String TAG = OrderRequestFragment.class.getSimpleName();
-    private ListView lvOrderList;
+    private RecyclerView lvOrderRecyList;
     private OrderRequestAdapter orderRequestAdapter;
     private ArrayList<OrderRequest> orderRequestArrayList;
+
+    @BindView(R.id.rlvGlobalProgressbar)
+    RelativeLayout rlvGlobalProgressbar;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        layoutView = inflater.inflate(R.layout.fragment_home, null);
+
         layoutView = inflater.inflate(R.layout.fragment_order_request, container, false);
         ButterKnife.bind(this, layoutView);
 
         initView();
-        lvOrderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                NavigationDrawerActivity fca = (NavigationDrawerActivity) getActivity();
-                fca.switchContent(OrderDetailFragment
-                        .newInstance("demo"));
-            }
-        });
+
         return layoutView;
     }
 
     private void initView() {
         orderRequestArrayList = new ArrayList<OrderRequest>();
-
-        lvOrderList = (ListView) layoutView.findViewById(R.id.lvOrderList);
+        lvOrderRecyList = (RecyclerView) layoutView.findViewById(R.id.lvOrderRecyList);
+        LinearLayoutManager horizontalLayoutManagaerdate
+                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
         orderRequestAdapter = new OrderRequestAdapter(getActivity(),
-                orderRequestArrayList);
-        lvOrderList.setAdapter(orderRequestAdapter);
-        setData();
+                orderRequestArrayList, OrderRequestFragment.this);
+        lvOrderRecyList.setLayoutManager(horizontalLayoutManagaerdate);
+        lvOrderRecyList.setAdapter(orderRequestAdapter);
+        setOrderRequestData();
 
     }
 
-    private void setData() {
-//        for (int i = 0; i < 10; i++) {
-//            OrderOngoing orderOngoingSched = new OrderOngoing();
-//            orderOngoingSched.setOrder_number("Order Number : " + (i + 1));
-//            orderRequestArrayList.add(orderOngoingSched);
-//        }
+    public void setOrderRequestData() {
+
 
         try {
 
             JSONObject loginParam = new JSONObject();
             loginParam.put(IWebService.KEY_REQ_ORDER_SUBURB_ID, DBAdapter.getEmployeSururbIDString(getActivity()));
+            loginParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getEmployeIDString(getActivity()));
 
 
-            DataRequest signinDataRequest = new DataRequest(getActivity());
-            signinDataRequest.execute(IWebService.ORDER_REQUEST, loginParam.toString(), new DataRequest.CallBack() {
+            DataRequest setdataRequest = new DataRequest(getActivity());
+            setdataRequest.execute(IWebService.ORDER_REQUEST, loginParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
+                    rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+                    orderRequestArrayList.clear();
+                    orderRequestAdapter.notifyDataSetChanged();
 
                 }
 
                 public void onPostExecute(String response) {
+                    rlvGlobalProgressbar.setVisibility(View.GONE);
                     try {
 
                         if (!DataRequest.hasError(getActivity(), response, true)) {
@@ -104,9 +105,51 @@ public class OrderRequestFragment extends BaseFragment {
                                     }.getType());
 
                             if (tmpOrderRequestArrayList != null) {
+                                Log.e(TAG, "Size :  " + orderRequestArrayList.size());
                                 orderRequestArrayList.addAll(tmpOrderRequestArrayList);
                                 orderRequestAdapter.notifyDataSetChanged();
                             }
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void SendOrderStatus(String ordernumber) {
+
+        try {
+
+            JSONObject orderstatusParam = new JSONObject();
+            orderstatusParam.put(IWebService.KEY_REQ_ORDER_NUMBER, ordernumber);
+            orderstatusParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getEmployeIDString(getActivity()));
+
+
+            DataRequest signinDataRequest = new DataRequest(getActivity());
+            signinDataRequest.execute(IWebService.ACEEPT_ORDER, orderstatusParam.toString(), new DataRequest.CallBack() {
+                public void onPreExecute() {
+                    rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+
+                }
+
+                public void onPostExecute(String response) {
+                    rlvGlobalProgressbar.setVisibility(View.GONE);
+
+                    try {
+
+                        if (!DataRequest.hasError(getActivity(), response, true)) {
+
+                            setOrderRequestData();
+
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -129,4 +172,5 @@ public class OrderRequestFragment extends BaseFragment {
             ((NavigationDrawerActivity) getActivity()).setToolbarTitle("Order Request");
         }
     }
+
 }

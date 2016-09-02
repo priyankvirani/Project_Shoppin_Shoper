@@ -93,6 +93,18 @@ public class DBAdapter {
         }
         return sururb_id;
     }
+    public static String getEmployeIDString(Context context) {
+        String employee_id = null;
+        String selectQuery = "SELECT  * FROM " + IDatabase.IEmployeData.TABLE_EMPLOYEE;
+        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            employee_id = cursor.getString(1);
+        }
+        return employee_id;
+    }
 
     public static void deleteUsers(Context context) {
         SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
@@ -104,59 +116,59 @@ public class DBAdapter {
     }
 
 
-    public static void insertUpdateMap(Context context, String key, String value) {
-        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(IMap.KEY_MAP_VALUE, value);
-
-        Cursor cursor = db.query(IMap.TABLE_MAP, new String[]{IMap.KEY_ID}, IMap.KEY_MAP_KEY + " = '" + key + "'", null, null, null, null, null);
-        int index = -1;
-        if (cursor != null && cursor.getCount() > 0) { //if the row exist then return the id
-            cursor.moveToFirst();
-            index = cursor.getInt(cursor.getColumnIndex(IMap.KEY_ID));
-            cursor.close();
-        }
-
-        if (index == -1) {
-            contentValues.put(IMap.KEY_MAP_KEY, key);
-            db.insert(IMap.TABLE_MAP, null, contentValues);
-        } else {
-            db.update(IMap.TABLE_MAP, contentValues, IMap.KEY_ID + " = '" + index + "'", null);
-        }
-        Log.d(TAG, "insertUpdateMap key = " + key + ", value = " + value);
-    }
-
-    public static String getMapKeyValueString(Context context, String key) {
-        String value = null;
-        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + IMap.TABLE_MAP + " where " + IMap.KEY_MAP_KEY + " = '" + key + "'", null);
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            value = cursor.getString(cursor.getColumnIndexOrThrow(IMap.KEY_MAP_VALUE));
-            cursor.close(); // that's important too, otherwise you're gonna leak cursors
-        }
-        Log.d(TAG, "getMapKeyValueString key = " + key + ", value = " + value);
-        return value;
-    }
-
-    public static boolean getMapKeyValueBoolean(Context context, String key) {
-        boolean result = false;
-        if (IMap.TRUE.equalsIgnoreCase(getMapKeyValueString(context, key))) {
-            result = true;
-        }
-        Log.d(TAG, "getMapKeyValueBoolean value [" + key + "] = " + result);
-        return result;
-    }
-
-    public static void setMapKeyValueBoolean(Context context, String key,
-                                             boolean value) {
-        Log.d(TAG, "setMapKeyValueBoolean value[" + key + "] = " + value);
-        if (value) {
-            insertUpdateMap(context, key, IMap.TRUE);
-        } else {
-            insertUpdateMap(context, key, IMap.FALSE);
-        }
-    }
+//    public static void insertUpdateMap(Context context, String key, String value) {
+//        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(IMap.KEY_MAP_VALUE, value);
+//
+//        Cursor cursor = db.query(IMap.TABLE_MAP, new String[]{IMap.KEY_ID}, IMap.KEY_MAP_KEY + " = '" + key + "'", null, null, null, null, null);
+//        int index = -1;
+//        if (cursor != null && cursor.getCount() > 0) { //if the row exist then return the id
+//            cursor.moveToFirst();
+//            index = cursor.getInt(cursor.getColumnIndex(IMap.KEY_ID));
+//            cursor.close();
+//        }
+//
+//        if (index == -1) {
+//            contentValues.put(IMap.KEY_MAP_KEY, key);
+//            db.insert(IMap.TABLE_MAP, null, contentValues);
+//        } else {
+//            db.update(IMap.TABLE_MAP, contentValues, IMap.KEY_ID + " = '" + index + "'", null);
+//        }
+//        Log.d(TAG, "insertUpdateMap key = " + key + ", value = " + value);
+//    }
+//
+//    public static String getMapKeyValueString(Context context, String key) {
+//        String value = null;
+//        SQLiteDatabase db = DatabaseHelper.getInstance(context).getWritableDatabase();
+//        Cursor cursor = db.rawQuery("select * from " + IMap.TABLE_MAP + " where " + IMap.KEY_MAP_KEY + " = '" + key + "'", null);
+//        if (cursor != null && cursor.getCount() > 0) {
+//            cursor.moveToFirst();
+//            value = cursor.getString(cursor.getColumnIndexOrThrow(IMap.KEY_MAP_VALUE));
+//            cursor.close(); // that's important too, otherwise you're gonna leak cursors
+//        }
+//        Log.d(TAG, "getMapKeyValueString key = " + key + ", value = " + value);
+//        return value;
+//    }
+//
+//    public static boolean getMapKeyValueBoolean(Context context, String key) {
+//        boolean result = false;
+//        if (IMap.TRUE.equalsIgnoreCase(getMapKeyValueString(context, key))) {
+//            result = true;
+//        }
+//        Log.d(TAG, "getMapKeyValueBoolean value [" + key + "] = " + result);
+//        return result;
+//    }
+//
+//    public static void setMapKeyValueBoolean(Context context, String key,
+//                                             boolean value) {
+//        Log.d(TAG, "setMapKeyValueBoolean value[" + key + "] = " + value);
+//        if (value) {
+//            insertUpdateMap(context, key, IMap.TRUE);
+//        } else {
+//            insertUpdateMap(context, key, IMap.FALSE);
+//        }
+//    }
 
 //    /**
 //     * Clear offline data

@@ -14,8 +14,9 @@ public interface IWebService {
 
     String GET_SUBURB = MAIN_URL + "customer/GetSuburb";
     String EMPLOYEE_LOGIN = MAIN_URL + "shopper/EmployeeLogin";
-    String EMPLOYEE_REGISTRATION = MAIN_URL + "customer/CustomerRegistration";
     String ORDER_REQUEST = MAIN_URL + "shopper/OrderRequests";
+    String ACEEPT_ORDER = MAIN_URL + "shopper/AcceptOrder";
+
 
 
     String GET_CATEGORY = MAIN_URL + "category/GetCategoryList";
@@ -29,14 +30,11 @@ public interface IWebService {
     String KEY_REQ_EMPLOYEE_DEVICE_TOKEN = "employee_device_token";
     String KEY_REQ_EMPLOYEE_DEVICE_ID = "employee_device_id";
 
-
-    String KEY_REQ_CUSTOMER_NAME = "customer_name";
-    String KEY_REQ_CUSTOMER_STREET = "customer_address_line1";
-    String KEY_REQ_CUSTOMER_SUBURB_ID = "customer_suburb_id";
-    String KEY_REQ_CUSTOMER_POSTCODE = "customer_zip";
-    String KEY_REQ_IS_HOME = "is_home";
-
     String KEY_REQ_ORDER_SUBURB_ID = "order_suburb_id";
+    String KEY_REQ_EMPLOYEE_ID = "employee_id";
+
+    String KEY_REQ_ORDER_NUMBER = "order_number";
+
 
     /**
      * Response Params
