@@ -11,16 +11,16 @@ import com.shoppin.shoper.model.OrderOngoing;
 
 import java.util.ArrayList;
 
-public class UnderDevlopmentAdapter extends BaseAdapter {
+public class OrderOngoingAdapter extends BaseAdapter {
 
-    private static final String TAG = UnderDevlopmentAdapter.class.getSimpleName();
+    private static final String TAG = OrderOngoingAdapter.class.getSimpleName();
 
     private Context context;
     private ArrayList<OrderOngoing> orderOngoingsArrayList;
     private int fragmentNumber;
 
 
-    public UnderDevlopmentAdapter(Context context, ArrayList<OrderOngoing> categoryArrayList, int frgNO) {
+    public OrderOngoingAdapter(Context context, ArrayList<OrderOngoing> categoryArrayList, int frgNO) {
         this.context = context;
         this.orderOngoingsArrayList = categoryArrayList;
         this.fragmentNumber = frgNO;

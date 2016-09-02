@@ -1,13 +1,17 @@
 package com.shoppin.shoper.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shoppin.shoper.R;
+import com.shoppin.shoper.activity.NavigationDrawerActivity;
+import com.shoppin.shoper.fragment.OrderDetailFragment;
 import com.shoppin.shoper.fragment.OrderRequestFragment;
 import com.shoppin.shoper.model.OrderRequest;
 
@@ -15,6 +19,10 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.google.android.gms.analytics.internal.zzy.C;
+import static com.google.android.gms.analytics.internal.zzy.c;
+import static com.google.android.gms.analytics.internal.zzy.r;
 
 /**
  * Created by ubuntu on 8/8/16.
@@ -36,21 +44,24 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txtOrderNumber)
-        public TextView txtOrderNumber;
+        TextView txtOrderNumber;
         @BindView(R.id.txtStreetName)
-        public TextView txtStreetName;
+        TextView txtStreetName;
         @BindView(R.id.txtSuburb)
-        public TextView txtSuburb;
+        TextView txtSuburb;
         @BindView(R.id.txtTotalPrice)
-        public TextView txtTotalPrice;
+        TextView txtTotalPrice;
         @BindView(R.id.txtOrderDate)
-        public TextView txtOrderDate;
+        TextView txtOrderDate;
         @BindView(R.id.txtOrderTime)
-        public TextView txtOrderTime;
+        TextView txtOrderTime;
         @BindView(R.id.txtAccepted)
-        public TextView txtAccepted;
+        TextView txtAccepted;
         @BindView(R.id.txtReject)
-        public TextView txtReject;
+        TextView txtReject;
+        @BindView(R.id.card_view)
+        CardView cardView;
+        
 
         public MyViewHolder(View view) {
             super(view);
@@ -92,6 +103,14 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
             public void onClick(View v) {
                 orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number);
 
+            }
+        });
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationDrawerActivity fca = (NavigationDrawerActivity) mContext;
+                fca.switchContent(OrderDetailFragment
+                        .newInstance("demo"));
             }
         });
     }

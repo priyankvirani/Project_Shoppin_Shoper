@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
-import com.shoppin.shoper.adapter.UnderDevlopmentAdapter;
+import com.shoppin.shoper.adapter.OrderOngoingAdapter;
 import com.shoppin.shoper.model.OrderOngoing;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class OrderDetailFragment extends BaseFragment {
     }
 
     private ListView lvOrderList;
-    private UnderDevlopmentAdapter orderOngoingAdapter;
+    private OrderOngoingAdapter orderOngoingAdapter;
     private ArrayList<OrderOngoing> orderOngoingArrayList;
 
 
@@ -46,7 +46,7 @@ public class OrderDetailFragment extends BaseFragment {
 
         lvOrderList = (ListView) layoutView.findViewById(R.id.lvOrderList);
 
-        orderOngoingAdapter = new UnderDevlopmentAdapter(getActivity(),
+        orderOngoingAdapter = new OrderOngoingAdapter(getActivity(),
                 orderOngoingArrayList, 4);
         lvOrderList.setAdapter(orderOngoingAdapter);
         setData();

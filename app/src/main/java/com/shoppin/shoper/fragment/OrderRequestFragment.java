@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,6 +29,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.google.android.gms.analytics.internal.zzy.l;
+import static com.shoppin.shoper.R.id.lvOrderList;
+
 /**
  * Created by ubuntu on 15/8/16.
  */
@@ -34,12 +39,15 @@ import butterknife.ButterKnife;
 public class OrderRequestFragment extends BaseFragment {
 
     private static final String TAG = OrderRequestFragment.class.getSimpleName();
-    private RecyclerView lvOrderRecyList;
-    private OrderRequestAdapter orderRequestAdapter;
-    private ArrayList<OrderRequest> orderRequestArrayList;
+
+    @BindView(R.id.lvOrderRecyList)
+    RecyclerView lvOrderRecyList;
 
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
+
+    private OrderRequestAdapter orderRequestAdapter;
+    private ArrayList<OrderRequest> orderRequestArrayList;
 
 
     @Nullable
@@ -56,7 +64,6 @@ public class OrderRequestFragment extends BaseFragment {
 
     private void initView() {
         orderRequestArrayList = new ArrayList<OrderRequest>();
-        lvOrderRecyList = (RecyclerView) layoutView.findViewById(R.id.lvOrderRecyList);
         LinearLayoutManager horizontalLayoutManagaerdate
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
