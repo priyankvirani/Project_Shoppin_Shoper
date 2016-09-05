@@ -39,6 +39,7 @@ import static com.shoppin.shoper.R.id.lvOrderList;
 public class OrderRequestFragment extends BaseFragment {
 
     private static final String TAG = OrderRequestFragment.class.getSimpleName();
+    public static final String ORDER_NUMBER = "order_number";
 
     @BindView(R.id.lvOrderRecyList)
     RecyclerView lvOrderRecyList;
@@ -48,6 +49,8 @@ public class OrderRequestFragment extends BaseFragment {
 
     private OrderRequestAdapter orderRequestAdapter;
     private ArrayList<OrderRequest> orderRequestArrayList;
+
+
 
 
     @Nullable
@@ -64,20 +67,18 @@ public class OrderRequestFragment extends BaseFragment {
 
     private void initView() {
         orderRequestArrayList = new ArrayList<OrderRequest>();
-        LinearLayoutManager horizontalLayoutManagaerdate
+        LinearLayoutManager verticalLayoutManagaerdate
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
         orderRequestAdapter = new OrderRequestAdapter(getActivity(),
                 orderRequestArrayList, OrderRequestFragment.this);
-        lvOrderRecyList.setLayoutManager(horizontalLayoutManagaerdate);
+        lvOrderRecyList.setLayoutManager(verticalLayoutManagaerdate);
         lvOrderRecyList.setAdapter(orderRequestAdapter);
         setOrderRequestData();
 
     }
 
     public void setOrderRequestData() {
-
-
         try {
 
             JSONObject loginParam = new JSONObject();
@@ -132,13 +133,14 @@ public class OrderRequestFragment extends BaseFragment {
 
     }
 
-    public void SendOrderStatus(String ordernumber) {
+    public void SendOrderStatus(String ordernumber,String action) {
 
         try {
 
             JSONObject orderstatusParam = new JSONObject();
             orderstatusParam.put(IWebService.KEY_REQ_ORDER_NUMBER, ordernumber);
             orderstatusParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getEmployeIDString(getActivity()));
+            orderstatusParam.put(IWebService.KEY_REQ_ACTION, action);
 
 
             DataRequest signinDataRequest = new DataRequest(getActivity());

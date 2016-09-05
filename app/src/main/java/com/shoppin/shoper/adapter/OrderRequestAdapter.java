@@ -14,6 +14,7 @@ import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.fragment.OrderDetailFragment;
 import com.shoppin.shoper.fragment.OrderRequestFragment;
 import com.shoppin.shoper.model.OrderRequest;
+import com.shoppin.shoper.network.IWebService;
 
 import java.util.ArrayList;
 
@@ -94,14 +95,14 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
         holder.txtAccepted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number);
+                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number, IWebService.KEY_REQ_TRUE);
 
             }
         });
         holder.txtReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number);
+                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number,IWebService.KEY_REQ_FALSE);
 
             }
         });
@@ -110,7 +111,7 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
             public void onClick(View v) {
                 NavigationDrawerActivity fca = (NavigationDrawerActivity) mContext;
                 fca.switchContent(OrderDetailFragment
-                        .newInstance("demo"));
+                        .newInstance(orderRequestArrayList.get(position).order_number));
             }
         });
     }
