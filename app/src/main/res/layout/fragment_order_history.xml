@@ -5,11 +5,15 @@
     android:background="@color/white"
     android:clickable="true">
 
-    <ListView
-        android:id="@+id/lvOrderList"
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/lvOrderRecyList"
         android:layout_width="match_parent"
-        android:divider="@null"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lltOrderStatus"
+        android:layout_marginTop="5dp"
+        android:scrollbars="none" />
+
+    <include layout="@layout/progressbar" />
 
 
 </RelativeLayout>

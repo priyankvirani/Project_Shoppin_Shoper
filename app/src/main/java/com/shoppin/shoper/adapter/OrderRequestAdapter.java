@@ -95,14 +95,14 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
         holder.txtAccepted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number, IWebService.KEY_REQ_TRUE);
+                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number, IWebService.KEY_REQ_STATUS_ACCPETED);
 
             }
         });
         holder.txtReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number,IWebService.KEY_REQ_FALSE);
+                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number,IWebService.KEY_REQ_STATUS_ORDER_REJECTED);
 
             }
         });

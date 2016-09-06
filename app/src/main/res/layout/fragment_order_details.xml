@@ -113,15 +113,15 @@
         android:weightSum="4">
 
         <LinearLayout
+            android:id="@+id/lltAccpeted"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/order_datails_accepted"
+            android:background="@color/order_status_default_bg"
             android:orientation="vertical"
             android:weightSum="2">
 
             <LinearLayout
-                android:id="@+id/lltAccpeted"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingTop="10dp"
-                    android:src="@drawable/accepted" />
+                    android:src="@drawable/round" />
             </LinearLayout>
 
             <TextView
@@ -146,7 +146,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="2dp"
                 android:text="Accepted"
-                android:textColor="@color/white" />
+                android:textColor="@color/gray" />
         </LinearLayout>
 
         <LinearLayout
@@ -154,7 +154,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/order_datails_purchasing"
+            android:background="@color/order_status_default_bg"
             android:orientation="vertical"
             android:weightSum="2">
 
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingTop="10dp"
-                    android:src="@drawable/purchasing" />
+                    android:src="@drawable/round" />
             </LinearLayout>
 
             <TextView
@@ -183,7 +183,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="2dp"
                 android:text="Purchasing"
-                android:textColor="@color/white" />
+                android:textColor="@color/gray" />
         </LinearLayout>
 
         <LinearLayout
@@ -191,7 +191,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/order_datails_shiping"
+            android:background="@color/order_status_default_bg"
             android:orientation="vertical"
             android:weightSum="2">
 
@@ -207,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingTop="10dp"
-                    android:src="@drawable/shipping" />
+                    android:src="@drawable/round" />
             </LinearLayout>
 
             <TextView
@@ -220,7 +220,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="2dp"
                 android:text="Shiping"
-                android:textColor="@color/white" />
+                android:textColor="@color/gray" />
         </LinearLayout>
 
         <LinearLayout
@@ -228,7 +228,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/order_datails_completed"
+            android:background="@color/order_status_default_bg"
             android:orientation="vertical"
             android:weightSum="2">
 
@@ -244,7 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingTop="10dp"
-                    android:src="@drawable/completed_white" />
+                    android:src="@drawable/round" />
             </LinearLayout>
 
             <TextView
@@ -257,7 +257,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="2dp"
                 android:text="Completed"
-                android:textColor="@color/white" />
+                android:textColor="@color/gray" />
         </LinearLayout>
     </LinearLayout>
 

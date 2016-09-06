@@ -2,33 +2,40 @@ package com.shoppin.shoper.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
+import com.shoppin.shoper.utils.Utils;
+
+import java.util.ArrayList;
+
+import static android.R.id.list;
+import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 /**
  * Created by ubuntu on 5/9/16.
  */
 
 public class Product implements Parcelable {
-    public String order_number;
 
-    @SerializedName("product_item_id")
-    public String product_item_id;
+
+    @SerializedName("order_item_id")
+    public String productItemId;
     @SerializedName("product_id")
-    public String product_id;
+    public String productId;
     @SerializedName("saleprice_1")
-    public String saleprice_1;
+    public String saleprice1;
     @SerializedName("product_name")
-    public String product_name;
+    public String productName;
     @SerializedName("images")
     public String[] images;
 
-    public String getOrder_number() {
-        return order_number;
-    }
+    @SerializedName("option_list")
+    public ArrayList<ProductOption> productOptionArrayList;
 
-    public void setOrder_number(String order_number) {
-        this.order_number = order_number;
+    private String selectedOptions = null;
+
+    public Product() {
     }
 
     @Override
@@ -38,24 +45,21 @@ public class Product implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.order_number);
-        dest.writeString(this.product_item_id);
-        dest.writeString(this.product_id);
-        dest.writeString(this.saleprice_1);
-        dest.writeString(this.product_name);
+        dest.writeString(this.productItemId);
+        dest.writeString(this.productId);
+        dest.writeString(this.saleprice1);
+        dest.writeString(this.productName);
         dest.writeStringArray(this.images);
-    }
-
-    public Product() {
+        dest.writeTypedList(this.productOptionArrayList);
     }
 
     protected Product(Parcel in) {
-        this.order_number = in.readString();
-        this.product_item_id = in.readString();
-        this.product_id = in.readString();
-        this.saleprice_1 = in.readString();
-        this.product_name = in.readString();
+        this.productItemId = in.readString();
+        this.productId = in.readString();
+        this.saleprice1 = in.readString();
+        this.productName = in.readString();
         this.images = in.createStringArray();
+        this.productOptionArrayList = in.createTypedArrayList(ProductOption.CREATOR);
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -69,4 +73,25 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
+
+    public String getSelectedOptions() {
+        if (Utils.isNullOrEmpty(selectedOptions)) {
+            StringBuilder sb = new StringBuilder();
+            boolean isFirstTime = true;
+            for (int i = 0; i < productOptionArrayList.size(); i++) {
+                if (isFirstTime) {
+                    sb.append(productOptionArrayList.get(i).optionName + ":" + productOptionArrayList.get(i).value);
+                    isFirstTime = false;
+                }else{
+
+                    sb.append("\n"+productOptionArrayList.get(i).optionName + ":" + productOptionArrayList.get(i).value);
+                }
+
+            }
+            selectedOptions = sb.toString();
+        }
+
+
+        return selectedOptions;
+    }
 }

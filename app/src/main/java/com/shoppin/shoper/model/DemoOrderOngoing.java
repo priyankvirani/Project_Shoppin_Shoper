@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by ubuntu on 4/8/16.
  */
 
-public class OrderOngoing implements Serializable {
+public class DemoOrderOngoing implements Serializable {
 
 
     public String order_number;

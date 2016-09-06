@@ -348,7 +348,7 @@ public class DBAdapter {
 //
 //                for (int i = 0; i < productArrayList.size(); i++) {
 //                    ContentValues contentValues = new ContentValues();
-//                    contentValues.put(IProduct.KEY_PRODUCT_ID, productArrayList.get(i).product_id);
+//                    contentValues.put(IProduct.KEY_PRODUCT_ID, productArrayList.get(i).productId);
 //                    contentValues.put(IProduct.KEY_CATEGORY_ID, productArrayList.get(i).cat_id);
 //                    contentValues.put(IProduct.KEY_SUB_CATEGORY_ID, productArrayList.get(i).sub_cat_id);
 //                    contentValues.put(IProduct.KEY_NAME, productArrayList.get(i).name);

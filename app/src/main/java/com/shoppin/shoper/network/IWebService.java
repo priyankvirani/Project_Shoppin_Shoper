@@ -6,7 +6,9 @@ package com.shoppin.shoper.network;
 
 public interface IWebService {
 
-    String MAIN_URL = " http://192.168.0.1/shoppin/service/index.php/";
+    //String MAIN_URL = " http://192.168.0.1/shoppin/service/index.php/";
+
+    String MAIN_URL = " http://dddemo.net/php/shoppin/service/index.php/";
 
     String KEY_RES_DATA = "data";
     String KEY_RES_SUCCESS = "success";
@@ -14,10 +16,11 @@ public interface IWebService {
 
     String GET_SUBURB = MAIN_URL + "customer/GetSuburb";
     String EMPLOYEE_LOGIN = MAIN_URL + "shopper/EmployeeLogin";
+    String ONGOING_ORDER = MAIN_URL + "shopper/OngoingOrders";
     String ORDER_REQUEST = MAIN_URL + "shopper/OrderRequests";
     String ACEEPT_ORDER = MAIN_URL + "shopper/OrderAction";
     String ORDER_DETAILS = MAIN_URL + "shopper/OrderDetail";
-
+    String ORDER_HISTORY =MAIN_URL+ "shopper/OrderHistory";
 
 
     String GET_CATEGORY = MAIN_URL + "category/GetCategoryList";
@@ -41,6 +44,13 @@ public interface IWebService {
     String KEY_REQ_ORDER_NUMBER = "order_number";
     String KEY_REQ_ACTION = "action";
 
+
+    String KEY_REQ_STATUS_ORDER_PLACED = "1";
+    String KEY_REQ_STATUS_ORDER_REJECTED = "2";
+    String KEY_REQ_STATUS_ACCPETED = "3";
+    String KEY_REQ_STATUS_PUECHASING = "4";
+    String KEY_REQ_STATUS_SHIPING = "5";
+    String KEY_REQ_STATUS_COMPLETED = "6";
 
 
     /**
@@ -76,14 +86,9 @@ public interface IWebService {
     String KEY_RES_STORE_NAME = "store_name";
 
     String KEY_RES_PRODUCT_ITEM_ID = "product_items_id";
-    String KEY_RES_PRODUCT_ID = "product_id";
-    String KEY_RES_SALEPRICE_1 = "saleprice_1";
-    String KEY_RES_PRODUCT_NAME = "product_name";
-
-
-
-
-
+    String KEY_RES_PRODUCT_ID = "productId";
+    String KEY_RES_SALEPRICE_1 = "saleprice1";
+    String KEY_RES_PRODUCT_NAME = "productName";
 
 
 }

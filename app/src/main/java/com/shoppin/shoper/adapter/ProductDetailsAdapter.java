@@ -6,18 +6,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.fragment.OrderDetailFragment;
 import com.shoppin.shoper.model.Product;
+import com.shoppin.shoper.model.ProductOption;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.google.android.gms.analytics.internal.zzy.l;
 
 /**
  * Created by ubuntu on 8/8/16.
@@ -34,28 +35,24 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
         this.mContext = context;
         this.productArrayList = productArrayList;
         this.detailFragment = orderdetailsFragment;
+
+
     }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.txtOrderNumber)
-        TextView txtOrderNumber;
-//        @BindView(R.id.txtStreetName)
-//        TextView txtStreetName;
-//        @BindView(R.id.txtSuburb)
-//        TextView txtSuburb;
-//        @BindView(R.id.txtTotalPrice)
-//        TextView txtTotalPrice;
-//        @BindView(R.id.txtOrderDate)
-//        TextView txtOrderDate;
-//        @BindView(R.id.txtOrderTime)
-//        TextView txtOrderTime;
-//        @BindView(R.id.txtAccepted)
-//        TextView txtAccepted;
-//        @BindView(R.id.txtReject)
-//        TextView txtReject;
-//        @BindView(R.id.card_view)
-//        CardView cardView;
+        @BindView(R.id.txtProductName)
+        TextView txtProductName;
+        @BindView(R.id.imgProduct)
+        ImageView imgProduct;
+        @BindView(R.id.txtProductPrice)
+        TextView txtProductPrice;
+        @BindView(R.id.txtProductUnit)
+        TextView txtProductUnit;
+        @BindView(R.id.txtItemStatus)
+        TextView txtItemStatus;
+        @BindView(R.id.txtProductOption)
+        TextView txtProductOption;
 
 
         public MyViewHolder(View view) {
@@ -78,37 +75,27 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Log.e(TAG, "Size " + productArrayList.size());
 
-        holder.txtOrderNumber.setText(productArrayList.get(position).order_number);
-//        holder.txtStreetName.setText(productArrayList.get(position).address1);
-//        holder.txtSuburb.setText(productArrayList.get(position).suburb_name);
-//        holder.txtTotalPrice.setText(productArrayList.get(position).total);
-//        holder.txtOrderDate.setText(productArrayList.get(position).delivery_date);
-//        holder.txtOrderTime.setText(productArrayList.get(position).delivery_time);
-//
-//        holder.txtAccepted.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                detailFragment.SendOrderStatus(productArrayList.get(position).order_number, IWebService.KEY_REQ_TRUE);
-//
-//            }
-//        });
-//        holder.txtReject.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                detailFragment.SendOrderStatus(productArrayList.get(position).order_number,IWebService.KEY_REQ_FALSE);
-//
-//            }
-//        });
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                NavigationDrawerActivity fca = (NavigationDrawerActivity) mContext;
-//                fca.switchContent(OrderDetailFragment
-//                        .newInstance(productArrayList.get(position).order_number));
-//            }
-//        });
+        holder.txtProductName.setText(productArrayList.get(position).productName);
+        holder.txtProductPrice.setText(productArrayList.get(position).saleprice1);
+        holder.txtProductUnit.setText(productArrayList.get(position).saleprice1);
+        holder.txtItemStatus.setText(productArrayList.get(position).productName);
+
+
+        for (int i = 0; i < productArrayList.get(position).productOptionArrayList.size(); i++) {
+
+            holder.txtProductOption.setText(productArrayList.get(position).getSelectedOptions());
+
+//            Log.e(TAG, "String Product OPetion " + productArrayList.get(position).productOptionArrayList.get(i).optionName +
+//                    "," + productArrayList.get(position).productOptionArrayList.get(i).value);
+        }
+
+        Glide.with(mContext)
+                .load(productArrayList.get(position).images[0])
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(holder.imgProduct);
+
     }
 
     @Override

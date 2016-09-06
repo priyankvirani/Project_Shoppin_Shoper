@@ -7,20 +7,20 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.shoppin.shoper.R;
-import com.shoppin.shoper.model.OrderOngoing;
+import com.shoppin.shoper.model.DemoOrderOngoing;
 
 import java.util.ArrayList;
 
-public class OrderOngoingAdapter extends BaseAdapter {
+public class DemoOrderOngoingAdapter extends BaseAdapter {
 
-    private static final String TAG = OrderOngoingAdapter.class.getSimpleName();
+    private static final String TAG = DemoOrderOngoingAdapter.class.getSimpleName();
 
     private Context context;
-    private ArrayList<OrderOngoing> orderOngoingsArrayList;
+    private ArrayList<DemoOrderOngoing> orderOngoingsArrayList;
     private int fragmentNumber;
 
 
-    public OrderOngoingAdapter(Context context, ArrayList<OrderOngoing> categoryArrayList, int frgNO) {
+    public DemoOrderOngoingAdapter(Context context, ArrayList<DemoOrderOngoing> categoryArrayList, int frgNO) {
         this.context = context;
         this.orderOngoingsArrayList = categoryArrayList;
         this.fragmentNumber = frgNO;

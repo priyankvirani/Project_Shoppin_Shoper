@@ -26,10 +26,12 @@
     <color name="yellow">#E7C00B</color>
     <color name="cardview_background">#F0F0F0</color>
 
-    <color name="order_datails_accepted">#A9E762</color>
-    <color name="order_datails_purchasing">#9DDB52</color>
-    <color name="order_datails_shiping">#90D044</color>
-    <color name="order_datails_completed">#80CD29</color>
+    <color name="order_datails_accepted">#a9e662</color>
+    <color name="order_datails_purchasing">#9cdb52</color>
+    <color name="order_datails_shiping">#8fd044</color>
+    <color name="order_datails_completed">#80cc28</color>
+
+    <color name="order_status_default_bg">#f0f0f0</color>
 
 
 

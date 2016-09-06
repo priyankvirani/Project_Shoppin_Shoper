@@ -33,6 +33,15 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/txtProductOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_tiny"
+            android:text="txtProductName"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal_textview" />
+
+        <TextView
             android:id="@+id/txtProductPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,8 +77,8 @@
                 android:drawableRight="@drawable/completed"
                 android:padding="@dimen/margin_tiny"
                 android:text="Available"
-                android:textSize="@dimen/font_size_title"
-                android:textColor="@color/app_theme_1" />
+                android:textColor="@color/app_theme_1"
+                android:textSize="@dimen/font_size_title" />
 
         </RelativeLayout>
     </LinearLayout>

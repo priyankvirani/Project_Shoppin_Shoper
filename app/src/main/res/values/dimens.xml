@@ -17,6 +17,7 @@
     <dimen name="font_size_edittext">16sp</dimen>
     <dimen name="font_size_button">18sp</dimen>
     <dimen name="font_size_textview">20sp</dimen>
+    <dimen name="font_normal_textview">16sp</dimen>
 
     <dimen name="margin_button">12dp</dimen>
 

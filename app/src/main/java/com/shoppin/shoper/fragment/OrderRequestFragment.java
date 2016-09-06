@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.google.android.gms.analytics.internal.zzy.l;
-import static com.shoppin.shoper.R.id.lvOrderList;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -113,7 +111,7 @@ public class OrderRequestFragment extends BaseFragment {
                                     }.getType());
 
                             if (tmpOrderRequestArrayList != null) {
-                                Log.e(TAG, "Size :  " + orderRequestArrayList.size());
+                                //Log.e(TAG, "Size :  " + orderRequestArrayList.size());
                                 orderRequestArrayList.addAll(tmpOrderRequestArrayList);
                                 orderRequestAdapter.notifyDataSetChanged();
                             }
@@ -133,14 +131,14 @@ public class OrderRequestFragment extends BaseFragment {
 
     }
 
-    public void SendOrderStatus(String ordernumber,String action) {
+    public void SendOrderStatus(String ordernumber,String status) {
 
         try {
 
             JSONObject orderstatusParam = new JSONObject();
             orderstatusParam.put(IWebService.KEY_REQ_ORDER_NUMBER, ordernumber);
             orderstatusParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getEmployeIDString(getActivity()));
-            orderstatusParam.put(IWebService.KEY_REQ_ACTION, action);
+            orderstatusParam.put(IWebService.KEY_RES_STATUS, status);
 
 
             DataRequest signinDataRequest = new DataRequest(getActivity());
@@ -170,8 +168,6 @@ public class OrderRequestFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override

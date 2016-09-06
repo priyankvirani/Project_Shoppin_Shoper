@@ -117,7 +117,7 @@ public interface IDatabase {
         String TABLE_PRODUCT = "product";
 
         String KEY_ID = "_id";
-        String KEY_PRODUCT_ID = "product_id";
+        String KEY_PRODUCT_ID = "productId";
         String KEY_CATEGORY_ID = "category_id";
         String KEY_SUB_CATEGORY_ID = "sub_cat_id";
         String KEY_NAME = "name";
