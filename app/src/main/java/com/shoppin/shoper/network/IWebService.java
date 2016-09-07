@@ -14,16 +14,15 @@ public interface IWebService {
     String KEY_RES_SUCCESS = "success";
     String KEY_RES_MESSAGE = "message";
 
-    String GET_SUBURB = MAIN_URL + "customer/GetSuburb";
+
     String EMPLOYEE_LOGIN = MAIN_URL + "shopper/EmployeeLogin";
     String ONGOING_ORDER = MAIN_URL + "shopper/OngoingOrders";
     String ORDER_REQUEST = MAIN_URL + "shopper/OrderRequests";
     String ACEEPT_ORDER = MAIN_URL + "shopper/OrderAction";
     String ORDER_DETAILS = MAIN_URL + "shopper/OrderDetail";
-    String ORDER_HISTORY =MAIN_URL+ "shopper/OrderHistory";
-
-
-    String GET_CATEGORY = MAIN_URL + "category/GetCategoryList";
+    String ORDER_HISTORY = MAIN_URL + "shopper/OrderHistory";
+    String UPDATE_ORDERITEM_AVAILIBILITY = MAIN_URL + "shopper/UpdateOrderItemAvailibility";
+    String PRODUCT_NOT_AVAILABLE_COMMENTS = MAIN_URL + "shopper/UpdateOrderItemAvailibility";
 
     /**
      * Request Params
@@ -43,6 +42,10 @@ public interface IWebService {
 
     String KEY_REQ_ORDER_NUMBER = "order_number";
     String KEY_REQ_ACTION = "action";
+    String KEY_REQ_ORDER_ITEM_ID = "order_item_id";
+    String KEY_REQ_SET_VALUE = "set_value";
+
+
 
 
     String KEY_REQ_STATUS_ORDER_PLACED = "1";
@@ -51,6 +54,10 @@ public interface IWebService {
     String KEY_REQ_STATUS_PUECHASING = "4";
     String KEY_REQ_STATUS_SHIPING = "5";
     String KEY_REQ_STATUS_COMPLETED = "6";
+
+
+    String KEY_REQ_STATUS_PRODUCT_AVAILABLE = "1";
+    String KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE = "-1";
 
 
     /**
@@ -89,6 +96,9 @@ public interface IWebService {
     String KEY_RES_PRODUCT_ID = "productId";
     String KEY_RES_SALEPRICE_1 = "saleprice1";
     String KEY_RES_PRODUCT_NAME = "productName";
+
+
+    String KEY_RES_SET_VALUE = "set_value";
 
 
 }

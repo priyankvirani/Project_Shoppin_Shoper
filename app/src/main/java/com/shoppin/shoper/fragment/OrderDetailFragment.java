@@ -1,13 +1,17 @@
 package com.shoppin.shoper.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,8 +34,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.google.android.gms.analytics.internal.zzy.v;
-import static java.lang.Boolean.FALSE;
+import static android.R.attr.value;
+import static com.google.android.gms.analytics.internal.zzy.r;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -117,6 +121,8 @@ public class OrderDetailFragment extends BaseFragment {
     private boolean isPurchasing = false;
     private boolean isShiping = false;
     private boolean isCompleted = false;
+
+    private boolean isNotAvailable = false;
 
 
     @Nullable
@@ -403,6 +409,124 @@ public class OrderDetailFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String submitProductSetValue(Context mContext, String availableStatus, String productItemId) {
+
+        if (availableStatus.equals(mContext.getResources().getString(R.string.normal))) {
+
+            availableStatus = mContext.getResources().getString(R.string.available);
+
+            sendUpdateOrderItemAvailibility(productItemId, IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE);
+
+        } else if (availableStatus.equals(mContext.getResources().getString(R.string.available))) {
+
+            if (showAlertEmployeeComment(mContext)) {
+
+                availableStatus = mContext.getResources().getString(R.string.not_available);
+                sendUpdateOrderItemAvailibility(productItemId, IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE);
+            }
+
+        } else {
+
+            if (availableStatus.equals(mContext.getResources().getString(R.string.not_available))) {
+
+
+                availableStatus = mContext.getResources().getString(R.string.available);
+
+                sendUpdateOrderItemAvailibility(productItemId, IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE);
+            }
+
+        }
+
+        Log.e(TAG, "availableStatus  : - " + availableStatus);
+
+        return availableStatus;
+
+
+    }
+
+    public boolean showAlertEmployeeComment(Context context) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.dialog_employe_comments, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(false);
+        final AlertDialog alertDialog = dialogBuilder.create();
+
+
+        dialogView.findViewById(R.id.txtCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        dialogView.findViewById(R.id.txtSubmit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+
+                isNotAvailable = true;
+
+
+            }
+        });
+
+        alertDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        alertDialog.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        alertDialog.show();
+
+        return isNotAvailable;
+    }
+
+
+    public void sendUpdateOrderItemAvailibility(String productItemId, String value) {
+
+        try {
+
+            JSONObject productstatusParam = new JSONObject();
+            productstatusParam.put(IWebService.KEY_REQ_ORDER_ITEM_ID, productItemId);
+            productstatusParam.put(IWebService.KEY_REQ_SET_VALUE, value);
+
+
+            DataRequest signinDataRequest = new DataRequest(getActivity());
+            signinDataRequest.execute(IWebService.UPDATE_ORDERITEM_AVAILIBILITY, productstatusParam.toString(), new DataRequest.CallBack() {
+                public void onPreExecute() {
+                    rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+
+                }
+
+                public void onPostExecute(String response) {
+                    rlvGlobalProgressbar.setVisibility(View.GONE);
+
+                    try {
+
+                        if (!DataRequest.hasError(getActivity(), response, true)) {
+
+                            JSONObject dataJObject = DataRequest.getJObjWebdata(response);
+
+                            Gson gson = new Gson();
+
+                            Log.e(TAG, "set value  : " + dataJObject.getString(IWebService.KEY_REQ_SET_VALUE));
+
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override

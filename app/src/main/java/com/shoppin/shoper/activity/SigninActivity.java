@@ -20,6 +20,7 @@ import com.shoppin.shoper.model.Suburb;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
 import com.shoppin.shoper.utils.IConstants;
+import com.shoppin.shoper.utils.UniqueId;
 import com.shoppin.shoper.utils.Utils;
 
 import org.json.JSONObject;
@@ -49,7 +50,7 @@ public class SigninActivity extends AppCompatActivity {
 
     private ArrayList<Suburb> suburbArrayList;
     private ArrayAdapter<Suburb> suburbArrayAdapter;
-    private Suburb selectedSuburb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +58,10 @@ public class SigninActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
 
-//        rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+
         suburbArrayList = new ArrayList<>();
         suburbArrayAdapter = new ArrayAdapter<>(SigninActivity.this, android.R.layout.simple_dropdown_item_1line, suburbArrayList);
-        //getSuburbs();
+
     }
 
     @OnClick(R.id.txtSignin)
@@ -73,7 +74,7 @@ public class SigninActivity extends AppCompatActivity {
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_PASSWORD, etxPassword.getText().toString());
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TYPE, IConstants.ISignin.DEVICE_TYPE);
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TOKEN, FirebaseInstanceId.getInstance().getToken());
-                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_ID, etxSigninId.getText().toString());
+                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_ID, UniqueId.getUniqueId(SigninActivity.this));
 
                 DataRequest signinDataRequest = new DataRequest(SigninActivity.this);
                 signinDataRequest.execute(IWebService.EMPLOYEE_LOGIN, loginParam.toString(), new DataRequest.CallBack() {
@@ -128,38 +129,5 @@ public class SigninActivity extends AppCompatActivity {
         }
         return isValid;
     }
-
-
-    private void getSuburbs() {
-        DataRequest getSuburbsDataRequest = new DataRequest(SigninActivity.this);
-        getSuburbsDataRequest.execute(IWebService.GET_SUBURB, null, new DataRequest.CallBack() {
-            public void onPreExecute() {
-                rlvGlobalProgressbar.setVisibility(View.VISIBLE);
-            }
-
-            public void onPostExecute(String response) {
-                try {
-                    rlvGlobalProgressbar.setVisibility(View.GONE);
-                    if (!DataRequest.hasError(SigninActivity.this, response, true)) {
-                        Gson gson = new Gson();
-                        JSONObject dataJObject = DataRequest.getJObjWebdata(response);
-
-                        ArrayList<Suburb> tmpSuburbArrayList = gson.fromJson(
-                                dataJObject.getJSONArray(IWebService.KEY_RES_SUBURB_LIST).toString(),
-                                new TypeToken<ArrayList<Suburb>>() {
-                                }.getType());
-                        if (tmpSuburbArrayList != null) {
-                            Log.e(TAG, "size = " + tmpSuburbArrayList.size());
-                            suburbArrayList.addAll(tmpSuburbArrayList);
-                            suburbArrayAdapter.notifyDataSetChanged();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
 
 }

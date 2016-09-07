@@ -1,13 +1,16 @@
 package com.shoppin.shoper.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -122,6 +125,37 @@ public class OrderOngoingFragment extends BaseFragment {
             e.printStackTrace();
         }
 
+
+    }
+
+    public void checkOrderStatus(Context mContext,int statusCode, TextView orderStatus) {
+        if (statusCode != 0 && statusCode != 1) {
+
+            if (statusCode == 3) {
+                orderStatus.setBackgroundResource(R.drawable.button_background_red);
+                orderStatus.setText("Accepted");
+                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.accepted), null);
+
+
+            } else if (statusCode == 4) {
+                orderStatus.setBackgroundResource(R.drawable.button_background_blue);
+                orderStatus.setText("Purchasing");
+                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.purchasing), null);
+
+            } else if (statusCode == 5) {
+                orderStatus.setBackgroundResource(R.drawable.button_background_yellow);
+                orderStatus.setText("Shipping");
+                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.shipping), null);
+
+            } else {
+                if (statusCode == 6) {
+                    orderStatus.setBackgroundResource(R.drawable.button_background_green);
+                    orderStatus.setText("Completed");
+                    orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.completed_white), null);
+
+                }
+            }
+        }
 
     }
 

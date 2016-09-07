@@ -76,8 +76,8 @@
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/completed"
                 android:padding="@dimen/margin_tiny"
-                android:text="Available"
-                android:textColor="@color/app_theme_1"
+                android:text="@string/normal"
+                android:textColor="@color/black"
                 android:textSize="@dimen/font_size_title" />
 
         </RelativeLayout>

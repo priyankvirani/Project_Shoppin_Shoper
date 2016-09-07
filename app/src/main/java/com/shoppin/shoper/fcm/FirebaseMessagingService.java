@@ -19,15 +19,15 @@ import com.shoppin.shoper.activity.SplashScreenActivity;
 /**
  * Created by filipp on 5/23/2016.
  */
-public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService{
+public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
-    private static final String TAG = "FirebaseMessaging";
+    private static final String TAG = FirebaseMessagingService.class.getSimpleName();
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.d(TAG, "From: " + remoteMessage.getData().get("message"));
-
+        Log.e(TAG, "From: " + remoteMessage.getData().get("message"));
+        Log.e(TAG, "title: " + remoteMessage.getData().get("title"));
         showNotification(remoteMessage.getData().get("message"));
     }
 
@@ -59,6 +59,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             notificationBuilder.setColor(Color.parseColor("#39432C"));
         } else {
             notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+
         }
 
         notificationManager.notify((int) System.currentTimeMillis(), notificationBuilder.build());

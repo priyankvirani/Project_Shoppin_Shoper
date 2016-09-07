@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,7 @@ import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.adapter.OrderHistoryAdapter;
 import com.shoppin.shoper.database.DBAdapter;
-import com.shoppin.shoper.model.DemoOrderOngoing;
 import com.shoppin.shoper.model.OrderHistory;
-import com.shoppin.shoper.model.Product;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
 
@@ -28,14 +25,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.shoppin.shoper.R.id.txtOrderDate;
-import static com.shoppin.shoper.R.id.txtOrderNumber;
-import static com.shoppin.shoper.R.id.txtOrderPrice;
-import static com.shoppin.shoper.R.id.txtOrderTime;
-import static com.shoppin.shoper.R.id.txtStreetName;
-import static com.shoppin.shoper.R.id.txtSuburb;
-import static com.shoppin.shoper.R.id.txtphoneNumber;
 
 /**
  * Created by ubuntu on 15/8/16.

@@ -86,7 +86,7 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         holder.txtOrderDate.setText(ongoingOrderArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(ongoingOrderArrayList.get(position).delivery_time);
 
-        checkOrderStatus(Integer.valueOf(ongoingOrderArrayList.get(position).status), holder.txtOrderStatus);
+        orderOngoingFragment.checkOrderStatus(mContext,Integer.valueOf(ongoingOrderArrayList.get(position).status), holder.txtOrderStatus);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,36 +98,7 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         });
     }
 
-    private void checkOrderStatus(int statusCode, TextView orderStatus) {
-        if (statusCode != 0 && statusCode != 1) {
 
-            if (statusCode == 3) {
-                orderStatus.setBackgroundResource(R.drawable.button_background_red);
-                orderStatus.setText("Accepted");
-                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.accepted), null);
-
-
-            } else if (statusCode == 4) {
-                orderStatus.setBackgroundResource(R.drawable.button_background_blue);
-                orderStatus.setText("Purchasing");
-                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.purchasing), null);
-
-            } else if (statusCode == 5) {
-                orderStatus.setBackgroundResource(R.drawable.button_background_yellow);
-                orderStatus.setText("Shipping");
-                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.shipping), null);
-
-            } else {
-                if (statusCode == 6) {
-                    orderStatus.setBackgroundResource(R.drawable.button_background_green);
-                    orderStatus.setText("Completed");
-                    orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.completed_white), null);
-
-                }
-            }
-        }
-
-    }
 
     @Override
     public int getItemCount() {

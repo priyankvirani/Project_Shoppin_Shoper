@@ -29,6 +29,8 @@ public class Product implements Parcelable {
     public String productName;
     @SerializedName("images")
     public String[] images;
+    @SerializedName("availability")
+    public String productAvailability;
 
     @SerializedName("option_list")
     public ArrayList<ProductOption> productOptionArrayList;
@@ -37,42 +39,6 @@ public class Product implements Parcelable {
 
     public Product() {
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.productItemId);
-        dest.writeString(this.productId);
-        dest.writeString(this.saleprice1);
-        dest.writeString(this.productName);
-        dest.writeStringArray(this.images);
-        dest.writeTypedList(this.productOptionArrayList);
-    }
-
-    protected Product(Parcel in) {
-        this.productItemId = in.readString();
-        this.productId = in.readString();
-        this.saleprice1 = in.readString();
-        this.productName = in.readString();
-        this.images = in.createStringArray();
-        this.productOptionArrayList = in.createTypedArrayList(ProductOption.CREATOR);
-    }
-
-    public static final Creator<Product> CREATOR = new Creator<Product>() {
-        @Override
-        public Product createFromParcel(Parcel source) {
-            return new Product(source);
-        }
-
-        @Override
-        public Product[] newArray(int size) {
-            return new Product[size];
-        }
-    };
 
     public String getSelectedOptions() {
         if (Utils.isNullOrEmpty(selectedOptions)) {
@@ -94,4 +60,44 @@ public class Product implements Parcelable {
 
         return selectedOptions;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.productItemId);
+        dest.writeString(this.productId);
+        dest.writeString(this.saleprice1);
+        dest.writeString(this.productName);
+        dest.writeStringArray(this.images);
+        dest.writeString(this.productAvailability);
+        dest.writeTypedList(this.productOptionArrayList);
+        dest.writeString(this.selectedOptions);
+    }
+
+    protected Product(Parcel in) {
+        this.productItemId = in.readString();
+        this.productId = in.readString();
+        this.saleprice1 = in.readString();
+        this.productName = in.readString();
+        this.images = in.createStringArray();
+        this.productAvailability = in.readString();
+        this.productOptionArrayList = in.createTypedArrayList(ProductOption.CREATOR);
+        this.selectedOptions = in.readString();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }
