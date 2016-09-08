@@ -22,7 +22,6 @@ public interface IWebService {
     String ORDER_DETAILS = MAIN_URL + "shopper/OrderDetail";
     String ORDER_HISTORY = MAIN_URL + "shopper/OrderHistory";
     String UPDATE_ORDERITEM_AVAILIBILITY = MAIN_URL + "shopper/UpdateOrderItemAvailibility";
-    String PRODUCT_NOT_AVAILABLE_COMMENTS = MAIN_URL + "shopper/UpdateOrderItemAvailibility";
 
     /**
      * Request Params
@@ -58,6 +57,11 @@ public interface IWebService {
 
     String KEY_REQ_STATUS_PRODUCT_AVAILABLE = "1";
     String KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE = "-1";
+
+
+    String KEY_REQ_PRODUCT_COMMENTS ="comment";
+    String KEY_REQ_NULL ="null";
+
 
 
     /**
@@ -96,6 +100,7 @@ public interface IWebService {
     String KEY_RES_PRODUCT_ID = "productId";
     String KEY_RES_SALEPRICE_1 = "saleprice1";
     String KEY_RES_PRODUCT_NAME = "productName";
+    String KEY_RES_PRODUCT_COMMENTS ="comment";
 
 
     String KEY_RES_SET_VALUE = "set_value";

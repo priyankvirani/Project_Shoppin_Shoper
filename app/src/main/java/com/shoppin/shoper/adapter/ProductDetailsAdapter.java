@@ -1,7 +1,6 @@
 package com.shoppin.shoper.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.R.attr.order;
-
 /**
  * Created by ubuntu on 8/8/16.
  */
@@ -32,6 +29,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
     private Context mContext;
     private ArrayList<Product> productArrayList;
     private OrderDetailFragment orderDetailFragment;
+    private OnStatusChangeListener onStatusChangeListener;
 
     public ProductDetailsAdapter(Context context, ArrayList<Product> productArrayList, OrderDetailFragment orderdetailsFragment) {
         this.mContext = context;
@@ -81,22 +79,8 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
         holder.txtProductName.setText(productArrayList.get(position).productName);
         holder.txtProductPrice.setText(productArrayList.get(position).saleprice1);
         holder.txtProductUnit.setText(productArrayList.get(position).saleprice1);
-
-
-        if (Integer.valueOf(productArrayList.get(position).productAvailability) == -1) {
-            holder.txtItemStatus.setText(mContext.getResources().getString(R.string.not_available));
-            holder.txtItemStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.reject), null);
-        } else if (Integer.valueOf(productArrayList.get(position).productAvailability) == 1) {
-            holder.txtItemStatus.setText(mContext.getResources().getString(R.string.available));
-            holder.txtItemStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.accepted), null);
-        } else {
-            holder.txtItemStatus.setText(mContext.getResources().getString(R.string.normal));
-        }
-
-        for (int i = 0; i < productArrayList.get(position).productOptionArrayList.size(); i++) {
-            holder.txtProductOption.setText(productArrayList.get(position).getSelectedOptions());
-
-        }
+        holder.txtItemStatus.setText(orderDetailFragment.statusStringName(productArrayList.get(position).productAvailability));
+        holder.txtProductOption.setText(productArrayList.get(position).getSelectedOptions());
 
         Glide.with(mContext)
                 .load(productArrayList.get(position).images[0])
@@ -108,17 +92,44 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
             @Override
             public void onClick(View v) {
 
-                holder.txtItemStatus.setText(orderDetailFragment.submitProductSetValue(mContext,
-                        holder.txtItemStatus.getText().toString(), productArrayList.get(position).productItemId));
+
+                if (onStatusChangeListener != null) {
+
+                    if (Integer.valueOf(productArrayList.get(position).productAvailability) == -1) {
+                        productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
+
+                        onStatusChangeListener.onStatusChange(holder.txtItemStatus, position, productArrayList.get(position).productItemId,
+                                productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
 
 
 
+                    } else if (Integer.valueOf(productArrayList.get(position).productAvailability) == 1) {
+                        productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
+                        onStatusChangeListener.onStatusChange(holder.txtItemStatus, position, productArrayList.get(position).productItemId,
+                                productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
+
+                    } else {
+                        productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
+                        onStatusChangeListener.onStatusChange(holder.txtItemStatus, position, productArrayList.get(position).productItemId,
+                                productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
+
+                    }
+                }
 
             }
         });
 
 
     }
+
+    public void setOnStatusChangeListener(final OnStatusChangeListener onCartChangeListener) {
+        this.onStatusChangeListener = onCartChangeListener;
+    }
+
+    public interface OnStatusChangeListener {
+        public void onStatusChange(TextView textView, int position, String productItemID, String productAvailability, String comments);
+    }
+
 
     @Override
     public int getItemCount() {

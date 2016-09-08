@@ -57,8 +57,8 @@
                 android:textStyle="bold" />
 
         </RelativeLayout>
-        <TextView
-            android:id="@+id/txtCommentDesrscriptionssc"
+        <EditText
+            android:id="@+id/etxCommentDesrscriptionssc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"

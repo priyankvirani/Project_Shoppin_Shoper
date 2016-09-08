@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +27,7 @@ import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.model.Product;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
+import com.shoppin.shoper.utils.Utils;
 
 import org.json.JSONObject;
 
@@ -34,8 +36,14 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.attr.numberPickerStyle;
 import static android.R.attr.value;
+import static com.google.android.gms.analytics.internal.zzy.e;
+import static com.google.android.gms.analytics.internal.zzy.i;
+import static com.google.android.gms.analytics.internal.zzy.n;
+import static com.google.android.gms.analytics.internal.zzy.p;
 import static com.google.android.gms.analytics.internal.zzy.r;
+import static com.google.android.gms.analytics.internal.zzy.v;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -122,8 +130,6 @@ public class OrderDetailFragment extends BaseFragment {
     private boolean isShiping = false;
     private boolean isCompleted = false;
 
-    private boolean isNotAvailable = false;
-
 
     @Nullable
     @Override
@@ -207,6 +213,30 @@ public class OrderDetailFragment extends BaseFragment {
                 productArrayList, OrderDetailFragment.this);
         lvOrderRecyList.setLayoutManager(verticalLayoutManagaerdate);
         lvOrderRecyList.setAdapter(productDetailsAdapter);
+
+        productDetailsAdapter.setOnStatusChangeListener(new ProductDetailsAdapter.OnStatusChangeListener() {
+            @Override
+            public void onStatusChange(TextView txtproductStatus, int position, String productItemID, String productAvailability, String comments) {
+
+                Log.e(TAG, "productAvailability : " + productAvailability);
+                if (productDetailsAdapter != null) {
+
+                    if (Integer.valueOf(productAvailability) == -1) {
+
+                        showAlertEmployeeComment(getActivity(), productItemID, productAvailability, txtproductStatus,position);
+
+                    } else if (Integer.valueOf(value) == 1) {
+                        txtproductStatus.setText(statusStringName(productAvailability));
+
+                    } else {
+                        txtproductStatus.setText(statusStringName(productAvailability));
+
+                    }
+                    Log.e(TAG, "Value : " + productArrayList.get(position).productAvailability);
+
+                }
+            }
+        });
 
 
     }
@@ -411,64 +441,47 @@ public class OrderDetailFragment extends BaseFragment {
         }
     }
 
-    public String submitProductSetValue(Context mContext, String availableStatus, String productItemId) {
-
-        if (availableStatus.equals(mContext.getResources().getString(R.string.normal))) {
-
-            availableStatus = mContext.getResources().getString(R.string.available);
-
-            sendUpdateOrderItemAvailibility(productItemId, IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE);
-
-        } else if (availableStatus.equals(mContext.getResources().getString(R.string.available))) {
-
-            if (showAlertEmployeeComment(mContext)) {
-
-                availableStatus = mContext.getResources().getString(R.string.not_available);
-                sendUpdateOrderItemAvailibility(productItemId, IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE);
-            }
-
-        } else {
-
-            if (availableStatus.equals(mContext.getResources().getString(R.string.not_available))) {
-
-
-                availableStatus = mContext.getResources().getString(R.string.available);
-
-                sendUpdateOrderItemAvailibility(productItemId, IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE);
-            }
-
-        }
-
-        Log.e(TAG, "availableStatus  : - " + availableStatus);
-
-        return availableStatus;
-
-
-    }
-
-    public boolean showAlertEmployeeComment(Context context) {
+    public void showAlertEmployeeComment(Context context, final String productItemID, final String productAvailability, final TextView txtproductStatus, final int position) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogView = inflater.inflate(R.layout.dialog_employe_comments, null);
+        final View dialogView = inflater.inflate(R.layout.dialog_employe_comments, null);
         dialogBuilder.setView(dialogView);
         dialogBuilder.setCancelable(false);
         final AlertDialog alertDialog = dialogBuilder.create();
+
+        final EditText etxproductComments = (EditText) dialogView.findViewById(R.id.etxCommentDesrscriptionssc);
 
 
         dialogView.findViewById(R.id.txtCancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(Integer.valueOf(productAvailability)==1){
+                    productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
+                }else{
+                    productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
+                }
+
+                productDetailsAdapter.notifyDataSetChanged();
                 alertDialog.dismiss();
+
+
             }
         });
 
         dialogView.findViewById(R.id.txtSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
 
-                isNotAvailable = true;
+                if (!Utils.isNullOrEmpty(etxproductComments.getText().toString())) {
+                    sendUpdateOrderItemAvailibility(productItemID, productAvailability, etxproductComments.getText().toString());
+                    txtproductStatus.setText(statusStringName(productAvailability));
+                    productDetailsAdapter.notifyDataSetChanged();
+                    alertDialog.dismiss();
+                } else {
+                    etxproductComments.setError(getActivity().getString(R.string.error_required));
+                }
 
 
             }
@@ -479,17 +492,18 @@ public class OrderDetailFragment extends BaseFragment {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertDialog.show();
 
-        return isNotAvailable;
+
     }
 
 
-    public void sendUpdateOrderItemAvailibility(String productItemId, String value) {
+    public void sendUpdateOrderItemAvailibility(String productItemId, String productAvailability, String comments) {
 
         try {
 
             JSONObject productstatusParam = new JSONObject();
             productstatusParam.put(IWebService.KEY_REQ_ORDER_ITEM_ID, productItemId);
-            productstatusParam.put(IWebService.KEY_REQ_SET_VALUE, value);
+            productstatusParam.put(IWebService.KEY_REQ_SET_VALUE, productAvailability);
+            productstatusParam.put(IWebService.KEY_REQ_PRODUCT_COMMENTS, comments);
 
 
             DataRequest signinDataRequest = new DataRequest(getActivity());
@@ -504,13 +518,13 @@ public class OrderDetailFragment extends BaseFragment {
 
                     try {
 
-                        if (!DataRequest.hasError(getActivity(), response, true)) {
+                        if (!DataRequest.hasError(getActivity(), response, false)) {
 
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
                             Gson gson = new Gson();
 
-                            Log.e(TAG, "set value  : " + dataJObject.getString(IWebService.KEY_REQ_SET_VALUE));
+                            Log.e(TAG, "Status Name : " + dataJObject.getString(IWebService.KEY_REQ_SET_VALUE));
 
 
                         }
@@ -526,6 +540,26 @@ public class OrderDetailFragment extends BaseFragment {
             e.printStackTrace();
         }
 
+
+    }
+
+
+    public String statusStringName(String availableStatusString) {
+
+
+        if (Integer.valueOf(availableStatusString) == -1) {
+
+            availableStatusString = getActivity().getResources().getString(R.string.not_available);
+
+        } else if (Integer.valueOf(availableStatusString) == 1) {
+
+            availableStatusString = getActivity().getResources().getString(R.string.available);
+
+        } else {
+
+            availableStatusString = getActivity().getResources().getString(R.string.normal);
+        }
+        return availableStatusString;
 
     }
 
