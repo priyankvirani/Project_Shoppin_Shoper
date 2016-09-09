@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.database.DBAdapter;
+import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.utils.Utils;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -82,9 +83,10 @@ public class SplashScreenActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            DBAdapter.getEmployeDetails(SplashScreenActivity.this);
 
-            if (Utils.isNullOrEmpty(DBAdapter.getEmployeValueString(SplashScreenActivity.this))) {
+
+            if (Utils.isNullOrEmpty(DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_ID))) {
+
                 Intent intent = new Intent(SplashScreenActivity.this, SigninActivity.class);
                 startActivity(intent);
                 finish();
@@ -93,6 +95,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+            Log.e(TAG,"Employe ID : - " +DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_ID));
+            Log.e(TAG,"Employe SUBURB ID : - " +DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID));
 
 
         }

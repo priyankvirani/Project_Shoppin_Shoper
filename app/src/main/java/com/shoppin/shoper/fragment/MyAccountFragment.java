@@ -11,6 +11,7 @@ import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.activity.SigninActivity;
 import com.shoppin.shoper.database.DBAdapter;
+import com.shoppin.shoper.database.IDatabase;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,9 +34,11 @@ public class MyAccountFragment extends BaseFragment {
         return layoutView;
     }
 
-    @OnClick(R.id.btnLogOut)
+    @OnClick(R.id.txtSingOut)
     void logOut() {
-        DBAdapter.deleteUsers(getActivity());
+        DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID, "");
+        DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID, "");
+
         Intent intent = new Intent(getActivity(), SigninActivity.class);
         startActivity(intent);
         getActivity().finish();
@@ -44,8 +47,9 @@ public class MyAccountFragment extends BaseFragment {
     @Override
     public void updateFragment() {
         super.updateFragment();
-        if (getActivity() != null && getActivity() instanceof NavigationDrawerActivity) {
-            ((NavigationDrawerActivity) getActivity()).setToolbarTitle("My Profile");
+        NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
+        if (navigationDrawerActivity != null) {
+            navigationDrawerActivity.setToolbarTitle(getActivity().getResources().getString(R.string.fragment_my_account));
         }
     }
 

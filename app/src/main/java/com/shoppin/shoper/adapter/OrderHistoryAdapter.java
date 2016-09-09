@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.google.android.gms.analytics.internal.zzy.o;
+
 /**
  * Created by ubuntu on 8/8/16.
  */
@@ -30,12 +32,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private static final String TAG = OrderHistoryAdapter.class.getSimpleName();
     private Context mContext;
     private ArrayList<OrderHistory> orderHistoryArrayList;
-    private OrderHistoryFragment orderHistoryFragment;
 
-    public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderRequestArrayList, OrderHistoryFragment historyFragment) {
+    public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderRequestArrayList) {
         this.mContext = context;
         this.orderHistoryArrayList = orderRequestArrayList;
-        this.orderHistoryFragment = historyFragment;
     }
 
 
@@ -95,9 +95,11 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationDrawerActivity fca = (NavigationDrawerActivity) mContext;
-                fca.switchContent(OrderDetailFragment
-                        .newInstance(orderHistoryArrayList.get(position).order_number));
+                NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
+                if(navigationDrawerActivity!=null) {
+                    navigationDrawerActivity.switchContent(OrderDetailFragment
+                            .newInstance(orderHistoryArrayList.get(position).order_number));
+                }
             }
         });
     }

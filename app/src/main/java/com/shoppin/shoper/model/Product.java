@@ -30,7 +30,7 @@ public class Product implements Parcelable {
     @SerializedName("images")
     public String[] images;
     @SerializedName("availability")
-    public String productAvailability;
+    public int productAvailability;
 
     @SerializedName("option_list")
     public ArrayList<ProductOption> productOptionArrayList;
@@ -73,7 +73,7 @@ public class Product implements Parcelable {
         dest.writeString(this.saleprice1);
         dest.writeString(this.productName);
         dest.writeStringArray(this.images);
-        dest.writeString(this.productAvailability);
+        dest.writeInt(this.productAvailability);
         dest.writeTypedList(this.productOptionArrayList);
         dest.writeString(this.selectedOptions);
     }
@@ -84,7 +84,7 @@ public class Product implements Parcelable {
         this.saleprice1 = in.readString();
         this.productName = in.readString();
         this.images = in.createStringArray();
-        this.productAvailability = in.readString();
+        this.productAvailability = in.readInt();
         this.productOptionArrayList = in.createTypedArrayList(ProductOption.CREATOR);
         this.selectedOptions = in.readString();
     }

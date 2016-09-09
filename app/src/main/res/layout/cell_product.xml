@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:drawablePadding="5dp"
-                android:drawableRight="@drawable/completed"
+                android:drawableRight="@drawable/round"
                 android:padding="@dimen/margin_tiny"
                 android:text="@string/normal"
                 android:textColor="@color/black"

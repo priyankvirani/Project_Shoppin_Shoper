@@ -24,6 +24,7 @@
     <string name="not_available">Not Available</string>
     <string name="available">Available</string>
 
+
     <!-- Error messages -->
     <string name="error_title">Error : </string>
     <string name="error_technichal_problem">Having some technical problem</string>
@@ -45,17 +46,16 @@
     <string name="edittext_hint_street">Street</string>
     <string name="edittext_hint_suburb">Suburb</string>
     <string name="edittext_hint_description">Description</string>
-
-
-
     <string name="edittext_hint_postcode">Postcode</string>
     <string name="edittext_hint_confirm_password">Confirm Password</string>
 
     <!-- Button text -->
     <string name="button_signin">Sign In</string>
     <string name="button_signup">Sign Up</string>
+    <string name="button_signout">Sign Out</string>
     <string name="button_guest">Guest</string>
     <string name="button_go">Go</string>
+    <string name="button_update">Update</string>
 
     <!--dialog -->
     <string name="dialog_title_guest">Guest Login</string>
@@ -63,4 +63,19 @@
     <!-- Menu Action -->
     <string name="action_search_product">Search</string>
     <string name="action_view_cart">Cart</string>
+
+    <!--order status-->
+    <string name="order_status_accepted">  Accepted</string>
+    <string name="order_status_purchasing">Purchasing</string>
+    <string name="order_status_shipping">  Shipping</string>
+    <string name="order_status_completed"> Completed</string>
+
+    <!--fragment name-->
+    <string name="fragment_order_ongoing">Order Ongoing</string>
+    <string name="fragment_order_request">Order Request</string>
+    <string name="fragment_order_history">Order History</string>
+    <string name="fragment_my_account">My Account</string>
+    <string name="fragment_order_details">Order Details</string>
+
+
 </resources>

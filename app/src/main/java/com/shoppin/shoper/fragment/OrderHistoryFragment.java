@@ -13,8 +13,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
+import com.shoppin.shoper.activity.SplashScreenActivity;
 import com.shoppin.shoper.adapter.OrderHistoryAdapter;
 import com.shoppin.shoper.database.DBAdapter;
+import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.model.OrderHistory;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
@@ -36,7 +38,7 @@ public class OrderHistoryFragment extends BaseFragment {
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
 
-    @BindView(R.id.lvOrderRecyList)
+    @BindView(R.id.recyclerListOrderRequest)
     RecyclerView lvOrderRecyList;
 
     private OrderHistoryAdapter orderHistoryAdapter;
@@ -46,7 +48,6 @@ public class OrderHistoryFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        layoutView = inflater.inflate(R.layout.fragment_home, null);
         layoutView = inflater.inflate(R.layout.fragment_order_history, container, false);
         ButterKnife.bind(this, layoutView);
         initView();
@@ -60,20 +61,20 @@ public class OrderHistoryFragment extends BaseFragment {
         LinearLayoutManager verticalLayoutManagaerdate
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         orderHistoryAdapter = new OrderHistoryAdapter(getActivity(),
-                orderOngoingArrayList, OrderHistoryFragment.this);
+                orderOngoingArrayList);
         lvOrderRecyList.setLayoutManager(verticalLayoutManagaerdate);
         lvOrderRecyList.setAdapter(orderHistoryAdapter);
-        getOrderDetailsData();
+        getOrderHistoryData();
     }
 
-    public void getOrderDetailsData() {
+    public void getOrderHistoryData() {
         try {
 
-            JSONObject orderstatusParam = new JSONObject();
-            orderstatusParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getEmployeIDString(getActivity()));
+            JSONObject orderHistoryParam = new JSONObject();
+            orderHistoryParam.put(IWebService.KEY_REQ_EMPLOYEE_ID,DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
 
             DataRequest setdataRequest = new DataRequest(getActivity());
-            setdataRequest.execute(IWebService.ORDER_HISTORY, orderstatusParam.toString(), new DataRequest.CallBack() {
+            setdataRequest.execute(IWebService.ORDER_HISTORY, orderHistoryParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
                     orderOngoingArrayList.clear();
@@ -124,9 +125,9 @@ public class OrderHistoryFragment extends BaseFragment {
     @Override
     public void updateFragment() {
         super.updateFragment();
-        if (getActivity() != null && getActivity() instanceof NavigationDrawerActivity) {
-
-            ((NavigationDrawerActivity) getActivity()).setToolbarTitle("Order History");
+        NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
+        if (navigationDrawerActivity != null) {
+            navigationDrawerActivity.setToolbarTitle(getActivity().getResources().getString(R.string.fragment_order_history));
 
         }
     }

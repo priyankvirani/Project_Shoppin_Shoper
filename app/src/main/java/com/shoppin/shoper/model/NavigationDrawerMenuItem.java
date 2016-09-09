@@ -3,7 +3,7 @@ package com.shoppin.shoper.model;
 /**
  * Model class for navigation left side drawer
  *
- * @author chitrang
+ * @author priyank
  */
 public class NavigationDrawerMenuItem {
     public String menuName;

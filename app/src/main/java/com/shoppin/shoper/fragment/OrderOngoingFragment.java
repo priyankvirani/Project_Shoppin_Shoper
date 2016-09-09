@@ -1,24 +1,22 @@
 package com.shoppin.shoper.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
+import com.shoppin.shoper.activity.SplashScreenActivity;
 import com.shoppin.shoper.adapter.OngoingOrderAdapter;
 import com.shoppin.shoper.database.DBAdapter;
-import com.shoppin.shoper.model.OrderRequest;
+import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.model.OngoingOrder;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
@@ -37,7 +35,7 @@ import butterknife.ButterKnife;
 public class OrderOngoingFragment extends BaseFragment {
 
     private static final String TAG = OrderOngoingFragment.class.getSimpleName();
-   @BindView(R.id.lvOrderRecyList)
+    @BindView(R.id.recyclerListOrderRequest)
     RecyclerView lvOrderRecyList;
 
     @BindView(R.id.rlvGlobalProgressbar)
@@ -45,7 +43,6 @@ public class OrderOngoingFragment extends BaseFragment {
 
     private OngoingOrderAdapter orderOngoingAdapter;
     private ArrayList<OngoingOrder> orderOngoingArrayList;
-
 
 
     @Nullable
@@ -66,23 +63,23 @@ public class OrderOngoingFragment extends BaseFragment {
         LinearLayoutManager verticalLayoutManagaerdate
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
-        orderOngoingAdapter = new OngoingOrderAdapter(getActivity(),orderOngoingArrayList, OrderOngoingFragment.this);
+        orderOngoingAdapter = new OngoingOrderAdapter(getActivity(), orderOngoingArrayList);
         lvOrderRecyList.setLayoutManager(verticalLayoutManagaerdate);
 
         lvOrderRecyList.setAdapter(orderOngoingAdapter);
-        setOngoingOrdersData();
+        getOngoingOrderData();
 
     }
-    public void setOngoingOrdersData() {
+
+    public void getOngoingOrderData() {
         try {
 
-            JSONObject loginParam = new JSONObject();
-           // loginParam.put(IWebService.KEY_REQ_ORDER_SUBURB_ID, DBAdapter.getEmployeSururbIDString(getActivity()));
-            loginParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getEmployeIDString(getActivity()));
+            JSONObject ongoingOrderParam = new JSONObject();
+            ongoingOrderParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
 
 
             DataRequest setdataRequest = new DataRequest(getActivity());
-            setdataRequest.execute(IWebService.ONGOING_ORDER, loginParam.toString(), new DataRequest.CallBack() {
+            setdataRequest.execute(IWebService.ONGOING_ORDER, ongoingOrderParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
                     orderOngoingArrayList.clear();
@@ -128,42 +125,13 @@ public class OrderOngoingFragment extends BaseFragment {
 
     }
 
-    public void checkOrderStatus(Context mContext,int statusCode, TextView orderStatus) {
-        if (statusCode != 0 && statusCode != 1) {
-
-            if (statusCode == 3) {
-                orderStatus.setBackgroundResource(R.drawable.button_background_red);
-                orderStatus.setText("Accepted");
-                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.accepted), null);
-
-
-            } else if (statusCode == 4) {
-                orderStatus.setBackgroundResource(R.drawable.button_background_blue);
-                orderStatus.setText("Purchasing");
-                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.purchasing), null);
-
-            } else if (statusCode == 5) {
-                orderStatus.setBackgroundResource(R.drawable.button_background_yellow);
-                orderStatus.setText("Shipping");
-                orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.shipping), null);
-
-            } else {
-                if (statusCode == 6) {
-                    orderStatus.setBackgroundResource(R.drawable.button_background_green);
-                    orderStatus.setText("Completed");
-                    orderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.completed_white), null);
-
-                }
-            }
-        }
-
-    }
 
     @Override
     public void updateFragment() {
         super.updateFragment();
-        if (getActivity() != null && getActivity() instanceof NavigationDrawerActivity) {
-            ((NavigationDrawerActivity) getActivity()).setToolbarTitle("Order Ongoing");
+        NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
+        if (navigationDrawerActivity != null) {
+            ((NavigationDrawerActivity) getActivity()).setToolbarTitle(getActivity().getResources().getString(R.string.fragment_order_ongoing));
         }
     }
 }

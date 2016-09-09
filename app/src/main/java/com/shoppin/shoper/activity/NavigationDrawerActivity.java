@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.adapter.NavigationDrawerMenuAdapter;
-import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.fragment.BaseFragment;
 import com.shoppin.shoper.fragment.IUpdateFragment;
 import com.shoppin.shoper.fragment.MyAccountFragment;
@@ -34,7 +33,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.shoppin.shoper.database.IDatabase.IMap;
 import static com.shoppin.shoper.utils.IConstants.IDrawerMenu;
 
 public class NavigationDrawerActivity extends BaseActivity {

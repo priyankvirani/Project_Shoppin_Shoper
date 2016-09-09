@@ -95,7 +95,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
 
                 if (onStatusChangeListener != null) {
 
-                    if (Integer.valueOf(productArrayList.get(position).productAvailability) == -1) {
+                    if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
                         productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
 
                         onStatusChangeListener.onStatusChange(holder.txtItemStatus, position, productArrayList.get(position).productItemId,
@@ -103,7 +103,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
 
 
 
-                    } else if (Integer.valueOf(productArrayList.get(position).productAvailability) == 1) {
+                    } else if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
                         productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
                         onStatusChangeListener.onStatusChange(holder.txtItemStatus, position, productArrayList.get(position).productItemId,
                                 productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
@@ -127,7 +127,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
     }
 
     public interface OnStatusChangeListener {
-        public void onStatusChange(TextView textView, int position, String productItemID, String productAvailability, String comments);
+        public void onStatusChange(TextView textView, int position, String productItemID, int productAvailability, String comments);
     }
 
 

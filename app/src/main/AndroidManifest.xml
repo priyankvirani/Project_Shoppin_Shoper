@@ -24,8 +24,7 @@
         <activity
             android:name="com.shoppin.shoper.activity.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

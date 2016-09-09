@@ -47,10 +47,12 @@ public interface IDatabase {
         String KEY_MAP_KEY = "map_key";
         String KEY_MAP_VALUE = "map_value";
         String IS_LOGIN = "is_login";
-        String SUBURB_ID = "suburb_id";
-        String SUBURB_NAME = "suburb_name";
-        String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
-        String GCM_REGISTRATION_ID = "gcm_registration_id";
+        String KEY_EMPLOYEE_ID = "employee_id";
+        String KEY_EMPLOYEE_NAME = "employee_name";
+        String KEY_EMPLOYEE_EMAIL = "employee_email";
+        String KEY_EMPLOYEE_MOBILE = "employee_mobile";
+        String KEY_EMPLOYEE_SUBURB_ID = "employee_suburb_id";
+        String KEY_EMPLOYEE_IS_LOGIN = "employee_is_login";
 
         String CREATE_TABLE_MAP = "create table " + TABLE_MAP + " ("
                 + KEY_ID + " integer primary key autoincrement, "

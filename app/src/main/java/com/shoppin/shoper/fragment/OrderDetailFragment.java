@@ -3,7 +3,6 @@ package com.shoppin.shoper.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +21,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
+import com.shoppin.shoper.activity.SplashScreenActivity;
 import com.shoppin.shoper.adapter.ProductDetailsAdapter;
 import com.shoppin.shoper.database.DBAdapter;
+import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.model.Product;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
@@ -36,14 +37,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.R.attr.numberPickerStyle;
 import static android.R.attr.value;
-import static com.google.android.gms.analytics.internal.zzy.e;
-import static com.google.android.gms.analytics.internal.zzy.i;
-import static com.google.android.gms.analytics.internal.zzy.n;
-import static com.google.android.gms.analytics.internal.zzy.p;
-import static com.google.android.gms.analytics.internal.zzy.r;
-import static com.google.android.gms.analytics.internal.zzy.v;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -70,7 +64,7 @@ public class OrderDetailFragment extends BaseFragment {
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
 
-    @BindView(R.id.lvOrderRecyList)
+    @BindView(R.id.recyclerListOrderRequest)
     RecyclerView lvOrderRecyList;
 
     @BindView(R.id.txtOrderNumber)
@@ -148,7 +142,7 @@ public class OrderDetailFragment extends BaseFragment {
 
         }
 
-        getOrderDetailsData();
+        getOrderDetailData();
 
         lltAccpeted.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +152,7 @@ public class OrderDetailFragment extends BaseFragment {
                     lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
                     imgAccpeted.setImageResource(R.drawable.accepted);
                     txtAccepted.setTextColor(getResources().getColor(R.color.white));
-                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_ACCPETED);
+                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_ACCEPTED);
                 }
 
 
@@ -216,16 +210,16 @@ public class OrderDetailFragment extends BaseFragment {
 
         productDetailsAdapter.setOnStatusChangeListener(new ProductDetailsAdapter.OnStatusChangeListener() {
             @Override
-            public void onStatusChange(TextView txtproductStatus, int position, String productItemID, String productAvailability, String comments) {
+            public void onStatusChange(TextView txtproductStatus, int position, String productItemID, int productAvailability, String comments) {
 
                 Log.e(TAG, "productAvailability : " + productAvailability);
                 if (productDetailsAdapter != null) {
 
-                    if (Integer.valueOf(productAvailability) == -1) {
+                    if (productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
 
-                        showAlertEmployeeComment(getActivity(), productItemID, productAvailability, txtproductStatus,position);
+                        showAlertEmployeeComment(getActivity(), productItemID, productAvailability, txtproductStatus, position);
 
-                    } else if (Integer.valueOf(value) == 1) {
+                    } else if (value == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
                         txtproductStatus.setText(statusStringName(productAvailability));
 
                     } else {
@@ -241,7 +235,7 @@ public class OrderDetailFragment extends BaseFragment {
 
     }
 
-    public void getOrderDetailsData() {
+    public void getOrderDetailData() {
         try {
 
             JSONObject loginParam = new JSONObject();
@@ -309,9 +303,9 @@ public class OrderDetailFragment extends BaseFragment {
 
     private void orderstatus(int statusCode) {
 
-        if (statusCode != 0 && statusCode != 1) {
+        if (statusCode != IWebService.KEY_REQ_STATUS_ORDER_PLACED) {
 
-            if (statusCode == 3) {
+            if (statusCode == IWebService.KEY_REQ_STATUS_ACCEPTED) {
 
                 lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
                 imgAccpeted.setImageResource(R.drawable.accepted);
@@ -324,7 +318,7 @@ public class OrderDetailFragment extends BaseFragment {
                 isCompleted = false;
 
 
-            } else if (statusCode == 4) {
+            } else if (statusCode == IWebService.KEY_REQ_STATUS_PUECHASING) {
 
                 lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
                 imgAccpeted.setImageResource(R.drawable.accepted);
@@ -341,7 +335,7 @@ public class OrderDetailFragment extends BaseFragment {
                 isShiping = true;
                 isCompleted = false;
 
-            } else if (statusCode == 5) {
+            } else if (statusCode == IWebService.KEY_REQ_STATUS_SHIPING) {
                 lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
                 imgAccpeted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
@@ -363,7 +357,7 @@ public class OrderDetailFragment extends BaseFragment {
                 isCompleted = true;
 
             } else {
-                if (statusCode == 6) {
+                if (statusCode == IWebService.KEY_REQ_STATUS_COMPLETED) {
                     lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
                     imgAccpeted.setImageResource(R.drawable.accepted);
                     txtAccepted.setTextColor(getResources().getColor(R.color.white));
@@ -399,18 +393,18 @@ public class OrderDetailFragment extends BaseFragment {
         }
     }
 
-    public void sendOrderStatus(String ordernumber, String status) {
+    public void sendOrderStatus(String ordernumber, int status) {
 
         try {
 
             JSONObject orderstatusParam = new JSONObject();
             orderstatusParam.put(IWebService.KEY_REQ_ORDER_NUMBER, ordernumber);
-            orderstatusParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getEmployeIDString(getActivity()));
+            orderstatusParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
             orderstatusParam.put(IWebService.KEY_RES_STATUS, status);
 
 
             DataRequest signinDataRequest = new DataRequest(getActivity());
-            signinDataRequest.execute(IWebService.ACEEPT_ORDER, orderstatusParam.toString(), new DataRequest.CallBack() {
+            signinDataRequest.execute(IWebService.ACCEPT_ORDER, orderstatusParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
 
@@ -441,7 +435,7 @@ public class OrderDetailFragment extends BaseFragment {
         }
     }
 
-    public void showAlertEmployeeComment(Context context, final String productItemID, final String productAvailability, final TextView txtproductStatus, final int position) {
+    public void showAlertEmployeeComment(Context context, final String productItemID, final int productAvailability, final TextView txtproductStatus, final int position) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -457,9 +451,9 @@ public class OrderDetailFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
 
-                if(Integer.valueOf(productAvailability)==1){
+                if (Integer.valueOf(productAvailability) == 1) {
                     productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
-                }else{
+                } else {
                     productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
                 }
 
@@ -495,8 +489,7 @@ public class OrderDetailFragment extends BaseFragment {
 
     }
 
-
-    public void sendUpdateOrderItemAvailibility(String productItemId, String productAvailability, String comments) {
+    public void sendUpdateOrderItemAvailibility(String productItemId, int productAvailability, String comments) {
 
         try {
 
@@ -543,31 +536,31 @@ public class OrderDetailFragment extends BaseFragment {
 
     }
 
+    public String statusStringName(int availableStatusString) {
+        String statusString = null ;
 
-    public String statusStringName(String availableStatusString) {
+        if (Integer.valueOf(availableStatusString) == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
 
+            statusString = getActivity().getResources().getString(R.string.not_available);
 
-        if (Integer.valueOf(availableStatusString) == -1) {
+        } else if (Integer.valueOf(availableStatusString) == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
 
-            availableStatusString = getActivity().getResources().getString(R.string.not_available);
-
-        } else if (Integer.valueOf(availableStatusString) == 1) {
-
-            availableStatusString = getActivity().getResources().getString(R.string.available);
+            statusString = getActivity().getResources().getString(R.string.available);
 
         } else {
 
-            availableStatusString = getActivity().getResources().getString(R.string.normal);
+            statusString = getActivity().getResources().getString(R.string.normal);
         }
-        return availableStatusString;
+        return statusString;
 
     }
 
     @Override
     public void updateFragment() {
         super.updateFragment();
-        if (getActivity() != null && getActivity() instanceof NavigationDrawerActivity) {
-            ((NavigationDrawerActivity) getActivity()).setToolbarTitle("Order Details");
+        NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
+        if (navigationDrawerActivity != null) {
+            navigationDrawerActivity.setToolbarTitle(getActivity().getResources().getString(R.string.fragment_order_details));
         }
     }
 }

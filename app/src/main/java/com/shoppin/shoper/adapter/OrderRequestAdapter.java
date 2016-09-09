@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shoppin.shoper.R;
@@ -21,10 +20,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.google.android.gms.analytics.internal.zzy.C;
-import static com.google.android.gms.analytics.internal.zzy.c;
-import static com.google.android.gms.analytics.internal.zzy.r;
-
 /**
  * Created by ubuntu on 8/8/16.
  */
@@ -34,12 +29,12 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
     private static final String TAG = OrderRequestAdapter.class.getSimpleName();
     private Context mContext;
     private ArrayList<OrderRequest> orderRequestArrayList;
-    private OrderRequestFragment orderRequestFragment;
+    private OnStatusChangeListener onStatusChangeListener;
 
-    public OrderRequestAdapter(Context context, ArrayList<OrderRequest> orderRequestArrayList, OrderRequestFragment requestFragment) {
+    public OrderRequestAdapter(Context context, ArrayList<OrderRequest> orderRequestArrayList) {
         this.mContext = context;
         this.orderRequestArrayList = orderRequestArrayList;
-        this.orderRequestFragment = requestFragment;
+
     }
 
 
@@ -95,25 +90,36 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
         holder.txtAccepted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number, IWebService.KEY_REQ_STATUS_ACCPETED);
+                onStatusChangeListener.onStatusChange(orderRequestArrayList.get(position).order_number,true);
 
             }
         });
         holder.txtReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderRequestFragment.SendOrderStatus(orderRequestArrayList.get(position).order_number,IWebService.KEY_REQ_STATUS_ORDER_REJECTED);
+                onStatusChangeListener.onStatusChange(orderRequestArrayList.get(position).order_number,false);
 
             }
         });
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationDrawerActivity fca = (NavigationDrawerActivity) mContext;
-                fca.switchContent(OrderDetailFragment
-                        .newInstance(orderRequestArrayList.get(position).order_number));
+                NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
+                if(navigationDrawerActivity!=null) {
+                    navigationDrawerActivity.switchContent(OrderDetailFragment
+                            .newInstance(orderRequestArrayList.get(position).order_number));
+                }
             }
         });
+    }
+
+    public void setOnStatusChangeListener(final OnStatusChangeListener onCartChangeListener) {
+        this.onStatusChangeListener = onCartChangeListener;
+    }
+
+    public interface OnStatusChangeListener {
+        public void onStatusChange(String ordernumber , boolean status);
     }
 
     @Override
@@ -121,23 +127,4 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
         return orderRequestArrayList.size();
     }
 
-//    private class OnItemClickListener implements View.OnClickListener {
-//
-//
-//        OnItemClickListener(SubCategory listModelSubCategory) {
-//            tempValues1 = listModelSubCategory;
-//        }
-//
-//        @Override
-//        public void onClick(View arg0) {
-//
-//            Toast.makeText(
-//
-//                    mContext,
-//                    "Test", Toast.LENGTH_LONG)
-//                    .show();
-//
-//
-//        }
-//    }
 }

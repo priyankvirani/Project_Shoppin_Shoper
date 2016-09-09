@@ -15,7 +15,7 @@ import com.shoppin.shoper.model.NavigationDrawerMenuItem;
 /**
  * To set Left side drawer
  *
- * @author chitrang
+ * @author priyank
  */
 public class NavigationDrawerMenuAdapter extends ArrayAdapter<NavigationDrawerMenuItem> {
 
