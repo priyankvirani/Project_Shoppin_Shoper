@@ -23,6 +23,10 @@
     <string name="normal">Normal</string>
     <string name="not_available">Not Available</string>
     <string name="available">Available</string>
+    <string name="dollar_sign">$</string>
+    <string name="order_status">Status</string>
+
+
 
 
     <!-- Error messages -->
@@ -65,10 +69,11 @@
     <string name="action_view_cart">Cart</string>
 
     <!--order status-->
-    <string name="order_status_accepted">  Accepted</string>
+    <string name="order_status_accepted">Accepted</string>
     <string name="order_status_purchasing">Purchasing</string>
-    <string name="order_status_shipping">  Shipping</string>
-    <string name="order_status_completed"> Completed</string>
+    <string name="order_status_shipping">Shipping</string>
+    <string name="order_status_completed">Completed</string>
+    <string name="order_status_reject">Reject</string>
 
     <!--fragment name-->
     <string name="fragment_order_ongoing">Order Ongoing</string>

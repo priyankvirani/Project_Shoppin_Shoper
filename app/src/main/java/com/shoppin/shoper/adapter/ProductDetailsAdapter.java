@@ -47,10 +47,10 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
         ImageView imgProduct;
         @BindView(R.id.txtProductPrice)
         TextView txtProductPrice;
-        @BindView(R.id.txtProductUnit)
-        TextView txtProductUnit;
-        @BindView(R.id.txtItemStatus)
-        TextView txtItemStatus;
+        @BindView(R.id.txtProductQuantity)
+        TextView txtProductQuantity;
+        @BindView(R.id.imgItemStatus)
+        ImageView imgItemStatus;
         @BindView(R.id.txtProductOption)
         TextView txtProductOption;
 
@@ -78,8 +78,8 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
 
         holder.txtProductName.setText(productArrayList.get(position).productName);
         holder.txtProductPrice.setText(productArrayList.get(position).saleprice1);
-        holder.txtProductUnit.setText(productArrayList.get(position).saleprice1);
-        holder.txtItemStatus.setText(orderDetailFragment.statusStringName(productArrayList.get(position).productAvailability));
+        holder.txtProductQuantity.setText(productArrayList.get(position).productQuntity);
+        orderDetailFragment.statusDrawable(productArrayList.get(position).productAvailability,holder.imgItemStatus);
         holder.txtProductOption.setText(productArrayList.get(position).getSelectedOptions());
 
         Glide.with(mContext)
@@ -88,7 +88,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
                 .error(R.drawable.placeholder)
                 .into(holder.imgProduct);
 
-        holder.txtItemStatus.setOnClickListener(new View.OnClickListener() {
+        holder.imgItemStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -98,19 +98,18 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
                     if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
                         productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
 
-                        onStatusChangeListener.onStatusChange(holder.txtItemStatus, position, productArrayList.get(position).productItemId,
+                        onStatusChangeListener.onStatusChange(holder.imgItemStatus, position, productArrayList.get(position).productItemId,
                                 productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
-
 
 
                     } else if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
                         productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
-                        onStatusChangeListener.onStatusChange(holder.txtItemStatus, position, productArrayList.get(position).productItemId,
+                        onStatusChangeListener.onStatusChange(holder.imgItemStatus, position, productArrayList.get(position).productItemId,
                                 productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
 
                     } else {
                         productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
-                        onStatusChangeListener.onStatusChange(holder.txtItemStatus, position, productArrayList.get(position).productItemId,
+                        onStatusChangeListener.onStatusChange(holder.imgItemStatus, position, productArrayList.get(position).productItemId,
                                 productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
 
                     }
@@ -127,8 +126,9 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
     }
 
     public interface OnStatusChangeListener {
-        public void onStatusChange(TextView textView, int position, String productItemID, int productAvailability, String comments);
+        public void onStatusChange(ImageView imageView, int position, String productItemID, int productAvailability, String comments);
     }
+
 
 
     @Override

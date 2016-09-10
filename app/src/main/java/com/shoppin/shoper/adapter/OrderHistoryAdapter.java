@@ -85,7 +85,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.txtOrderNumber.setText(orderHistoryArrayList.get(position).order_number);
         holder.txtStreetName.setText(orderHistoryArrayList.get(position).address1);
         holder.txtSuburb.setText(orderHistoryArrayList.get(position).suburb_name);
-        holder.txtTotalPrice.setText(orderHistoryArrayList.get(position).total);
+        holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign)+orderHistoryArrayList.get(position).total);
         holder.txtOrderDate.setText(orderHistoryArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(orderHistoryArrayList.get(position).delivery_time);
         holder.txtStatusDate.setText(orderHistoryArrayList.get(position).shipping_date);

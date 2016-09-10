@@ -76,6 +76,8 @@ public interface IWebService {
     String KEY_RES_PRODUCT_LIST = "product_list";
     String KEY_RES_IMAGES = "images";
     String KEY_RES_OPTION_LIST = "option_list";
+    String KEY_RES_STATUS_LIST = "status_list";
+
 
 
     String KEY_RES_ORDER_NAME = "order_number";
@@ -84,7 +86,7 @@ public interface IWebService {
     String KEY_RES_SUBURB_NAME = "suburb_name";
     String KEY_RES_TOTAL = "total";
     String KEY_RES_STATUS = "status";
-    String KEY_RES_STATUS_LABEL = "status_label";
+    String KEY_RES_STATUS_LABEL = "status_lable";
     String KEY_RES_ADDRESS1 = "address1";
     String KEY_RES_DELIVERY_DATR = "delivery_date";
     String KEY_RES_DELIVERY_TIME = "delivery_time";

@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
-import com.shoppin.shoper.activity.SplashScreenActivity;
 import com.shoppin.shoper.adapter.OrderHistoryAdapter;
 import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.database.IDatabase;
@@ -38,8 +37,8 @@ public class OrderHistoryFragment extends BaseFragment {
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
 
-    @BindView(R.id.recyclerListOrderRequest)
-    RecyclerView lvOrderRecyList;
+    @BindView(R.id.recyclerListOrderHistory)
+    RecyclerView recyclerListOrderHistory;
 
     private OrderHistoryAdapter orderHistoryAdapter;
     private ArrayList<OrderHistory> orderOngoingArrayList;
@@ -50,28 +49,22 @@ public class OrderHistoryFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layoutView = inflater.inflate(R.layout.fragment_order_history, container, false);
         ButterKnife.bind(this, layoutView);
-        initView();
+        orderOngoingArrayList = new ArrayList<>();
+        orderHistoryAdapter = new OrderHistoryAdapter(getActivity(),
+                orderOngoingArrayList);
+        recyclerListOrderHistory.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerListOrderHistory.setAdapter(orderHistoryAdapter);
+        getOrderHistoryData();
 
 
         return layoutView;
-    }
-
-    private void initView() {
-        orderOngoingArrayList = new ArrayList<OrderHistory>();
-        LinearLayoutManager verticalLayoutManagaerdate
-                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        orderHistoryAdapter = new OrderHistoryAdapter(getActivity(),
-                orderOngoingArrayList);
-        lvOrderRecyList.setLayoutManager(verticalLayoutManagaerdate);
-        lvOrderRecyList.setAdapter(orderHistoryAdapter);
-        getOrderHistoryData();
     }
 
     public void getOrderHistoryData() {
         try {
 
             JSONObject orderHistoryParam = new JSONObject();
-            orderHistoryParam.put(IWebService.KEY_REQ_EMPLOYEE_ID,DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
+            orderHistoryParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
 
             DataRequest setdataRequest = new DataRequest(getActivity());
             setdataRequest.execute(IWebService.ORDER_HISTORY, orderHistoryParam.toString(), new DataRequest.CallBack() {

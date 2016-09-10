@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
-import com.shoppin.shoper.activity.SplashScreenActivity;
 import com.shoppin.shoper.adapter.OngoingOrderAdapter;
 import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.database.IDatabase;
@@ -35,8 +34,8 @@ import butterknife.ButterKnife;
 public class OrderOngoingFragment extends BaseFragment {
 
     private static final String TAG = OrderOngoingFragment.class.getSimpleName();
-    @BindView(R.id.recyclerListOrderRequest)
-    RecyclerView lvOrderRecyList;
+    @BindView(R.id.recyclerListOrderOngoing)
+    RecyclerView recyclerListOrderOngoing;
 
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
@@ -52,24 +51,17 @@ public class OrderOngoingFragment extends BaseFragment {
         layoutView = inflater.inflate(R.layout.fragment_order_ongoing, container, false);
         ButterKnife.bind(this, layoutView);
 
-        initView();
+        orderOngoingArrayList = new ArrayList<>();
+        orderOngoingAdapter = new OngoingOrderAdapter(getActivity(), orderOngoingArrayList);
+        recyclerListOrderOngoing.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        recyclerListOrderOngoing.setAdapter(orderOngoingAdapter);
+        getOngoingOrderData();
 
 
         return layoutView;
     }
 
-    private void initView() {
-        orderOngoingArrayList = new ArrayList<OngoingOrder>();
-        LinearLayoutManager verticalLayoutManagaerdate
-                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-
-        orderOngoingAdapter = new OngoingOrderAdapter(getActivity(), orderOngoingArrayList);
-        lvOrderRecyList.setLayoutManager(verticalLayoutManagaerdate);
-
-        lvOrderRecyList.setAdapter(orderOngoingAdapter);
-        getOngoingOrderData();
-
-    }
 
     public void getOngoingOrderData() {
         try {

@@ -79,7 +79,7 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         holder.txtOrderNumber.setText(ongoingOrderArrayList.get(position).order_number);
         holder.txtStreetName.setText(ongoingOrderArrayList.get(position).address1);
         holder.txtSuburb.setText(ongoingOrderArrayList.get(position).suburb_name);
-        holder.txtTotalPrice.setText(ongoingOrderArrayList.get(position).total);
+        holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign)+ongoingOrderArrayList.get(position).total);
         holder.txtOrderDate.setText(ongoingOrderArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(ongoingOrderArrayList.get(position).delivery_time);
         setOrderStatus(mContext, Integer.valueOf(ongoingOrderArrayList.get(position).status), holder.txtOrderStatus);

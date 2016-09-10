@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_tiny"
         card_view:cardCornerRadius="@dimen/margin_tiny">
 
         <RelativeLayout
@@ -20,66 +20,67 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/margin_tiny"
-                android:paddingRight="@dimen/margin_tiny"
                 android:paddingTop="@dimen/margin_small">
 
                 <TextView
                     android:id="@+id/txtOrderNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="Order Number" />
+                    android:layout_margin="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/txtOrderDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="20/08/2016" />
+                    android:layout_margin="@dimen/margin_tiny" />
 
-                <TextView
-                    android:id="@+id/txtStreetName"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/llAddress"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtOrderNumber"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="Street Name" />
-
-                <TextView
-                    android:id="@+id/txtOrderTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@id/txtOrderNumber"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="03:30 PM" />
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/txtStreetName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_tiny"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/txtOrderTime"
+                        android:layout_width="0dp"
+                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="@dimen/margin_tiny"
+                        android:layout_weight="1" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/txtSuburb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txtStreetName"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="Total Price" />
+                    android:layout_below="@id/llAddress"
+                    android:layout_margin="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/txtTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtSuburb"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="Total Price" />
+                    android:layout_margin="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/txtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/txtOrderTime"
+                    android:layout_below="@id/llAddress"
                     android:layout_margin="@dimen/margin_tiny"
-                    android:text="Order Ongoing"
                     android:visibility="invisible" />
 
                 <TextView
@@ -92,7 +93,6 @@
                     android:drawableLeft="@drawable/completed"
                     android:drawablePadding="@dimen/margin_all"
                     android:gravity="center_vertical"
-                    android:text="20/08/2016"
                     android:textColor="@color/app_theme_1" />
 
                 <TextView
@@ -104,7 +104,6 @@
                     android:layout_margin="@dimen/margin_tiny"
                     android:gravity="top"
                     android:paddingBottom="@dimen/margin_all"
-                    android:text="02:50 PM"
                     android:textColor="@color/app_theme_1" />
 
 

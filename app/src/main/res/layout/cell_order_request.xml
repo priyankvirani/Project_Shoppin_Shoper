@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_tiny"
         card_view:cardCornerRadius="@dimen/margin_tiny">
 
         <RelativeLayout
@@ -20,57 +20,61 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/margin_tiny"
-                android:paddingRight="@dimen/margin_tiny"
+
                 android:paddingTop="@dimen/margin_small">
 
                 <TextView
                     android:id="@+id/txtOrderNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="Order Number" />
+                    android:layout_margin="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/txtOrderDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="20/08/2016" />
+                    android:layout_margin="@dimen/margin_tiny" />
 
-                <TextView
-                    android:id="@+id/txtStreetName"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:id="@+id/llAddress"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtOrderNumber"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="Street Name" />
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                <TextView
-                    android:id="@+id/txtOrderTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/txtOrderNumber"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="03:30 PM" />
+                    <TextView
+                        android:id="@+id/txtStreetName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_tiny"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/txtOrderTime"
+                        android:layout_width="0dp"
+                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="@dimen/margin_tiny"
+                        android:layout_weight="1" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/txtSuburb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txtStreetName"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="Total Price" />
+                    android:layout_below="@id/llAddress"
+                    android:layout_margin="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/txtTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtSuburb"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:text="Total Price" />
+                    android:layout_margin="@dimen/margin_tiny" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -102,7 +106,7 @@
                             android:drawableRight="@drawable/accepted"
                             android:gravity="top"
                             android:padding="@dimen/margin_all"
-                            android:text="Accepted"
+                            android:text="@string/order_status_accepted"
                             android:textColor="@color/white"
                             android:textSize="@dimen/font_size_button" />
                     </LinearLayout>
@@ -128,7 +132,7 @@
                             android:drawableRight="@drawable/reject"
                             android:gravity="top"
                             android:padding="@dimen/margin_all"
-                            android:text="Reject"
+                            android:text="@string/order_status_reject"
                             android:textColor="@color/white"
                             android:textSize="@dimen/font_size_button" />
 

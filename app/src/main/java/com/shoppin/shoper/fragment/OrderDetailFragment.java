@@ -3,6 +3,7 @@ package com.shoppin.shoper.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,11 +22,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
-import com.shoppin.shoper.activity.SplashScreenActivity;
 import com.shoppin.shoper.adapter.ProductDetailsAdapter;
+import com.shoppin.shoper.adapter.SelectionAdapter;
 import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.model.Product;
+import com.shoppin.shoper.model.StatusOptionValue;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
 import com.shoppin.shoper.utils.Utils;
@@ -36,8 +38,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.value;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -59,13 +59,22 @@ public class OrderDetailFragment extends BaseFragment {
 
     private ProductDetailsAdapter productDetailsAdapter;
     private ArrayList<Product> productArrayList;
+    private ArrayList<StatusOptionValue> statusOptionValueArrayList;
+
     private String order_number;
 
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
 
-    @BindView(R.id.recyclerListOrderRequest)
-    RecyclerView lvOrderRecyList;
+    @BindView(R.id.recyclerListOrderDetails)
+    RecyclerView recyclerListOrderDetails;
+
+    @BindView(R.id.rlOrderDetails)
+    RelativeLayout rlOrderDetails;
+
+    @BindView(R.id.txtStatusOption)
+    TextView txtStatusOption;
+
 
     @BindView(R.id.txtOrderNumber)
     TextView txtOrderNumber;
@@ -75,9 +84,6 @@ public class OrderDetailFragment extends BaseFragment {
 
     @BindView(R.id.txtSuburb)
     TextView txtSuburb;
-
-    @BindView(R.id.txtTown)
-    TextView txtTown;
 
     @BindView(R.id.txtOrderDate)
     TextView txtOrderDate;
@@ -132,7 +138,41 @@ public class OrderDetailFragment extends BaseFragment {
         layoutView = inflater.inflate(R.layout.fragment_order_details, container, false);
         ButterKnife.bind(this, layoutView);
 
-        initView();
+        productArrayList = new ArrayList<>();
+        statusOptionValueArrayList = new ArrayList<>();
+        LinearLayoutManager verticalLayoutManagaerdate
+                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
+        productDetailsAdapter = new ProductDetailsAdapter(getActivity(),
+                productArrayList, OrderDetailFragment.this);
+        recyclerListOrderDetails.setLayoutManager(verticalLayoutManagaerdate);
+        recyclerListOrderDetails.setAdapter(productDetailsAdapter);
+
+        productDetailsAdapter.setOnStatusChangeListener(new ProductDetailsAdapter.OnStatusChangeListener() {
+            @Override
+            public void onStatusChange(ImageView imgproductStatus, int position, String productItemID, int productAvailability, String comments) {
+
+                Log.e(TAG, "productAvailability : " + productAvailability);
+                if (productDetailsAdapter != null) {
+
+                    if (productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
+
+                        showAlertEmployeeComment(getActivity(), productItemID, productAvailability, imgproductStatus, position);
+
+                    } else if (productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
+                        sendUpdateOrderItemAvailibility(productItemID, productAvailability, IWebService.KEY_REQ_NULL);
+                        statusDrawable(productAvailability, imgproductStatus);
+
+                    } else {
+                        sendUpdateOrderItemAvailibility(productItemID, productAvailability, IWebService.KEY_REQ_NULL);
+                        statusDrawable(productAvailability, imgproductStatus);
+
+                    }
+                    Log.e(TAG, "Value : " + productArrayList.get(position).productAvailability);
+
+                }
+            }
+        });
 
 
         if (getArguments() != null) {
@@ -144,96 +184,82 @@ public class OrderDetailFragment extends BaseFragment {
 
         getOrderDetailData();
 
-        lltAccpeted.setOnClickListener(new View.OnClickListener() {
+        txtStatusOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (isAccpted) {
-                    lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
-                    imgAccpeted.setImageResource(R.drawable.accepted);
-                    txtAccepted.setTextColor(getResources().getColor(R.color.white));
-                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_ACCEPTED);
-                }
-
-
+                showAlertStatusOption(statusOptionValueArrayList, txtStatusOption);
             }
         });
-        lltPurchasing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isPurchasing) {
-                    lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
-                    imgPurchasing.setImageResource(R.drawable.purchasing);
-                    txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
-                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_PUECHASING);
-                }
 
-
-            }
-        });
-        lltShiping.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isShiping) {
-                    lltShiping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
-                    imgShiping.setImageResource(R.drawable.shipping);
-                    txtShiping.setTextColor(getResources().getColor(R.color.white));
-                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_SHIPING);
-                }
-            }
-        });
-        lltCompleted.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isCompleted) {
-                    lltCompleted.setBackgroundColor(getResources().getColor(R.color.order_datails_completed));
-                    imgCompleted.setImageResource(R.drawable.completed_white);
-                    txtCompleted.setTextColor(getResources().getColor(R.color.white));
-                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_COMPLETED);
-                }
-            }
-        });
+//        lltAccpeted.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (isAccpted) {
+//                    lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+//                    imgAccpeted.setImageResource(R.drawable.accepted);
+//                    txtAccepted.setTextColor(getResources().getColor(R.color.white));
+//                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_ACCEPTED);
+//                }
+//
+//
+//            }
+//        });
+//        lltPurchasing.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isPurchasing) {
+//                    lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
+//                    imgPurchasing.setImageResource(R.drawable.purchasing);
+//                    txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
+//                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_PUECHASING);
+//                }
+//
+//
+//            }
+//        });
+//        lltShiping.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isShiping) {
+//                    lltShiping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
+//                    imgShiping.setImageResource(R.drawable.shipping);
+//                    txtShiping.setTextColor(getResources().getColor(R.color.white));
+//                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_SHIPING);
+//                }
+//            }
+//        });
+//        lltCompleted.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isCompleted) {
+//                    lltCompleted.setBackgroundColor(getResources().getColor(R.color.order_datails_completed));
+//                    imgCompleted.setImageResource(R.drawable.completed_white);
+//                    txtCompleted.setTextColor(getResources().getColor(R.color.white));
+//                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_COMPLETED);
+//                }
+//            }
+//        });
+//
+//        txtphoneNumber.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Intent.ACTION_CALL);
+//                intent.setData(Uri.parse("tel:"
+//                        + txtphoneNumber.getText().toString()));
+//                startActivity(intent);
+//            }
+//        });
 
 
         return layoutView;
     }
 
-    private void initView() {
-        productArrayList = new ArrayList<Product>();
-        LinearLayoutManager verticalLayoutManagaerdate
-                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-
-        productDetailsAdapter = new ProductDetailsAdapter(getActivity(),
-                productArrayList, OrderDetailFragment.this);
-        lvOrderRecyList.setLayoutManager(verticalLayoutManagaerdate);
-        lvOrderRecyList.setAdapter(productDetailsAdapter);
-
-        productDetailsAdapter.setOnStatusChangeListener(new ProductDetailsAdapter.OnStatusChangeListener() {
-            @Override
-            public void onStatusChange(TextView txtproductStatus, int position, String productItemID, int productAvailability, String comments) {
-
-                Log.e(TAG, "productAvailability : " + productAvailability);
-                if (productDetailsAdapter != null) {
-
-                    if (productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
-
-                        showAlertEmployeeComment(getActivity(), productItemID, productAvailability, txtproductStatus, position);
-
-                    } else if (value == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
-                        txtproductStatus.setText(statusStringName(productAvailability));
-
-                    } else {
-                        txtproductStatus.setText(statusStringName(productAvailability));
-
-                    }
-                    Log.e(TAG, "Value : " + productArrayList.get(position).productAvailability);
-
-                }
-            }
-        });
 
 
-    }
+
+
+
 
     public void getOrderDetailData() {
         try {
@@ -245,6 +271,7 @@ public class OrderDetailFragment extends BaseFragment {
             setdataRequest.execute(IWebService.ORDER_DETAILS, loginParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+                    rlOrderDetails.setVisibility(View.GONE);
                     productArrayList.clear();
                     productDetailsAdapter.notifyDataSetChanged();
 
@@ -252,6 +279,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                 public void onPostExecute(String response) {
                     rlvGlobalProgressbar.setVisibility(View.GONE);
+                    rlOrderDetails.setVisibility(View.VISIBLE);
                     try {
 
                         if (!DataRequest.hasError(getActivity(), response, true)) {
@@ -266,12 +294,13 @@ public class OrderDetailFragment extends BaseFragment {
                             txtphoneNumber.setText(dataJObject.getString(IWebService.KEY_RES_CUSTOMER_MOBILE));
                             txtOrderDate.setText(dataJObject.getString(IWebService.KEY_RES_DELIVERY_DATR));
                             txtOrderTime.setText(dataJObject.getString(IWebService.KEY_RES_DELIVERY_TIME));
-                            txtOrderPrice.setText(dataJObject.getString(IWebService.KEY_RES_TOTAL));
-
+                            txtOrderPrice.setText(getActivity().getResources().getString(R.string.dollar_sign) + dataJObject.getString(IWebService.KEY_RES_TOTAL));
+                            txtStatusOption.setText(dataJObject.getString(IWebService.KEY_RES_STATUS_LABEL));
                             orderstatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
 
                             Log.e(TAG, "Order status :  " + Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
-
+                            Log.e(TAG, "tmpProductArrayList Size :  " + productArrayList.size());
+                            Log.e(TAG, "tmpStatusOptionArrayList Size :  " + productArrayList.size());
 
                             ArrayList<Product> tmpProductArrayList = gson.fromJson(
                                     dataJObject.getJSONArray(
@@ -280,11 +309,25 @@ public class OrderDetailFragment extends BaseFragment {
                                     new TypeToken<ArrayList<Product>>() {
                                     }.getType());
 
+
                             if (tmpProductArrayList != null) {
-                                //Log.e(TAG, "Size :  " + productArrayList.size());
+                                Log.e(TAG, "tmpProductArrayList Size :  " + productArrayList.size());
                                 productArrayList.addAll(tmpProductArrayList);
                                 productDetailsAdapter.notifyDataSetChanged();
                             }
+
+                            ArrayList<StatusOptionValue> tmpStatusOptionArrayList = gson.fromJson(
+                                    dataJObject.getJSONArray(
+                                            IWebService.KEY_RES_STATUS_LIST)
+                                            .toString(),
+                                    new TypeToken<ArrayList<StatusOptionValue>>() {
+                                    }.getType());
+
+                            if (tmpStatusOptionArrayList != null) {
+                                Log.e(TAG, "tmpStatusOptionArrayList Size :  " + productArrayList.size());
+                                statusOptionValueArrayList.addAll(tmpStatusOptionArrayList);
+                            }
+
 
                         }
                     } catch (Exception e) {
@@ -393,12 +436,12 @@ public class OrderDetailFragment extends BaseFragment {
         }
     }
 
-    public void sendOrderStatus(String ordernumber, int status) {
+    public void sendOrderStatus(String orderNumber, int status) {
 
         try {
 
             JSONObject orderstatusParam = new JSONObject();
-            orderstatusParam.put(IWebService.KEY_REQ_ORDER_NUMBER, ordernumber);
+            orderstatusParam.put(IWebService.KEY_REQ_ORDER_NUMBER, orderNumber);
             orderstatusParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
             orderstatusParam.put(IWebService.KEY_RES_STATUS, status);
 
@@ -407,6 +450,7 @@ public class OrderDetailFragment extends BaseFragment {
             signinDataRequest.execute(IWebService.ACCEPT_ORDER, orderstatusParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+
 
                 }
 
@@ -420,6 +464,7 @@ public class OrderDetailFragment extends BaseFragment {
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
                             Gson gson = new Gson();
+
                             orderstatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
 
                         }
@@ -435,7 +480,7 @@ public class OrderDetailFragment extends BaseFragment {
         }
     }
 
-    public void showAlertEmployeeComment(Context context, final String productItemID, final int productAvailability, final TextView txtproductStatus, final int position) {
+    public void showAlertEmployeeComment(Context context, final String productItemID, final int productAvailability, final ImageView imgproductStatus, final int position) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -470,7 +515,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                 if (!Utils.isNullOrEmpty(etxproductComments.getText().toString())) {
                     sendUpdateOrderItemAvailibility(productItemID, productAvailability, etxproductComments.getText().toString());
-                    txtproductStatus.setText(statusStringName(productAvailability));
+                    statusDrawable(productAvailability, imgproductStatus);
                     productDetailsAdapter.notifyDataSetChanged();
                     alertDialog.dismiss();
                 } else {
@@ -536,23 +581,81 @@ public class OrderDetailFragment extends BaseFragment {
 
     }
 
-    public String statusStringName(int availableStatusString) {
-        String statusString = null ;
+    public void statusDrawable(int statusCode, ImageView imgIteStatus) {
 
-        if (Integer.valueOf(availableStatusString) == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
 
-            statusString = getActivity().getResources().getString(R.string.not_available);
+        if (statusCode == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
 
-        } else if (Integer.valueOf(availableStatusString) == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
+            imgIteStatus.setImageResource(R.drawable.not_available_red);
 
-            statusString = getActivity().getResources().getString(R.string.available);
+        } else if (statusCode == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
+
+            imgIteStatus.setImageResource(R.drawable.available_green);
 
         } else {
 
-            statusString = getActivity().getResources().getString(R.string.normal);
+            imgIteStatus.setImageResource(R.drawable.round);
         }
-        return statusString;
+    }
 
+    private void showAlertStatusOption(final ArrayList<StatusOptionValue> statusOptionValueArrayList, final TextView txtOption) {
+
+        RecyclerView recyclerFilter;
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
+                getActivity());
+        LayoutInflater inflater = getLayoutInflater(getArguments());
+        View dialogView = inflater.inflate(R.layout.dialog_selection, null);
+        dialogBuilder.setView(dialogView);
+        final AlertDialog alertDialog = dialogBuilder.create();
+
+        ((TextView) dialogView.findViewById(R.id.txtSelectionType))
+                .setText(getActivity().getResources().getString(R.string.order_status));
+        recyclerFilter = (RecyclerView) dialogView.findViewById(R.id.recyclerFilter);
+        final SelectionAdapter<StatusOptionValue> filterStateAdapter = new SelectionAdapter<StatusOptionValue>(statusOptionValueArrayList);
+
+        filterStateAdapter
+                .setBindAdapterInterface(new SelectionAdapter.IBindAdapterValues<StatusOptionValue>() {
+                    @Override
+                    public void bindValues(SelectionAdapter.MyViewHolder holder, final int position) {
+                        // TODO Auto-generated method stub
+
+                        holder.txtSelectionValue.setText(statusOptionValueArrayList
+                                .get(position).statusLable);
+                        holder.txtSelectionValue.setChecked(statusOptionValueArrayList
+                                .get(position).isSelected);
+                        if (statusOptionValueArrayList.get(position).isSelected) {
+                            holder.txtSelectionValue.setTextColor(ContextCompat.getColor(getActivity(), R.color.app_theme_1));
+                        } else {
+                            holder.txtSelectionValue.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_black));
+                        }
+                        holder.txtSelectionValue
+                                .setOnClickListener(new View.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(View arg0) {
+                                        // TODO Auto-generated method stub
+                                        for (int i = 0; i < statusOptionValueArrayList
+                                                .size(); i++) {
+                                            statusOptionValueArrayList.get(i).isSelected = false;
+                                        }
+                                        statusOptionValueArrayList.get(position).isSelected = true;
+                                        txtOption.setText(statusOptionValueArrayList.get(position).statusLable);
+                                        filterStateAdapter.notifyDataSetChanged();
+                                        sendOrderStatus(order_number, statusOptionValueArrayList.get(position).status);
+
+                                        alertDialog.dismiss();
+                                    }
+                                });
+                    }
+                });
+
+        recyclerFilter.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerFilter.setAdapter(filterStateAdapter);
+        alertDialog.getWindow().setBackgroundDrawableResource(
+                R.color.transparent);
+//        alertDialog.setCancelable(false);
+        alertDialog.show();
     }
 
     @Override

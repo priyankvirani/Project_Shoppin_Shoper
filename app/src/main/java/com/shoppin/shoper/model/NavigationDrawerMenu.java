@@ -1,16 +1,16 @@
 package com.shoppin.shoper.model;
 
 /**
- * Model class for navigation left side drawer
- *
- * @author priyank
+ * Created by ubuntu on 10/9/16.
  */
-public class NavigationDrawerMenuItem {
+
+public class NavigationDrawerMenu {
+
     public String menuName;
     public int menuTagId;
     public int menuIcon;
 
-    public NavigationDrawerMenuItem(String menuName, int menuTagId, int menuIcon) {
+    public NavigationDrawerMenu(String menuName, int menuTagId, int menuIcon) {
         this.menuName = menuName;
         this.menuTagId = menuTagId;
         this.menuIcon = menuIcon;

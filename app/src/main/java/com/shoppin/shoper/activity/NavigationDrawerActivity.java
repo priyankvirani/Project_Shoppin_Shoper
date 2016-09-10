@@ -9,13 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,10 +24,12 @@ import com.shoppin.shoper.adapter.NavigationDrawerMenuAdapter;
 import com.shoppin.shoper.fragment.BaseFragment;
 import com.shoppin.shoper.fragment.IUpdateFragment;
 import com.shoppin.shoper.fragment.MyAccountFragment;
+import com.shoppin.shoper.fragment.OrderHistoryFragment;
 import com.shoppin.shoper.fragment.OrderOngoingFragment;
 import com.shoppin.shoper.fragment.OrderRequestFragment;
-import com.shoppin.shoper.fragment.OrderHistoryFragment;
-import com.shoppin.shoper.model.NavigationDrawerMenuItem;
+import com.shoppin.shoper.model.NavigationDrawerMenu;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,8 +56,8 @@ public class NavigationDrawerActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.leftDrawerList)
-    ListView leftDrawerList;
+    @BindView(R.id.recyclerListNavigationDrawer)
+    RecyclerView recyclerListNavigationDrawer;
     /**
      * Basically to change title in tool bar.
      * <p/>
@@ -80,6 +82,7 @@ public class NavigationDrawerActivity extends BaseActivity {
         }
     };
     private ActionBarDrawerToggle drawerToggle;
+    private ArrayList<NavigationDrawerMenu> navigationDrawerMenuArrayList;
     private NavigationDrawerMenuAdapter drawerMenuAdapter;
     /**
      * When user select option from navigation drawer remove all previous
@@ -89,17 +92,18 @@ public class NavigationDrawerActivity extends BaseActivity {
     /**
      * Menu drawer item click listener to set respective fragment
      */
-    AdapterView.OnItemClickListener leftDrawerListItemClickListener = new AdapterView.OnItemClickListener() {
 
+
+    NavigationDrawerMenuAdapter.OnItemClickListener leftDrawerListItemClickListener = new NavigationDrawerMenuAdapter.OnItemClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        public void onItemClick(View view, int position) {
             if (view != null && view.getTag() != null) {
                 Log.d(TAG, "menuName = " + view.getTag());
 
                 int menuTagId = (int) view.getTag();
                 Fragment newContent = null;
                 switch (menuTagId) {
+
                     case IDrawerMenu.ONGOING_ORDERS_ID:
                         newContent = new OrderOngoingFragment();
                         break;
@@ -112,7 +116,6 @@ public class NavigationDrawerActivity extends BaseActivity {
                     case IDrawerMenu.MY_PROFILE_ID:
                         newContent = new MyAccountFragment();
                         break;
-
                 }
                 if (newContent != null) {
                     isNavMenuchange = true;
@@ -195,15 +198,15 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     private void setMenuAdapter() {
 
-        drawerMenuAdapter = new NavigationDrawerMenuAdapter(
-                NavigationDrawerActivity.this);
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.ONGOING_ORDERS,
+        navigationDrawerMenuArrayList = new ArrayList<>();
+
+        navigationDrawerMenuArrayList.add(new NavigationDrawerMenu(IDrawerMenu.ONGOING_ORDERS,
                 IDrawerMenu.ONGOING_ORDERS_ID, R.drawable.user));
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.ORDER_REQUEST,
+        navigationDrawerMenuArrayList.add(new NavigationDrawerMenu(IDrawerMenu.ORDER_REQUEST,
                 IDrawerMenu.ORDER_REQUEST_ID, R.drawable.user));
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.ORDER_HISTORY,
+        navigationDrawerMenuArrayList.add(new NavigationDrawerMenu(IDrawerMenu.ORDER_HISTORY,
                 IDrawerMenu.ORDER_HISTORY_ID, R.drawable.user));
-        drawerMenuAdapter.add(new NavigationDrawerMenuItem(IDrawerMenu.MY_PROFILE,
+        navigationDrawerMenuArrayList.add(new NavigationDrawerMenu(IDrawerMenu.MY_PROFILE,
                 IDrawerMenu.MY_PROFILE_ID, R.drawable.user));
 
 
@@ -211,9 +214,10 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     private void initDrawer() {
         setMenuAdapter();
-        leftDrawerList.setAdapter(drawerMenuAdapter);
-        leftDrawerList.setOnItemClickListener(leftDrawerListItemClickListener);
-
+        drawerMenuAdapter = new NavigationDrawerMenuAdapter(navigationDrawerMenuArrayList);
+        drawerMenuAdapter.setOnItemClickListener(leftDrawerListItemClickListener);
+        recyclerListNavigationDrawer.setLayoutManager(new LinearLayoutManager(NavigationDrawerActivity.this));
+        recyclerListNavigationDrawer.setAdapter(drawerMenuAdapter);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.drawer_open, R.string.drawer_close) {

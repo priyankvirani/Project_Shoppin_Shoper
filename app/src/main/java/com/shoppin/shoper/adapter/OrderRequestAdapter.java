@@ -83,7 +83,7 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
         holder.txtOrderNumber.setText(orderRequestArrayList.get(position).order_number);
         holder.txtStreetName.setText(orderRequestArrayList.get(position).address1);
         holder.txtSuburb.setText(orderRequestArrayList.get(position).suburb_name);
-        holder.txtTotalPrice.setText(orderRequestArrayList.get(position).total);
+        holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign)+orderRequestArrayList.get(position).total);
         holder.txtOrderDate.setText(orderRequestArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(orderRequestArrayList.get(position).delivery_time);
 

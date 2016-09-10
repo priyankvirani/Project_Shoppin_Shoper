@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:background="@drawable/bg_dialog"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_theme_1"
+            android:paddingBottom="@dimen/margin_tiny"
+            android:paddingTop="@dimen/margin_tiny">
+
+            <TextView
+                android:id="@+id/txtSelectionType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="Selection Type"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_toolbar_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtSelectionDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_tiny"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="@dimen/margin_small"
+                android:text="DONE"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_edittext"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/app_theme_2" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+        <!--
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="true"
+        android:scrollbarStyle="outsideOverlay"-->
+    </LinearLayout>
+
+</LinearLayout>
