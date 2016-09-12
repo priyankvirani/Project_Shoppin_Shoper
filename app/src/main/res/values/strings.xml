@@ -25,6 +25,8 @@
     <string name="available">Available</string>
     <string name="dollar_sign">$</string>
     <string name="order_status">Status</string>
+    <string name="order_select_status">Select Status</string>
+
 
 
 
@@ -47,7 +49,7 @@
     <string name="edittext_hint_mobile_number">Mobile Number</string>
     <string name="edittext_hint_password">Password</string>
     <string name="edittext_hint_name">Name</string>
-    <string name="edittext_hint_street">Street</string>
+    <string name="edittext_hint_email">Email</string>
     <string name="edittext_hint_suburb">Suburb</string>
     <string name="edittext_hint_description">Description</string>
     <string name="edittext_hint_postcode">Postcode</string>
@@ -74,6 +76,7 @@
     <string name="order_status_shipping">Shipping</string>
     <string name="order_status_completed">Completed</string>
     <string name="order_status_reject">Reject</string>
+    <string name="order_status_onhold">OnHold</string>
 
     <!--fragment name-->
     <string name="fragment_order_ongoing">Order Ongoing</string>

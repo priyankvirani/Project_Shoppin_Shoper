@@ -90,6 +90,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashScreenActivity.this, SigninActivity.class);
                 startActivity(intent);
                 finish();
+
             } else {
                 Intent intent = new Intent(SplashScreenActivity.this, NavigationDrawerActivity.class);
                 startActivity(intent);

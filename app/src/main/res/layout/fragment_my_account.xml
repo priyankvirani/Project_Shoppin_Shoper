@@ -16,6 +16,7 @@
             android:id="@+id/etxName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:background="@drawable/edittext_bottom_line_gray"
             android:drawablePadding="@dimen/margin_tiny"
@@ -24,45 +25,50 @@
             android:maxLines="1"
             android:nextFocusDown="@id/etxSigninId"
             android:paddingBottom="@dimen/margin_edittext_bottom"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_black"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/font_size_edittext" />
 
         <EditText
-            android:id="@+id/etxSigninId"
+            android:id="@+id/etxMobileNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:background="@drawable/edittext_bottom_line_gray"
             android:drawablePadding="@dimen/margin_tiny"
+            android:focusable="false"
             android:hint="@string/edittext_hint_mobile_number"
             android:inputType="number"
             android:maxLines="1"
             android:paddingBottom="@dimen/margin_edittext_bottom"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_black"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/font_size_edittext" />
 
+
         <EditText
-            android:id="@+id/etxStreet"
+            android:id="@+id/etxEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:background="@drawable/edittext_bottom_line_gray"
             android:drawablePadding="@dimen/margin_tiny"
-            android:hint="@string/edittext_hint_street"
+            android:hint="@string/edittext_hint_email"
             android:inputType="text"
             android:maxLines="1"
             android:paddingBottom="@dimen/margin_edittext_bottom"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_black"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/font_size_edittext" />
 
         <AutoCompleteTextView
             android:id="@+id/atxSuburb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:background="@drawable/edittext_bottom_line_gray"
             android:drawablePadding="@dimen/margin_tiny"
             android:hint="@string/edittext_hint_suburb"
@@ -70,70 +76,11 @@
             android:maxLines="1"
             android:nextFocusDown="@+id/etxPostcode"
             android:paddingBottom="@dimen/margin_edittext_bottom"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_black"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/font_size_edittext" />
 
-        <!--<EditText-->
-        <!--android:id="@+id/etxTown"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="@dimen/margin_medium"-->
-        <!--android:background="@drawable/edittext_bottom_line_gray"-->
-        <!--android:drawablePadding="@dimen/margin_tiny"-->
-        <!--android:hint="@string/edittext_hint_town"-->
-        <!--android:inputType="text"-->
-        <!--android:maxLines="1"-->
-        <!--android:paddingBottom="@dimen/margin_edittext_bottom"-->
-        <!--android:textColor="@color/gray"-->
-        <!--android:textColorHint="@color/gray"-->
-        <!--android:textSize="@dimen/font_size_edittext" />-->
-
-
-        <EditText
-            android:id="@+id/etxPostcode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:background="@drawable/edittext_bottom_line_gray"
-            android:drawablePadding="@dimen/margin_tiny"
-            android:hint="@string/edittext_hint_postcode"
-            android:inputType="number"
-            android:maxLines="1"
-            android:paddingBottom="@dimen/margin_edittext_bottom"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/font_size_edittext" />
-
-        <EditText
-            android:id="@+id/etxPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:background="@drawable/edittext_bottom_line_gray"
-            android:drawablePadding="@dimen/margin_tiny"
-            android:hint="@string/edittext_hint_password"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:paddingBottom="@dimen/margin_edittext_bottom"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/font_size_edittext" />
-
-        <EditText
-            android:id="@+id/etxConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:background="@drawable/edittext_bottom_line_gray"
-            android:drawablePadding="@dimen/margin_tiny"
-            android:hint="@string/edittext_hint_confirm_password"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:paddingBottom="@dimen/margin_edittext_bottom"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/font_size_edittext" />
 
         <TextView
             android:id="@+id/txtUpdate"

@@ -13,6 +13,7 @@ import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.fragment.OrderDetailFragment;
 import com.shoppin.shoper.model.OngoingOrder;
+import com.shoppin.shoper.network.IWebService;
 
 import java.util.ArrayList;
 
@@ -79,7 +80,7 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         holder.txtOrderNumber.setText(ongoingOrderArrayList.get(position).order_number);
         holder.txtStreetName.setText(ongoingOrderArrayList.get(position).address1);
         holder.txtSuburb.setText(ongoingOrderArrayList.get(position).suburb_name);
-        holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign)+ongoingOrderArrayList.get(position).total);
+        holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign) + ongoingOrderArrayList.get(position).total);
         holder.txtOrderDate.setText(ongoingOrderArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(ongoingOrderArrayList.get(position).delivery_time);
         setOrderStatus(mContext, Integer.valueOf(ongoingOrderArrayList.get(position).status), holder.txtOrderStatus);
@@ -88,9 +89,9 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
             public void onClick(View v) {
 
                 NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
-                if(navigationDrawerActivity!=null) {
+                if (navigationDrawerActivity != null) {
                     navigationDrawerActivity.switchContent(OrderDetailFragment
-                            .newInstance(ongoingOrderArrayList.get(position).order_number));
+                            .newInstance(ongoingOrderArrayList.get(position).order_number, false));
                 }
             }
         });
@@ -103,25 +104,36 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
     }
 
     public void setOrderStatus(Context mContext, int statusCode, TextView txtorderStatus) {
-        if (statusCode == 3) {
+        if (statusCode == IWebService.KEY_REQ_STATUS_ACCEPTED) {
+
             txtorderStatus.setBackgroundResource(R.drawable.button_background_red);
             txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_accepted));
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.accepted), null);
 
-        } else if (statusCode == 4) {
+        } else if (statusCode == IWebService.KEY_REQ_STATUS_PUECHASING) {
+
             txtorderStatus.setBackgroundResource(R.drawable.button_background_blue);
             txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_purchasing));
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.purchasing), null);
 
-        } else if (statusCode == 5) {
+        } else if (statusCode == IWebService.KEY_REQ_STATUS_SHIPING) {
+
             txtorderStatus.setBackgroundResource(R.drawable.button_background_yellow);
             txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_shipping));
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.shipping), null);
 
-        } else if(statusCode == 6){
+        } else if (statusCode == IWebService.KEY_REQ_STATUS_COMPLETED) {
+
             txtorderStatus.setBackgroundResource(R.drawable.button_background_green);
             txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_completed));
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.completed_white), null);
+
+        } else if (statusCode == IWebService.KEY_REQ_STATUS_ON_HOLD) {
+
+            txtorderStatus.setBackgroundResource(R.drawable.button_background_green);
+            txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_onhold));
+            txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.completed_white), null);
+
         }
 
     }

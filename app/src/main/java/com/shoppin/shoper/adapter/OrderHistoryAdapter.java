@@ -98,7 +98,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
                 if(navigationDrawerActivity!=null) {
                     navigationDrawerActivity.switchContent(OrderDetailFragment
-                            .newInstance(orderHistoryArrayList.get(position).order_number));
+                            .newInstance(orderHistoryArrayList.get(position).order_number,true));
                 }
             }
         });

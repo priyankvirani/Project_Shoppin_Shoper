@@ -14,7 +14,12 @@ import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.shoppin.shoper.R;
+import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.activity.SplashScreenActivity;
+import com.shoppin.shoper.database.DBAdapter;
+import com.shoppin.shoper.database.IDatabase;
+import com.shoppin.shoper.fragment.OrderRequestFragment;
+import com.shoppin.shoper.utils.Utils;
 
 /**
  * Created by filipp on 5/23/2016.
@@ -28,14 +33,15 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         Log.e(TAG, "From: " + remoteMessage.getData().get("message"));
         Log.e(TAG, "title: " + remoteMessage.getData().get("title"));
-        showNotification(remoteMessage.getData().get("message"));
+         showNotification(remoteMessage.getData().get("message"));
+
     }
 
     private void showNotification(String message) {
 
-        Intent intent = new Intent(this, SplashScreenActivity.class);
+        Intent intent = new Intent(this, NavigationDrawerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("notification", "notification");
+        intent.putExtra(NavigationDrawerActivity.ISREQUESTNOTIFICATION, true);
         //intent.putExtra("URL", url);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);

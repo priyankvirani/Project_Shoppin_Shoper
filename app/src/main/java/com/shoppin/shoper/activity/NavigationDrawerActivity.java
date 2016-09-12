@@ -1,6 +1,7 @@
 package com.shoppin.shoper.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,11 +36,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.google.android.gms.analytics.internal.zzy.i;
+import static com.google.android.gms.analytics.internal.zzy.s;
 import static com.shoppin.shoper.utils.IConstants.IDrawerMenu;
 
 public class NavigationDrawerActivity extends BaseActivity {
 
     private static final String TAG = NavigationDrawerActivity.class.getSimpleName();
+    public static String ISREQUESTNOTIFICATION ="orderrequest";
+    private boolean isRequestNotification = false;
 
     @BindView(R.id.txtFragmentTitle)
     public TextView txtFragmentTitle;
@@ -143,6 +148,11 @@ public class NavigationDrawerActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        if(getIntent()!=null){
+            isRequestNotification = intent.getBooleanExtra(ISREQUESTNOTIFICATION,false);
+        }
+
         //Log.d(TAG, "suburb_id = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_ID));
         //Log.d(TAG, "suburb_name = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_NAME));
 
@@ -159,7 +169,12 @@ public class NavigationDrawerActivity extends BaseActivity {
         if (content == null) {
             Log.i(TAG, "content is null");
             isNavMenuchange = true;
-            switchContent(new OrderOngoingFragment());
+            if(isRequestNotification){
+                switchContent(new OrderRequestFragment());
+            }else{
+                switchContent(new OrderOngoingFragment());
+            }
+
             // switchContent(new ProductDetailFragment());
         }
         getSupportFragmentManager().addOnBackStackChangedListener(

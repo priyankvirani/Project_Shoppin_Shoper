@@ -79,7 +79,20 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
         holder.txtProductName.setText(productArrayList.get(position).productName);
         holder.txtProductPrice.setText(productArrayList.get(position).saleprice1);
         holder.txtProductQuantity.setText(productArrayList.get(position).productQuntity);
-        orderDetailFragment.statusDrawable(productArrayList.get(position).productAvailability,holder.imgItemStatus);
+
+        if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
+
+            holder.imgItemStatus.setImageResource(R.drawable.not_available_red);
+
+        } else if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
+
+            holder.imgItemStatus.setImageResource(R.drawable.available_green);
+
+        } else {
+
+            holder.imgItemStatus.setImageResource(R.drawable.round);
+        }
+
         holder.txtProductOption.setText(productArrayList.get(position).getSelectedOptions());
 
         Glide.with(mContext)
@@ -98,19 +111,16 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
                     if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
                         productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
 
-                        onStatusChangeListener.onStatusChange(holder.imgItemStatus, position, productArrayList.get(position).productItemId,
-                                productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
+                        onStatusChangeListener.onStatusChange(position);
 
 
                     } else if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
                         productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
-                        onStatusChangeListener.onStatusChange(holder.imgItemStatus, position, productArrayList.get(position).productItemId,
-                                productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
+                        onStatusChangeListener.onStatusChange(position);
 
                     } else {
                         productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
-                        onStatusChangeListener.onStatusChange(holder.imgItemStatus, position, productArrayList.get(position).productItemId,
-                                productArrayList.get(position).productAvailability, IWebService.KEY_REQ_NULL);
+                        onStatusChangeListener.onStatusChange(position);
 
                     }
                 }
@@ -126,7 +136,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
     }
 
     public interface OnStatusChangeListener {
-        public void onStatusChange(ImageView imageView, int position, String productItemID, int productAvailability, String comments);
+        public void onStatusChange(int position);
     }
 
 

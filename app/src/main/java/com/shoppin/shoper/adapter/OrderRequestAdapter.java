@@ -108,7 +108,7 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
                 NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
                 if(navigationDrawerActivity!=null) {
                     navigationDrawerActivity.switchContent(OrderDetailFragment
-                            .newInstance(orderRequestArrayList.get(position).order_number));
+                            .newInstance(orderRequestArrayList.get(position).order_number,false));
                 }
             }
         });

@@ -24,6 +24,8 @@ public interface IWebService {
     String ORDER_DETAILS = MAIN_URL + "shopper/OrderDetail";
     String ORDER_HISTORY = MAIN_URL + "shopper/OrderHistory";
     String UPDATE_ORDERITEM_AVAILIBILITY = MAIN_URL + "shopper/UpdateOrderItemAvailibility";
+    String GET_EMPLOYEE_PROFILE = MAIN_URL + "shopper/GetEmployeeProfile";
+    String UPDATE_EMPLOYEE_PROFILE = MAIN_URL + "shopper/UpdateEmployeeProfile";
 
     /**
      * Request Params
@@ -35,14 +37,19 @@ public interface IWebService {
     String KEY_REQ_EMPLOYEE_DEVICE_TOKEN = "employee_device_token";
     String KEY_REQ_EMPLOYEE_DEVICE_ID = "employee_device_id";
 
-    String KEY_REQ_ORDER_SUBURB_ID = "order_suburb_id";
+
     String KEY_REQ_EMPLOYEE_ID = "employee_id";
+    String KEY_REQ_EMPLOYEE_NAME = "employee_name";
+    String KEY_REQ_EMPLOYEE_EMAIL = "employee_email";
+    String KEY_REQ_EMPLOYEE_SUBURB_ID = "employee_suburb_id";
+    String KEY_REQ_ORDER_SUBURB_ID = "order_suburb_id";
+
 
     String KEY_REQ_ORDER_NUMBER = "order_number";
     String KEY_REQ_ORDER_ITEM_ID = "order_item_id";
     String KEY_REQ_SET_VALUE = "set_value";
 
-    int KEY_REQ_STATUS_ORDER_PLACED = 1;
+    int KEY_REQ_STATUS_PLACED = 1;
     int KEY_REQ_STATUS_REJECTED = 2;
     int KEY_REQ_STATUS_ACCEPTED = 3;
     int KEY_REQ_STATUS_PUECHASING = 4;
@@ -77,6 +84,7 @@ public interface IWebService {
     String KEY_RES_IMAGES = "images";
     String KEY_RES_OPTION_LIST = "option_list";
     String KEY_RES_STATUS_LIST = "status_list";
+    String KET_RES_SUBURB_LIST ="suburb_list";
 
 
 
@@ -88,10 +96,13 @@ public interface IWebService {
     String KEY_RES_STATUS = "status";
     String KEY_RES_STATUS_LABEL = "status_lable";
     String KEY_RES_ADDRESS1 = "address1";
-    String KEY_RES_DELIVERY_DATR = "delivery_date";
+    String KEY_RES_DELIVERY_DATE = "delivery_date";
     String KEY_RES_DELIVERY_TIME = "delivery_time";
+    String KEY_RES_SHIPPING_DATE = "shipping_date";
+    String KEY_RES_SHIPPING_TIME = "shipping_time";
     String KEY_RES_CUSTOMER_MOBILE = "customer_mobile";
     String KEY_RES_STORE_NAME = "store_name";
+
 
 
 
