@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
-import com.shoppin.shoper.activity.SplashScreenActivity;
 import com.shoppin.shoper.adapter.OrderRequestAdapter;
 import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.database.IDatabase;

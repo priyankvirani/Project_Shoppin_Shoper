@@ -19,32 +19,25 @@
     <string name="submit">Submit</string>
     <string name="comment">Comment</string>
     <string name="retry">Retry</string>
-    <string name="user_login_id">Mobile Number</string>
-    <string name="normal">Normal</string>
-    <string name="not_available">Not Available</string>
-    <string name="available">Available</string>
     <string name="dollar_sign">$ </string>
     <string name="order_status">Status</string>
     <string name="order_select_status">Select Status</string>
     <string name="prefered_store">Preferred Store :</string>
+    <string name="accept">Accept</string>
+
 
 
 
 
 
     <!-- Error messages -->
-    <string name="error_title">Error : </string>
     <string name="error_technichal_problem">Having some technical problem</string>
     <string name="error_internet_check">Internet connection is not available. Please enable wifi or internet data.</string>
     <string name="error_required">Required</string>
+    <string name="error_required_email">Email Not valid</string>
     <string name="error_valid_suburb">Select valid suburb</string>
-    <string name="error_confirm_password">Password and Confirm Password must be same</string>
 
     <!-- Textview -->
-    <string name="text_dont_have_account">Don\'t have an account</string>
-    <string name="text_already_have_account">Already have an account</string>
-    <string name="text_or">Or</string>
-    <string name="text_explore_guest">Explore as</string>
 
     <!-- Edit text hint-->
     <string name="edittext_hint_mobile_number">Mobile Number</string>
@@ -53,31 +46,18 @@
     <string name="edittext_hint_email">Email</string>
     <string name="edittext_hint_suburb">Suburb</string>
     <string name="edittext_hint_description">Description</string>
-    <string name="edittext_hint_postcode">Postcode</string>
-    <string name="edittext_hint_confirm_password">Confirm Password</string>
 
     <!-- Button text -->
     <string name="button_signin">Sign In</string>
-    <string name="button_signup">Sign Up</string>
     <string name="button_signout">Sign Out</string>
-    <string name="button_guest">Guest</string>
-    <string name="button_go">Go</string>
     <string name="button_update">Update</string>
 
     <!--dialog -->
-    <string name="dialog_title_guest">Guest Login</string>
 
     <!-- Menu Action -->
-    <string name="action_search_product">Search</string>
-    <string name="action_view_cart">Cart</string>
 
     <!--order status-->
-    <string name="order_status_accepted">Accepted</string>
-    <string name="order_status_purchasing">Purchasing</string>
-    <string name="order_status_shipping">Shipping</string>
-    <string name="order_status_completed">Completed</string>
     <string name="order_status_reject">Reject</string>
-    <string name="order_status_onhold">OnHold</string>
 
     <!--fragment name-->
     <string name="fragment_order_ongoing">Order Ongoing</string>

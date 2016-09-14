@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.shoppin.shoper.R.id.txtOrderStatus;
-
 /**
  * Created by ubuntu on 8/8/16.
  */

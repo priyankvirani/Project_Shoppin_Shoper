@@ -11,14 +11,11 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-
 import com.google.firebase.messaging.RemoteMessage;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
-import com.shoppin.shoper.activity.SplashScreenActivity;
 import com.shoppin.shoper.database.DBAdapter;
 import com.shoppin.shoper.database.IDatabase;
-import com.shoppin.shoper.fragment.OrderRequestFragment;
 import com.shoppin.shoper.utils.Utils;
 
 /**

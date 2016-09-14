@@ -8,35 +8,6 @@ public interface IDatabase {
     String DATABASE_NAME = "shoppin_employee";
     int DATABASE_VERSION = 1;
 
-    interface IEmployeData {
-        String TABLE_EMPLOYEE = "emplopyee";
-
-        String FALSE = "0";
-        String TRUE = "1";
-
-        String KEY_EMPLOYEE_KEY = "employee_key";
-        String KEY_EMPLOYEE_VALUE = "employee_value";
-
-
-        String KEY_ID = "_id";
-        String KEY_EMPLOYEE_ID = "employee_id";
-        String KEY_EMPLOYEE_NAME = "employee_name";
-        String KEY_EMPLOYEE_EMAIL = "employee_email";
-        String KEY_EMPLOYEE_MOBILE = "employee_mobile";
-        String KEY_EMPLOYEE_SUBURB_ID = "employee_suburb_id";
-        String KEY_EMPLOYEE_IS_LOGIN = "employee_is_login";
-
-        String CREATE_TABLE_EMPLOYEE = "create table " + TABLE_EMPLOYEE + " ("
-                + KEY_ID + " integer primary key autoincrement, "
-                + KEY_EMPLOYEE_ID + " text not null, "
-                + KEY_EMPLOYEE_NAME + " text, "
-                + KEY_EMPLOYEE_EMAIL + " text, "
-                + KEY_EMPLOYEE_MOBILE + " text, "
-                + KEY_EMPLOYEE_SUBURB_ID + " text,"
-                + KEY_EMPLOYEE_IS_LOGIN +" text);";
-
-    }
-
     interface IMap {
         String TABLE_MAP = "map";
 

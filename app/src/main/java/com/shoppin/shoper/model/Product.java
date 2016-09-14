@@ -10,7 +10,7 @@ import com.shoppin.shoper.utils.Utils;
 import java.util.ArrayList;
 
 import static android.R.id.list;
-import static com.google.android.gms.plus.PlusOneDummyView.TAG;
+
 
 /**
  * Created by ubuntu on 5/9/16.

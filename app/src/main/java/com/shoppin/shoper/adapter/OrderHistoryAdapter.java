@@ -3,7 +3,6 @@ package com.shoppin.shoper.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,14 @@ import android.widget.TextView;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.fragment.OrderDetailFragment;
-import com.shoppin.shoper.fragment.OrderHistoryFragment;
 import com.shoppin.shoper.model.OrderHistory;
-import com.shoppin.shoper.network.IWebService;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.google.android.gms.analytics.internal.zzy.o;
+
 
 /**
  * Created by ubuntu on 8/8/16.

@@ -21,9 +21,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.google.android.gms.analytics.internal.zzy.G;
-import static com.google.android.gms.analytics.internal.zzy.g;
-import static com.google.android.gms.analytics.internal.zzy.p;
+
 
 /**
  * Created by ubuntu on 8/8/16.

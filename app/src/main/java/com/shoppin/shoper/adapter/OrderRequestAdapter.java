@@ -11,9 +11,7 @@ import android.widget.TextView;
 import com.shoppin.shoper.R;
 import com.shoppin.shoper.activity.NavigationDrawerActivity;
 import com.shoppin.shoper.fragment.OrderDetailFragment;
-import com.shoppin.shoper.fragment.OrderRequestFragment;
 import com.shoppin.shoper.model.OrderRequest;
-import com.shoppin.shoper.network.IWebService;
 
 import java.util.ArrayList;
 

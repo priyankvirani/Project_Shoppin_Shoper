@@ -115,7 +115,7 @@ public class MyAccountFragment extends BaseFragment {
                                     etxName.setText(dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_NAME));
                                     etxMobileNumber.setText(dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_MOBILE));
                                     etxEmail.setText(dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_EMAIL));
-                                    DBAdapter.insertUpdateMap(getActivity(),IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID,dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_SUBURB_ID));
+                                    DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID, dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_SUBURB_ID));
 
 
                                     Gson gson = new Gson();
@@ -131,8 +131,6 @@ public class MyAccountFragment extends BaseFragment {
                                     }
 
                                     atxSuburb.setText(dataJObject.getString(IWebService.KEY_RES_SUBURB_NAME));
-
-
 
 
                                 }
@@ -166,7 +164,7 @@ public class MyAccountFragment extends BaseFragment {
             JSONObject updateEmployeeProfileDataParam = new JSONObject();
             updateEmployeeProfileDataParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
             updateEmployeeProfileDataParam.put(IWebService.KEY_REQ_EMPLOYEE_NAME, etxName.getText().toString());
-            updateEmployeeProfileDataParam.put(IWebService.KEY_REQ_EMPLOYEE_MOBILE,etxMobileNumber.getText().toString());
+            updateEmployeeProfileDataParam.put(IWebService.KEY_REQ_EMPLOYEE_MOBILE, etxMobileNumber.getText().toString());
             updateEmployeeProfileDataParam.put(IWebService.KEY_REQ_EMPLOYEE_EMAIL, etxEmail.getText().toString());
             updateEmployeeProfileDataParam.put(IWebService.KEY_REQ_EMPLOYEE_SUBURB_ID, selectedSuburb.suburb_id);
 
@@ -188,7 +186,7 @@ public class MyAccountFragment extends BaseFragment {
 
                                     Gson gson = new Gson();
 
-                                    DBAdapter.insertUpdateMap(getActivity(),IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID,dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_SUBURB_ID));
+                                    DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID, dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_SUBURB_ID));
 
                                 }
                             } catch (Exception e) {
@@ -224,8 +222,8 @@ public class MyAccountFragment extends BaseFragment {
             etxMobileNumber.setError(getString(R.string.error_required));
             etxMobileNumber.requestFocus();
             isValid = false;
-        } else if (Utils.isNullOrEmpty(etxEmail.getText().toString())) {
-            etxEmail.setError(getString(R.string.error_required));
+        } else if (Utils.isValidEmail(etxEmail.getText().toString())) {
+            etxEmail.setError(getString(R.string.error_required_email));
             etxEmail.requestFocus();
             isValid = false;
         } else if (selectedSuburb == null) {
