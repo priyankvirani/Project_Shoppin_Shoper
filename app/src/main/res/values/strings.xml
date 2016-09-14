@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Shoppin</string>
+    <string name="app_name">Shopper-Lets Go Shoppin</string>
 
     <!-- For navigation drawer -->
     <string name="drawer_open">Drawer Open</string>
@@ -23,9 +23,10 @@
     <string name="normal">Normal</string>
     <string name="not_available">Not Available</string>
     <string name="available">Available</string>
-    <string name="dollar_sign">$</string>
+    <string name="dollar_sign">$ </string>
     <string name="order_status">Status</string>
     <string name="order_select_status">Select Status</string>
+    <string name="prefered_store">Preferred Store :</string>
 
 
 

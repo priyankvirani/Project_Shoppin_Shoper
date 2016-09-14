@@ -61,11 +61,11 @@ public class OrderRequestFragment extends BaseFragment {
         lvOrderRecyList.setAdapter(orderRequestAdapter);
                 orderRequestAdapter.setOnStatusChangeListener(new OrderRequestAdapter.OnStatusChangeListener() {
             @Override
-            public void onStatusChange(String orderNumber, boolean status) {
+            public void onStatusChange(int position , boolean status) {
                 if (status) {
-                    sendOrderStatus(orderNumber, IWebService.KEY_REQ_STATUS_ACCEPTED);
+                    sendOrderStatus(position, IWebService.KEY_REQ_STATUS_ACCEPTED);
                 } else {
-                    sendOrderStatus(orderNumber, IWebService.KEY_REQ_STATUS_REJECTED);
+                    sendOrderStatus(position, IWebService.KEY_REQ_STATUS_REJECTED);
                 }
             }
         });
@@ -130,15 +130,15 @@ public class OrderRequestFragment extends BaseFragment {
 
     }
 
-    public void sendOrderStatus(String orderNumber, int status) {
+    public void sendOrderStatus(final int position, int status) {
 
         try {
 
             JSONObject orderStatusParam = new JSONObject();
-            orderStatusParam.put(IWebService.KEY_REQ_ORDER_NUMBER, orderNumber);
+            orderStatusParam.put(IWebService.KEY_REQ_ORDER_NUMBER, orderRequestArrayList.get(position).order_number);
             orderStatusParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
             orderStatusParam.put(IWebService.KEY_RES_STATUS, status);
-
+            orderStatusParam.put(IWebService.KEY_REQ_PRODUCT_COMMENTS, IWebService.KEY_REQ_NULL);
 
             DataRequest signinDataRequest = new DataRequest(getActivity());
             signinDataRequest.execute(IWebService.ACCEPT_ORDER, orderStatusParam.toString(), new DataRequest.CallBack() {
@@ -153,8 +153,13 @@ public class OrderRequestFragment extends BaseFragment {
                     try {
 
                         if (!DataRequest.hasError(getActivity(), response, true)) {
-
+                            NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
+                            if(navigationDrawerActivity!=null) {
+                                navigationDrawerActivity.switchContent(OrderDetailFragment
+                                        .newInstance(orderRequestArrayList.get(position).order_number,false));
+                            }
                             getOrderRequestData();
+
 
                         }
                     } catch (Exception e) {

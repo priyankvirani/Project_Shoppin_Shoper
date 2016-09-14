@@ -20,18 +20,21 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:paddingTop="@dimen/margin_small">
 
                 <TextView
                     android:id="@+id/txtOrderNumber"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_size_edittext"
+                    android:textColor="@color/cell_textview_color"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/txtOrderDate"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_size_edittext"
+                    android:textColor="@color/cell_textview_color"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_margin="@dimen/margin_tiny" />
@@ -49,6 +52,8 @@
                         android:id="@+id/txtStreetName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/font_size_edittext"
+                        android:textColor="@color/cell_textview_color"
                         android:layout_margin="@dimen/margin_tiny"
                         android:layout_weight="1" />
 
@@ -56,6 +61,8 @@
                         android:id="@+id/txtOrderTime"
                         android:layout_width="0dp"
                         android:gravity="right"
+                        android:textSize="@dimen/font_size_edittext"
+                        android:textColor="@color/cell_textview_color"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_margin="@dimen/margin_tiny"
@@ -67,21 +74,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/llAddress"
+                    android:textSize="@dimen/font_size_edittext"
+                    android:textColor="@color/cell_textview_color"
                     android:layout_margin="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/txtTotalPrice"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_size_edittext"
+                    android:textColor="@color/cell_textview_color"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtSuburb"
+                    android:layout_margin="@dimen/margin_tiny" />
+
+                <TextView
+                    android:id="@+id/txtItemCount"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_size_edittext"
+                    android:textColor="@color/cell_textview_color"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtTotalPrice"
                     android:layout_margin="@dimen/margin_tiny" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtTotalPrice"
+                    android:layout_below="@+id/txtItemCount"
                     android:orientation="horizontal"
-                    android:padding="@dimen/margin_small"
+                    android:padding="@dimen/margin_tiny"
                     android:weightSum="2">
 
                     <LinearLayout
@@ -92,7 +112,7 @@
                         android:background="@drawable/button_background_green"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:paddingRight="@dimen/margin_small">
+                        android:paddingRight="@dimen/margin_small">-
 
                         <TextView
                             android:id="@+id/txtAccepted"
@@ -106,7 +126,7 @@
                             android:drawableRight="@drawable/accepted"
                             android:gravity="top"
                             android:padding="@dimen/margin_all"
-                            android:text="@string/order_status_accepted"
+                            android:text="@string/accept"
                             android:textColor="@color/white"
                             android:textSize="@dimen/font_size_button" />
                     </LinearLayout>
@@ -124,9 +144,6 @@
                             android:id="@+id/txtReject"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_below="@id/txtOrderTime"
                             android:layout_margin="@dimen/margin_tiny"
                             android:drawablePadding="@dimen/margin_small"
                             android:drawableRight="@drawable/reject"

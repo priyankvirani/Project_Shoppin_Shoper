@@ -23,8 +23,6 @@ public class Product implements Parcelable {
     public String productItemId;
     @SerializedName("product_id")
     public String productId;
-    @SerializedName("saleprice_1")
-    public String saleprice1;
     @SerializedName("product_name")
     public String productName;
     @SerializedName("images")
@@ -33,6 +31,11 @@ public class Product implements Parcelable {
     public int productAvailability;
     @SerializedName("quantity")
     public String productQuntity;
+    @SerializedName("price")
+    public String productPrice;
+    @SerializedName("saleprice")
+    public String productSalePrice;
+
 
     @SerializedName("option_list")
     public ArrayList<ProductOption> productOptionArrayList;
@@ -72,11 +75,12 @@ public class Product implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.productItemId);
         dest.writeString(this.productId);
-        dest.writeString(this.saleprice1);
         dest.writeString(this.productName);
         dest.writeStringArray(this.images);
         dest.writeInt(this.productAvailability);
         dest.writeString(this.productQuntity);
+        dest.writeString(this.productPrice);
+        dest.writeString(this.productSalePrice);
         dest.writeTypedList(this.productOptionArrayList);
         dest.writeString(this.selectedOptions);
     }
@@ -84,11 +88,12 @@ public class Product implements Parcelable {
     protected Product(Parcel in) {
         this.productItemId = in.readString();
         this.productId = in.readString();
-        this.saleprice1 = in.readString();
         this.productName = in.readString();
         this.images = in.createStringArray();
         this.productAvailability = in.readInt();
         this.productQuntity = in.readString();
+        this.productPrice = in.readString();
+        this.productSalePrice = in.readString();
         this.productOptionArrayList = in.createTypedArrayList(ProductOption.CREATOR);
         this.selectedOptions = in.readString();
     }

@@ -13,7 +13,7 @@ public class StatusOptionValue implements Parcelable{
     @SerializedName("status")
     public int status;
 
-    @SerializedName("status_lable")
+    @SerializedName("status_label")
     public String statusLable;
 
     public boolean isSelected;

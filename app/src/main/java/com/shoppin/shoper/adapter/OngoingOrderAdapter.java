@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shoppin.shoper.R;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.shoppin.shoper.R.id.txtOrderStatus;
 
 /**
  * Created by ubuntu on 8/8/16.
@@ -51,6 +54,12 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         TextView txtOrderTime;
         @BindView(R.id.txtOrderStatus)
         TextView txtOrderStatus;
+        @BindView(R.id.llOrderStatus)
+        LinearLayout llOrderStatus;
+        @BindView(R.id.txtCustomerName)
+        TextView txtCustomerName;
+        @BindView(R.id.txtItemCount)
+        TextView txtItemCount;
 
         @BindView(R.id.card_view)
         CardView cardView;
@@ -83,7 +92,11 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign) + ongoingOrderArrayList.get(position).total);
         holder.txtOrderDate.setText(ongoingOrderArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(ongoingOrderArrayList.get(position).delivery_time);
-        setOrderStatus(mContext, Integer.valueOf(ongoingOrderArrayList.get(position).status), holder.txtOrderStatus);
+        holder.txtCustomerName.setText(ongoingOrderArrayList.get(position).customerName);
+        holder.txtItemCount.setText(ongoingOrderArrayList.get(position).itemCount);
+
+        setOrderStatus(position,holder.txtOrderStatus,holder.llOrderStatus);
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,36 +116,36 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         return ongoingOrderArrayList.size();
     }
 
-    public void setOrderStatus(Context mContext, int statusCode, TextView txtorderStatus) {
-        if (statusCode == IWebService.KEY_REQ_STATUS_ACCEPTED) {
+    public void setOrderStatus(int position, TextView txtorderStatus,LinearLayout llOrderStatus) {
+        if (ongoingOrderArrayList.get(position).status == IWebService.KEY_REQ_STATUS_ACCEPTED) {
 
-            txtorderStatus.setBackgroundResource(R.drawable.button_background_red);
-            txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_accepted));
+            llOrderStatus.setBackgroundResource(R.drawable.button_background_green);
+            txtorderStatus.setText(ongoingOrderArrayList.get(position).statusLable);
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.accepted), null);
 
-        } else if (statusCode == IWebService.KEY_REQ_STATUS_PUECHASING) {
+        } else if (ongoingOrderArrayList.get(position).status == IWebService.KEY_REQ_STATUS_PUECHASING) {
 
-            txtorderStatus.setBackgroundResource(R.drawable.button_background_blue);
-            txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_purchasing));
+            llOrderStatus.setBackgroundResource(R.drawable.button_background_blue);
+            txtorderStatus.setText(ongoingOrderArrayList.get(position).statusLable);
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.purchasing), null);
 
-        } else if (statusCode == IWebService.KEY_REQ_STATUS_SHIPING) {
+        } else if (ongoingOrderArrayList.get(position).status == IWebService.KEY_REQ_STATUS_SHIPING) {
 
-            txtorderStatus.setBackgroundResource(R.drawable.button_background_yellow);
-            txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_shipping));
+            llOrderStatus.setBackgroundResource(R.drawable.button_background_yellow);
+            txtorderStatus.setText(ongoingOrderArrayList.get(position).statusLable);
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.shipping), null);
 
-        } else if (statusCode == IWebService.KEY_REQ_STATUS_COMPLETED) {
+        } else if (ongoingOrderArrayList.get(position).status == IWebService.KEY_REQ_STATUS_COMPLETED) {
 
-            txtorderStatus.setBackgroundResource(R.drawable.button_background_green);
-            txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_completed));
+            llOrderStatus.setBackgroundResource(R.drawable.button_background_green);
+            txtorderStatus.setText(ongoingOrderArrayList.get(position).statusLable);
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.completed_white), null);
 
-        } else if (statusCode == IWebService.KEY_REQ_STATUS_ON_HOLD) {
+        } else if (ongoingOrderArrayList.get(position).status == IWebService.KEY_REQ_STATUS_ON_HOLD) {
 
-            txtorderStatus.setBackgroundResource(R.drawable.button_background_green);
-            txtorderStatus.setText(mContext.getResources().getString(R.string.order_status_onhold));
-            txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.completed_white), null);
+            llOrderStatus.setBackgroundResource(R.drawable.button_background_red);
+            txtorderStatus.setText(ongoingOrderArrayList.get(position).statusLable);
+            txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.hold), null);
 
         }
 

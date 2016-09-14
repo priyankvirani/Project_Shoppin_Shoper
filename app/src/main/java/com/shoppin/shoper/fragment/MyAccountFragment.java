@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -32,9 +33,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.shoppin.shoper.R.id.etxPassword;
-import static com.shoppin.shoper.R.id.etxPostcode;
-
 /**
  * Created by ubuntu on 15/8/16.
  */
@@ -56,6 +54,9 @@ public class MyAccountFragment extends BaseFragment {
 
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
+
+    @BindView(R.id.llProfileDetqails)
+    LinearLayout llProfileDetqails;
 
     private ArrayList<Suburb> suburbArrayList;
     private ArrayAdapter<Suburb> suburbArrayAdapter;
@@ -173,10 +174,12 @@ public class MyAccountFragment extends BaseFragment {
             updateEmployeeProfileDataRequest.execute(IWebService.UPDATE_EMPLOYEE_PROFILE, updateEmployeeProfileDataParam.toString(), new DataRequest.CallBack() {
                         public void onPreExecute() {
                             rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+                            llProfileDetqails.setVisibility(View.GONE);
                         }
 
                         public void onPostExecute(String response) {
                             rlvGlobalProgressbar.setVisibility(View.GONE);
+                            llProfileDetqails.setVisibility(View.VISIBLE);
                             try {
 
                                 if (!DataRequest.hasError(getActivity(), response, true)) {

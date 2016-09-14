@@ -57,6 +57,8 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
         TextView txtReject;
         @BindView(R.id.card_view)
         CardView cardView;
+        @BindView(R.id.txtItemCount)
+        TextView txtItemCount;
         
 
         public MyViewHolder(View view) {
@@ -86,18 +88,20 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
         holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign)+orderRequestArrayList.get(position).total);
         holder.txtOrderDate.setText(orderRequestArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(orderRequestArrayList.get(position).delivery_time);
+        holder.txtItemCount.setText(orderRequestArrayList.get(position).itemCount);
+
 
         holder.txtAccepted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onStatusChangeListener.onStatusChange(orderRequestArrayList.get(position).order_number,true);
+                onStatusChangeListener.onStatusChange(position,true);
 
             }
         });
         holder.txtReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onStatusChangeListener.onStatusChange(orderRequestArrayList.get(position).order_number,false);
+                onStatusChangeListener.onStatusChange(position,false);
 
             }
         });
@@ -119,7 +123,7 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
     }
 
     public interface OnStatusChangeListener {
-        public void onStatusChange(String ordernumber , boolean status);
+        public void onStatusChange(int position , boolean status);
     }
 
     @Override

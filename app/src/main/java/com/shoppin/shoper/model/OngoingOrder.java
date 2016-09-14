@@ -20,7 +20,9 @@ public class OngoingOrder implements Parcelable{
     @SerializedName("total")
     public String total;
     @SerializedName("status")
-    public String status;
+    public int status;
+    @SerializedName("status_label")
+    public String statusLable;
     @SerializedName("address1")
     public String address1;
     @SerializedName("suburb_name")
@@ -29,6 +31,15 @@ public class OngoingOrder implements Parcelable{
     public String delivery_date;
     @SerializedName("delivery_time")
     public String delivery_time;
+    @SerializedName("customer_name")
+    public String customerName;
+    @SerializedName("item_count")
+    public String itemCount;
+
+
+
+    public OngoingOrder() {
+    }
 
     @Override
     public int describeContents() {
@@ -41,14 +52,14 @@ public class OngoingOrder implements Parcelable{
         dest.writeString(this.order_slot_id);
         dest.writeString(this.shipping_address_id);
         dest.writeString(this.total);
-        dest.writeString(this.status);
+        dest.writeInt(this.status);
+        dest.writeString(this.statusLable);
         dest.writeString(this.address1);
         dest.writeString(this.suburb_name);
         dest.writeString(this.delivery_date);
         dest.writeString(this.delivery_time);
-    }
-
-    public OngoingOrder() {
+        dest.writeString(this.customerName);
+        dest.writeString(this.itemCount);
     }
 
     protected OngoingOrder(Parcel in) {
@@ -56,11 +67,14 @@ public class OngoingOrder implements Parcelable{
         this.order_slot_id = in.readString();
         this.shipping_address_id = in.readString();
         this.total = in.readString();
-        this.status = in.readString();
+        this.status = in.readInt();
+        this.statusLable = in.readString();
         this.address1 = in.readString();
         this.suburb_name = in.readString();
         this.delivery_date = in.readString();
         this.delivery_time = in.readString();
+        this.customerName = in.readString();
+        this.itemCount = in.readString();
     }
 
     public static final Creator<OngoingOrder> CREATOR = new Creator<OngoingOrder>() {

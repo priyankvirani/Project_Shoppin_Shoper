@@ -1,6 +1,7 @@
 package com.shoppin.shoper.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,16 @@ import com.shoppin.shoper.R;
 import com.shoppin.shoper.fragment.OrderDetailFragment;
 import com.shoppin.shoper.model.Product;
 import com.shoppin.shoper.network.IWebService;
+import com.shoppin.shoper.utils.Utils;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.google.android.gms.analytics.internal.zzy.G;
+import static com.google.android.gms.analytics.internal.zzy.g;
+import static com.google.android.gms.analytics.internal.zzy.p;
 
 /**
  * Created by ubuntu on 8/8/16.
@@ -47,6 +53,8 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
         ImageView imgProduct;
         @BindView(R.id.txtProductPrice)
         TextView txtProductPrice;
+        @BindView(R.id.txtProductSalePrice)
+        TextView txtProductSalePrice;
         @BindView(R.id.txtProductQuantity)
         TextView txtProductQuantity;
         @BindView(R.id.imgItemStatus)
@@ -77,8 +85,10 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         holder.txtProductName.setText(productArrayList.get(position).productName);
-        holder.txtProductPrice.setText(productArrayList.get(position).saleprice1);
+        holder.txtProductPrice.setText(mContext.getString(R.string.dollar_sign) + productArrayList.get(position).productPrice);
+        holder.txtProductPrice.setPaintFlags(holder.txtProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.txtProductQuantity.setText(productArrayList.get(position).productQuntity);
+        holder.txtProductSalePrice.setText(mContext.getString(R.string.dollar_sign) + productArrayList.get(position).productSalePrice);
 
         if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
 
@@ -93,7 +103,12 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
             holder.imgItemStatus.setImageResource(R.drawable.round);
         }
 
-        holder.txtProductOption.setText(productArrayList.get(position).getSelectedOptions());
+        if (!Utils.isNullOrEmpty(productArrayList.get(position).getSelectedOptions())) {
+            holder.txtProductOption.setText(productArrayList.get(position).getSelectedOptions());
+        } else {
+            holder.txtProductOption.setVisibility(View.GONE);
+        }
+
 
         Glide.with(mContext)
                 .load(productArrayList.get(position).images[0])
@@ -138,7 +153,6 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
     public interface OnStatusChangeListener {
         public void onStatusChange(int position);
     }
-
 
 
     @Override

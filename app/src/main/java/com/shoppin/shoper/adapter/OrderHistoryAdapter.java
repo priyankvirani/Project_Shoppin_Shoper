@@ -56,6 +56,11 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         TextView txtStatusDate;
         @BindView(R.id.txtStatusTime)
         TextView txtStatusTime;
+        @BindView(R.id.txtCustomerName)
+        TextView txtCustomerName;
+        @BindView(R.id.txtItemCount)
+        TextView txtItemCount;
+
 
         @BindView(R.id.card_view)
         CardView cardView;
@@ -85,20 +90,22 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.txtOrderNumber.setText(orderHistoryArrayList.get(position).order_number);
         holder.txtStreetName.setText(orderHistoryArrayList.get(position).address1);
         holder.txtSuburb.setText(orderHistoryArrayList.get(position).suburb_name);
-        holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign)+orderHistoryArrayList.get(position).total);
+        holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign) + orderHistoryArrayList.get(position).total);
         holder.txtOrderDate.setText(orderHistoryArrayList.get(position).delivery_date);
         holder.txtOrderTime.setText(orderHistoryArrayList.get(position).delivery_time);
         holder.txtStatusDate.setText(orderHistoryArrayList.get(position).shipping_date);
         holder.txtStatusTime.setText(orderHistoryArrayList.get(position).shipping_time);
+        holder.txtCustomerName.setText(orderHistoryArrayList.get(position).customerName);
+        holder.txtItemCount.setText(orderHistoryArrayList.get(position).itemCount);
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
-                if(navigationDrawerActivity!=null) {
+                if (navigationDrawerActivity != null) {
                     navigationDrawerActivity.switchContent(OrderDetailFragment
-                            .newInstance(orderHistoryArrayList.get(position).order_number,true));
+                            .newInstance(orderHistoryArrayList.get(position).order_number, true));
                 }
             }
         });

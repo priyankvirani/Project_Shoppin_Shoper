@@ -29,7 +29,14 @@ public class OrderRequest implements Parcelable {
     public String delivery_date;
     @SerializedName("delivery_time")
     public String delivery_time;
+    @SerializedName("customer_name")
+    public String customerName;
+    @SerializedName("item_count")
+    public String itemCount;
 
+
+    public OrderRequest() {
+    }
 
     @Override
     public int describeContents() {
@@ -47,9 +54,8 @@ public class OrderRequest implements Parcelable {
         dest.writeString(this.suburb_name);
         dest.writeString(this.delivery_date);
         dest.writeString(this.delivery_time);
-    }
-
-    public OrderRequest() {
+        dest.writeString(this.customerName);
+        dest.writeString(this.itemCount);
     }
 
     protected OrderRequest(Parcel in) {
@@ -62,6 +68,8 @@ public class OrderRequest implements Parcelable {
         this.suburb_name = in.readString();
         this.delivery_date = in.readString();
         this.delivery_time = in.readString();
+        this.customerName = in.readString();
+        this.itemCount = in.readString();
     }
 
     public static final Creator<OrderRequest> CREATOR = new Creator<OrderRequest>() {

@@ -33,6 +33,13 @@ public class OrderHistory implements Parcelable {
     public String shipping_date;
     @SerializedName("shipping_time")
     public String shipping_time;
+    @SerializedName("customer_name")
+    public String customerName;
+    @SerializedName("item_count")
+    public String itemCount;
+
+    public OrderHistory() {
+    }
 
     @Override
     public int describeContents() {
@@ -52,9 +59,8 @@ public class OrderHistory implements Parcelable {
         dest.writeString(this.delivery_time);
         dest.writeString(this.shipping_date);
         dest.writeString(this.shipping_time);
-    }
-
-    public OrderHistory() {
+        dest.writeString(this.customerName);
+        dest.writeString(this.itemCount);
     }
 
     protected OrderHistory(Parcel in) {
@@ -69,6 +75,8 @@ public class OrderHistory implements Parcelable {
         this.delivery_time = in.readString();
         this.shipping_date = in.readString();
         this.shipping_time = in.readString();
+        this.customerName = in.readString();
+        this.itemCount = in.readString();
     }
 
     public static final Creator<OrderHistory> CREATOR = new Creator<OrderHistory>() {

@@ -206,6 +206,8 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     @OnClick(R.id.imgSearch)
     public void searchProduct() {
+        Toast.makeText(this, "Under development",
+                Toast.LENGTH_SHORT).show();
 //        isNavMenuchange = true;
 //        switchContent(new HomeFragment());
     }

@@ -58,15 +58,16 @@ public interface IWebService {
     int KEY_REQ_STATUS_ON_HOLD = 7;
     int KEY_REQ_STATUS_CANECLED = 8;
 
+    int KEY_REQ_PREFRRED_STORE_ID = 0;
+
 
     int KEY_REQ_STATUS_PRODUCT_AVAILABLE = 1;
     int KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE = -1;
 
 
-
-    String KEY_REQ_PRODUCT_COMMENTS ="comment";
-    String KEY_REQ_NULL ="null";
-
+    String KEY_REQ_PRODUCT_COMMENTS = "comment";
+    String KEY_REQ_NULL = "null";
+    String KEY_REQ_STATUS = "status";
 
 
     /**
@@ -84,8 +85,7 @@ public interface IWebService {
     String KEY_RES_IMAGES = "images";
     String KEY_RES_OPTION_LIST = "option_list";
     String KEY_RES_STATUS_LIST = "status_list";
-    String KET_RES_SUBURB_LIST ="suburb_list";
-
+    String KET_RES_SUBURB_LIST = "suburb_list";
 
 
     String KEY_RES_ORDER_NAME = "order_number";
@@ -94,23 +94,26 @@ public interface IWebService {
     String KEY_RES_SUBURB_NAME = "suburb_name";
     String KEY_RES_TOTAL = "total";
     String KEY_RES_STATUS = "status";
-    String KEY_RES_STATUS_LABEL = "status_lable";
+    String KEY_RES_STATUS_LABEL = "status_label";
     String KEY_RES_ADDRESS1 = "address1";
     String KEY_RES_DELIVERY_DATE = "delivery_date";
     String KEY_RES_DELIVERY_TIME = "delivery_time";
     String KEY_RES_SHIPPING_DATE = "shipping_date";
     String KEY_RES_SHIPPING_TIME = "shipping_time";
     String KEY_RES_CUSTOMER_MOBILE = "customer_mobile";
+    String KEY_RES_CUSTOMER_NAME = "customer_name";
     String KEY_RES_STORE_NAME = "store_name";
-
-
+    String KEY_RES_ITEM_COUNT = "item_count";
+    String KEY_RES_PREFERRED_STORE_ID = "preferred_store_id";
+    String KEY_RES_STORE_ADDRESS = "store_address";
+    String KEY_RED_ZIP = "zip";
 
 
     String KEY_RES_PRODUCT_ITEM_ID = "product_items_id";
     String KEY_RES_PRODUCT_ID = "productId";
     String KEY_RES_SALEPRICE_1 = "saleprice1";
     String KEY_RES_PRODUCT_NAME = "productName";
-    String KEY_RES_PRODUCT_COMMENTS ="comment";
+    String KEY_RES_PRODUCT_COMMENTS = "comment";
 
 
     String KEY_RES_SET_VALUE = "set_value";

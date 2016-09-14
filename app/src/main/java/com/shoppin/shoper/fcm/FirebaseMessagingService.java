@@ -33,7 +33,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         Log.e(TAG, "From: " + remoteMessage.getData().get("message"));
         Log.e(TAG, "title: " + remoteMessage.getData().get("title"));
-         showNotification(remoteMessage.getData().get("message"));
+        if (!Utils.isNullOrEmpty(DBAdapter.getMapKeyValueString(FirebaseMessagingService.this, IDatabase.IMap.KEY_EMPLOYEE_ID))) {
+            showNotification(remoteMessage.getData().get("message"));
+        }
 
     }
 
