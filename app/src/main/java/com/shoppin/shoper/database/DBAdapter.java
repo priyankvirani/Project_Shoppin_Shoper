@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.util.HashMap;
-
 import static com.shoppin.shoper.database.IDatabase.IMap;
 
 /**

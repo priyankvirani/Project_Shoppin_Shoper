@@ -76,7 +76,6 @@
                     android:background="@drawable/cart_circle_green"
                     android:maxLength="3"
                     android:maxLines="1"
-                    android:singleLine="true"
                     android:gravity="center"
                     android:layout_marginTop="@dimen/margin_tiny"
                     android:textColor="@color/white"

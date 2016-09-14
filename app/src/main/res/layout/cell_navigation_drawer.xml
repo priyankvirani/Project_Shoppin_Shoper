@@ -24,7 +24,6 @@
             android:id="@+id/rowTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/rowIcon"
             android:gravity="center_vertical"
             android:padding="@dimen/margin_small"
             android:textColor="@color/white"

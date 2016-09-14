@@ -14,7 +14,7 @@
         <string name="drawer_menu_about_us">About Us</string>-->
 
     <!-- Other -->
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="submit">Submit</string>
     <string name="comment">Comment</string>
@@ -58,6 +58,10 @@
 
     <!--order status-->
     <string name="order_status_reject">Reject</string>
+    <string name="order_status_accepted">Accepted</string>
+    <string name="order_status_purchasing">Purchasing</string>
+    <string name="order_status_shipping">Shipping</string>
+    <string name="order_status_completed">Completed</string>
 
     <!--fragment name-->
     <string name="fragment_order_ongoing">Order Ongoing</string>

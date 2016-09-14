@@ -14,7 +14,7 @@ public class StatusOptionValue implements Parcelable{
     public int status;
 
     @SerializedName("status_label")
-    public String statusLable;
+    public String statusLabel;
 
     public boolean isSelected;
 
@@ -27,7 +27,7 @@ public class StatusOptionValue implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.status);
-        dest.writeString(this.statusLable);
+        dest.writeString(this.statusLabel);
         dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
     }
 
@@ -36,7 +36,7 @@ public class StatusOptionValue implements Parcelable{
 
     protected StatusOptionValue(Parcel in) {
         this.status = in.readInt();
-        this.statusLable = in.readString();
+        this.statusLabel = in.readString();
         this.isSelected = in.readByte() != 0;
     }
 

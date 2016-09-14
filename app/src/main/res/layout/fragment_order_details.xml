@@ -9,8 +9,8 @@
         android:id="@+id/rootContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
 
         <RelativeLayout
             android:id="@+id/rlOrderDetails"
@@ -22,9 +22,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
                 card_view:cardCornerRadius="@dimen/margin_tiny">
 
                 <RelativeLayout
@@ -94,7 +94,6 @@
                                 android:id="@+id/txtOrderTime"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
                                 android:layout_margin="@dimen/margin_tiny"
                                 android:layout_weight="1"
                                 android:gravity="right"
@@ -152,7 +151,6 @@
                                     android:id="@+id/txtphoneNumber"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentLeft="true"
                                     android:layout_gravity="center_vertical"
                                     android:layout_margin="@dimen/margin_tiny"
                                     android:background="@drawable/button_background_green"
@@ -177,8 +175,6 @@
                                     android:id="@+id/txtShippingDate"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_below="@id/txtView"
                                     android:layout_gravity="right|bottom"
                                     android:layout_margin="@dimen/margin_tiny"
                                     android:drawableLeft="@drawable/completed"
@@ -191,8 +187,6 @@
                                     android:id="@+id/txtShippingTime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_below="@id/txtShippingDate"
                                     android:layout_gravity="right|bottom"
                                     android:layout_margin="@dimen/margin_tiny"
                                     android:gravity="right|bottom"
@@ -214,11 +208,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/card_view"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
-                android:drawablePadding="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_small"
                 android:drawableLeft="@drawable/store"
+                android:drawablePadding="@dimen/margin_tiny"
                 android:textColor="@color/cell_textview_color"
                 android:textSize="@dimen/font_size_edittext" />
 
@@ -238,8 +232,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtStoreAddress"
                 android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/bg_option_dropdown"
-                android:text="Status" />
+                android:background="@drawable/bg_option_dropdown" />
 
             <LinearLayout
                 android:id="@+id/lltOrderStatus"
@@ -282,7 +275,7 @@
                         android:gravity="center"
                         android:paddingBottom="5dp"
                         android:paddingTop="2dp"
-                        android:text="Accepted"
+                        android:text="@string/order_status_accepted"
                         android:textColor="@color/gray" />
                 </LinearLayout>
 
@@ -319,7 +312,7 @@
                         android:gravity="center"
                         android:paddingBottom="5dp"
                         android:paddingTop="2dp"
-                        android:text="Purchasing"
+                        android:text="@string/order_status_purchasing"
                         android:textColor="@color/gray" />
                 </LinearLayout>
 
@@ -356,7 +349,7 @@
                         android:gravity="center"
                         android:paddingBottom="5dp"
                         android:paddingTop="2dp"
-                        android:text="Shiping"
+                        android:text="@string/order_status_shipping"
                         android:textColor="@color/gray" />
                 </LinearLayout>
 
@@ -393,7 +386,7 @@
                         android:gravity="center"
                         android:paddingBottom="5dp"
                         android:paddingTop="2dp"
-                        android:text="Completed"
+                        android:text="@string/order_status_completed"
                         android:textColor="@color/gray" />
                 </LinearLayout>
             </LinearLayout>

@@ -2,14 +2,11 @@ package com.shoppin.shoper.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 import com.shoppin.shoper.utils.Utils;
 
 import java.util.ArrayList;
-
-import static android.R.id.list;
 
 
 /**

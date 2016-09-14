@@ -25,7 +25,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="Selection Type"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size_toolbar_title"
                 android:textStyle="bold" />
@@ -38,7 +37,6 @@
                 android:layout_marginRight="@dimen/margin_tiny"
                 android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/margin_small"
-                android:text="DONE"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size_edittext"
                 android:visibility="gone" />

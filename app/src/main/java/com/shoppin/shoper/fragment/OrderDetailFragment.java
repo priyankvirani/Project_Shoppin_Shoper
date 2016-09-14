@@ -42,8 +42,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.R.attr.id;
-
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -154,10 +152,10 @@ public class OrderDetailFragment extends BaseFragment {
     @BindView(R.id.txtCompleted)
     TextView txtCompleted;
 
-    private boolean isAccpted = false;
-    private boolean isPurchasing = false;
-    private boolean isShiping = false;
-    private boolean isCompleted = false;
+    public boolean isAccpted = false;
+    public boolean isPurchasing = false;
+    public boolean isShiping = false;
+    public boolean isCompleted = false;
 
 
     @Nullable
@@ -223,55 +221,6 @@ public class OrderDetailFragment extends BaseFragment {
             }
         });
 
-//        lltAccpeted.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (isAccpted) {
-//                    lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
-//                    imgAccpeted.setImageResource(R.drawable.accepted);
-//                    txtAccepted.setTextColor(getResources().getColor(R.color.white));
-//                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_ACCEPTED);
-//                }
-//
-//
-//            }
-//        });
-//        lltPurchasing.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isPurchasing) {
-//                    lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
-//                    imgPurchasing.setImageResource(R.drawable.purchasing);
-//                    txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
-//                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_PUECHASING);
-//                }
-//
-//
-//            }
-//        });
-//        lltShiping.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isShiping) {
-//                    lltShiping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
-//                    imgShiping.setImageResource(R.drawable.shipping);
-//                    txtShiping.setTextColor(getResources().getColor(R.color.white));
-//                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_SHIPING);
-//                }
-//            }
-//        });
-//        lltCompleted.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isCompleted) {
-//                    lltCompleted.setBackgroundColor(getResources().getColor(R.color.order_datails_completed));
-//                    imgCompleted.setImageResource(R.drawable.completed_white);
-//                    txtCompleted.setTextColor(getResources().getColor(R.color.white));
-//                    sendOrderStatus(order_number, IWebService.KEY_REQ_STATUS_COMPLETED);
-//                }
-//            }
-//        });
 
 
         txtphoneNumber.setOnClickListener(new View.OnClickListener() {
@@ -318,7 +267,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                                     txtOrderNumber.setText(dataJObject.getString(IWebService.KEY_REQ_ORDER_NUMBER));
                                     txtStreetName.setText(dataJObject.getString(IWebService.KEY_RES_ADDRESS1));
-                                    txtSuburb.setText(dataJObject.getString(IWebService.KEY_RES_SUBURB_NAME) + ", " + dataJObject.getString(IWebService.KEY_RED_ZIP));
+                                    txtSuburb.setText(dataJObject.getString(IWebService.KEY_RES_SUBURB_NAME) + ", " + dataJObject.getString(IWebService.KEY_RES_ZIP));
                                     txtphoneNumber.setText(dataJObject.getString(IWebService.KEY_RES_CUSTOMER_MOBILE));
                                     txtOrderDate.setText(dataJObject.getString(IWebService.KEY_RES_DELIVERY_DATE));
                                     txtOrderTime.setText(dataJObject.getString(IWebService.KEY_RES_DELIVERY_TIME));
@@ -349,7 +298,15 @@ public class OrderDetailFragment extends BaseFragment {
                                         txtShippingDate.setVisibility(View.GONE);
                                         txtShippingTime.setVisibility(View.GONE);
                                     }
-                                    orderstatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
+
+                                    if (Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)) ==
+                                            IWebService.KEY_REQ_STATUS_ON_HOLD || Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)) ==
+                                            IWebService.KEY_REQ_STATUS_CANECLED) {
+                                        orderstatus(Integer.valueOf(dataJObject.getString(IWebService.KET_RES_PREV_STATUS)));
+                                    } else {
+                                        orderstatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
+                                    }
+
 
 //                            Log.e(TAG, "Order status :  " + Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
 //                            Log.e(TAG, "tmpProductArrayList Size :  " + productArrayList.size());
@@ -529,7 +486,7 @@ public class OrderDetailFragment extends BaseFragment {
                             }
 
                             statusOptionValueArrayList.get(position).isSelected = true;
-                            txtStatusOption.setText(statusOptionValueArrayList.get(position).statusLable);
+                            txtStatusOption.setText(statusOptionValueArrayList.get(position).statusLabel);
                             filterStatusAdapter.notifyDataSetChanged();
 
                             orderstatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
@@ -563,7 +520,7 @@ public class OrderDetailFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
 
-                if (Integer.valueOf(productArrayList.get(position).productAvailability) == 1) {
+                if (productArrayList.get(position).productAvailability == 1) {
                     productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
                 } else {
                     productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
@@ -672,7 +629,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
-                            Gson gson = new Gson();
+                            //Gson gson = new Gson();
 
                             Log.e(TAG, "Status Name : " + dataJObject.getString(IWebService.KEY_REQ_SET_VALUE));
                             productDetailsAdapter.notifyDataSetChanged();
@@ -708,7 +665,7 @@ public class OrderDetailFragment extends BaseFragment {
         ((TextView) dialogView.findViewById(R.id.txtSelectionType))
                 .setText(getActivity().getResources().getString(R.string.order_status));
         recyclerFilter = (RecyclerView) dialogView.findViewById(R.id.recyclerFilter);
-        filterStatusAdapter = new SelectionAdapter<StatusOptionValue>(statusOptionValueArrayList);
+        filterStatusAdapter = new SelectionAdapter<>(statusOptionValueArrayList);
 
         filterStatusAdapter
                 .setBindAdapterInterface(new SelectionAdapter.IBindAdapterValues<StatusOptionValue>() {
@@ -717,7 +674,7 @@ public class OrderDetailFragment extends BaseFragment {
                         // TODO Auto-generated method stub
 
                         holder.txtSelectionValue.setText(statusOptionValueArrayList
-                                .get(position).statusLable);
+                                .get(position).statusLabel);
                         holder.txtSelectionValue.setChecked(statusOptionValueArrayList
                                 .get(position).isSelected);
                         if (statusOptionValueArrayList.get(position).isSelected) {

@@ -49,7 +49,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("Shoper")
+                .setContentTitle("Shopper")
                 .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setSound(defaultSoundUri).setContentText(message)

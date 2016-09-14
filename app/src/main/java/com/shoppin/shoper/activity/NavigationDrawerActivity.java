@@ -36,8 +36,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.google.android.gms.analytics.internal.zzy.i;
-import static com.google.android.gms.analytics.internal.zzy.s;
 import static com.shoppin.shoper.utils.IConstants.IDrawerMenu;
 
 public class NavigationDrawerActivity extends BaseActivity {
@@ -88,7 +86,7 @@ public class NavigationDrawerActivity extends BaseActivity {
     };
     private ActionBarDrawerToggle drawerToggle;
     private ArrayList<NavigationDrawerMenu> navigationDrawerMenuArrayList;
-    private NavigationDrawerMenuAdapter drawerMenuAdapter;
+    public NavigationDrawerMenuAdapter drawerMenuAdapter;
     /**
      * When user select option from navigation drawer remove all previous
      * frgaments
@@ -160,7 +158,7 @@ public class NavigationDrawerActivity extends BaseActivity {
 //            toolbar.setNavigationIcon(R.drawable.menu_icon);
 //            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu_icon));
             setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("");
+            //getSupportActionBar().setTitle("");
         }
         initDrawer();
 

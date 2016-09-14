@@ -96,8 +96,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-            Log.e(TAG,"Employe ID : - " +DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_ID));
-            Log.e(TAG,"Employe SUBURB ID : - " +DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID));
+            Log.e(TAG,"Employee ID : - " +DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_ID));
+            Log.e(TAG,"Employee SUBURB ID : - " +DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID));
 
 
         }

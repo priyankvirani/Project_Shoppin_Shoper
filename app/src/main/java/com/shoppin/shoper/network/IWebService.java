@@ -1,7 +1,6 @@
 package com.shoppin.shoper.network;
 
 
-
 /**
  * Created by ubuntu on 10/8/16.
  */
@@ -106,7 +105,8 @@ public interface IWebService {
     String KEY_RES_ITEM_COUNT = "item_count";
     String KEY_RES_PREFERRED_STORE_ID = "preferred_store_id";
     String KEY_RES_STORE_ADDRESS = "store_address";
-    String KEY_RED_ZIP = "zip";
+    String KEY_RES_ZIP = "zip";
+    String KET_RES_PREV_STATUS = "prev_status";
 
 
     String KEY_RES_PRODUCT_ITEM_ID = "product_items_id";

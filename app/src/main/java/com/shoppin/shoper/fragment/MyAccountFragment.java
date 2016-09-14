@@ -184,7 +184,7 @@ public class MyAccountFragment extends BaseFragment {
 
                                     JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
-                                    Gson gson = new Gson();
+                                    //Gson gson = new Gson();
 
                                     DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID, dataJObject.getString(IWebService.KEY_RES_EMPLOYEE_SUBURB_ID));
 
