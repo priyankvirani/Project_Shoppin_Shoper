@@ -17,14 +17,19 @@ public interface IWebService {
 
 
     String EMPLOYEE_LOGIN = MAIN_URL + "shopper/EmployeeLogin";
-    String ONGOING_ORDER = MAIN_URL + "shopper/OngoingOrders";
     String ORDER_REQUEST = MAIN_URL + "shopper/OrderRequests";
-    String ACCEPT_ORDER = MAIN_URL + "shopper/OrderAction";
+    String ORDER_ACTION = MAIN_URL + "shopper/OrderAction";
     String ORDER_DETAILS = MAIN_URL + "shopper/OrderDetail";
-    String ORDER_HISTORY = MAIN_URL + "shopper/OrderHistory";
     String UPDATE_ORDERITEM_AVAILIBILITY = MAIN_URL + "shopper/UpdateOrderItemAvailibility";
+    String ORDER_HISTORY = MAIN_URL + "shopper/OrderHistory";
+    String ONGOING_ORDER = MAIN_URL + "shopper/OngoingOrders";
+
+    String VERSION_EMPLOYEE = MAIN_URL + "VersionEmployee";
+    String DEVICE_REGISTRATION = MAIN_URL + "shopper/DeviceRegistration";
+
     String GET_EMPLOYEE_PROFILE = MAIN_URL + "shopper/GetEmployeeProfile";
     String UPDATE_EMPLOYEE_PROFILE = MAIN_URL + "shopper/UpdateEmployeeProfile";
+    String EMPLOYEE_SIGNOUT = MAIN_URL + "shopper/EmployeeLogout";
 
     /**
      * Request Params

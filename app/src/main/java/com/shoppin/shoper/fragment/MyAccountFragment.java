@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shoper.R;
@@ -23,6 +24,8 @@ import com.shoppin.shoper.database.IDatabase;
 import com.shoppin.shoper.model.Suburb;
 import com.shoppin.shoper.network.DataRequest;
 import com.shoppin.shoper.network.IWebService;
+import com.shoppin.shoper.utils.IConstants;
+import com.shoppin.shoper.utils.UniqueId;
 import com.shoppin.shoper.utils.Utils;
 
 import org.json.JSONObject;
@@ -32,6 +35,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.shoppin.shoper.R.id.etxPassword;
+import static com.shoppin.shoper.R.id.etxSigninId;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -80,14 +86,44 @@ public class MyAccountFragment extends BaseFragment {
     }
 
     @OnClick(R.id.txtSingOut)
-    void logOut() {
+    void signOutOut() {
 
-        DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID, "");
-        DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID, "");
+        try {
+                JSONObject signOutParam = new JSONObject();
+                signOutParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_ID, UniqueId.getUniqueId(getActivity()));
 
-        Intent intent = new Intent(getActivity(), SigninActivity.class);
-        startActivity(intent);
-        getActivity().finish();
+                DataRequest signOutDataRequest = new DataRequest(getActivity());
+                signOutDataRequest.execute(IWebService.EMPLOYEE_SIGNOUT, signOutParam.toString(), new DataRequest.CallBack() {
+                    public void onPreExecute() {
+                        rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+                    }
+
+                    public void onPostExecute(String response) {
+                        try {
+                            rlvGlobalProgressbar.setVisibility(View.GONE);
+                            if (!DataRequest.hasError(getActivity(), response, true)) {
+
+                                JSONObject dataJObject = DataRequest.getJObjWebdata(response);
+
+                                DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID, "");
+                                DBAdapter.insertUpdateMap(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID, "");
+
+                                Intent intent = new Intent(getActivity(), SigninActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                                                           }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
@@ -242,6 +278,8 @@ public class MyAccountFragment extends BaseFragment {
             navigationDrawerActivity.setToolbarTitle(getActivity().getResources().getString(R.string.fragment_my_account));
         }
     }
+
+
 
 }
 

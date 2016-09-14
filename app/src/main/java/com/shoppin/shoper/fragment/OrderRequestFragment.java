@@ -140,7 +140,7 @@ public class OrderRequestFragment extends BaseFragment {
             orderStatusParam.put(IWebService.KEY_REQ_PRODUCT_COMMENTS, IWebService.KEY_REQ_NULL);
 
             DataRequest signinDataRequest = new DataRequest(getActivity());
-            signinDataRequest.execute(IWebService.ACCEPT_ORDER, orderStatusParam.toString(), new DataRequest.CallBack() {
+            signinDataRequest.execute(IWebService.ORDER_ACTION, orderStatusParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
 

@@ -463,7 +463,7 @@ public class OrderDetailFragment extends BaseFragment {
 
 
             DataRequest orderStatusDataRequest = new DataRequest(getActivity());
-            orderStatusDataRequest.execute(IWebService.ACCEPT_ORDER, orderstatusParam.toString(), new DataRequest.CallBack() {
+            orderStatusDataRequest.execute(IWebService.ORDER_ACTION, orderstatusParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
 
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
