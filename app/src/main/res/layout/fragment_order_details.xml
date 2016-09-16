@@ -35,6 +35,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingBottom="@dimen/margin_all"
                         android:paddingTop="@dimen/margin_small">
 
                         <TextView
@@ -188,6 +189,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|bottom"
+                                    android:drawablePadding="@dimen/margin_all"
                                     android:layout_margin="@dimen/margin_tiny"
                                     android:gravity="right|bottom"
                                     android:textColor="@color/app_theme_1"

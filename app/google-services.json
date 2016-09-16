@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "371506375394",
-    "firebase_url": "https://shoper-89c53.firebaseio.com",
-    "project_id": "shoper-89c53",
-    "storage_bucket": "shoper-89c53.appspot.com"
+    "project_number": "350521155070",
+    "firebase_url": "https://shopper-5b2bf.firebaseio.com",
+    "project_id": "shopper-5b2bf",
+    "storage_bucket": "shopper-5b2bf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:371506375394:android:e5cb43e556b5b7da",
+        "mobilesdk_app_id": "1:350521155070:android:eb149a1e82293929",
         "android_client_info": {
-          "package_name": "com.shoppin.shoper"
+          "package_name": "com.shoppin.shopper"
         }
       },
       "oauth_client": [
         {
-          "client_id": "371506375394-6hil5u1ar29ol8711cpugrcv38huf8g7.apps.googleusercontent.com",
+          "client_id": "350521155070-miiqjs5vgrrbdv26bqpsqcor7tka8rht.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDinvi4EGDw6Hx7SfUJUHrF6HJ87ouVMDU"
+          "current_key": "AIzaSyB4umQQVLZgWVJ9fschJQs-SRHDhZhBjW0"
         }
       ],
       "services": {

@@ -20,24 +20,25 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingBottom="@dimen/margin_all"
                 android:paddingTop="@dimen/margin_small">
 
                 <TextView
                     android:id="@+id/txtOrderNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_size_edittext"
+                    android:layout_margin="@dimen/margin_tiny"
                     android:textColor="@color/cell_textview_color"
-                    android:layout_margin="@dimen/margin_tiny" />
+                    android:textSize="@dimen/font_size_edittext" />
 
                 <TextView
                     android:id="@+id/txtOrderDate"
                     android:layout_width="wrap_content"
-                    android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="@dimen/margin_tiny" />
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:textColor="@color/cell_textview_color"
+                    android:textSize="@dimen/font_size_edittext" />
 
                 <LinearLayout
                     android:id="@+id/llAddress"
@@ -56,61 +57,61 @@
 
                         <TextView
                             android:id="@+id/txtCustomerName"
-                            android:textSize="@dimen/font_size_edittext"
-                            android:textColor="@color/cell_textview_color"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textColor="@color/cell_textview_color"
+                            android:textSize="@dimen/font_size_edittext" />
 
                         <TextView
                             android:id="@+id/txtStreetName"
-                            android:textSize="@dimen/font_size_edittext"
-                            android:textColor="@color/cell_textview_color"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textColor="@color/cell_textview_color"
+                            android:textSize="@dimen/font_size_edittext" />
                     </LinearLayout>
 
 
                     <TextView
                         android:id="@+id/txtOrderTime"
-                        android:textSize="@dimen/font_size_edittext"
-                        android:textColor="@color/cell_textview_color"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_tiny"
                         android:layout_weight="1"
-                        android:gravity="right" />
+                        android:gravity="right"
+                        android:textColor="@color/cell_textview_color"
+                        android:textSize="@dimen/font_size_edittext" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/txtSuburb"
                     android:layout_width="wrap_content"
-                    android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/llAddress"
-                    android:layout_margin="@dimen/margin_tiny" />
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:textColor="@color/cell_textview_color"
+                    android:textSize="@dimen/font_size_edittext" />
 
                 <TextView
                     android:id="@+id/txtTotalPrice"
-                    android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtSuburb"
-                    android:layout_margin="@dimen/margin_tiny" />
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:textColor="@color/cell_textview_color"
+                    android:textSize="@dimen/font_size_edittext" />
 
                 <TextView
                     android:id="@+id/txtItemCount"
-                    android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtTotalPrice"
-                    android:layout_margin="@dimen/margin_tiny" />
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:textColor="@color/cell_textview_color"
+                    android:textSize="@dimen/font_size_edittext" />
 
                 <TextView
                     android:id="@+id/txtView"
@@ -126,13 +127,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textSize="@dimen/font_size_edittext"
                     android:layout_below="@id/txtView"
                     android:layout_margin="@dimen/margin_tiny"
                     android:drawableLeft="@drawable/completed"
                     android:drawablePadding="@dimen/margin_all"
                     android:gravity="center_vertical"
-                    android:textColor="@color/app_theme_1" />
+                    android:textColor="@color/app_theme_1"
+                    android:textSize="@dimen/font_size_edittext" />
 
                 <TextView
                     android:id="@+id/txtStatusTime"
@@ -140,11 +141,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/txtStatusDate"
-                    android:textSize="@dimen/font_size_edittext"
                     android:layout_margin="@dimen/margin_tiny"
-                    android:gravity="top"
-                    android:paddingBottom="@dimen/margin_all"
-                    android:textColor="@color/app_theme_1" />
+                    android:drawablePadding="@dimen/margin_all"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_theme_1"
+                    android:textSize="@dimen/font_size_edittext" />
 
 
             </RelativeLayout>
