@@ -27,19 +27,19 @@
                 <TextView
                     android:id="@+id/txtOrderNumber"
                     android:layout_width="wrap_content"
-                    android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny" />
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:textColor="@color/cell_textview_color"
+                    android:textSize="@dimen/font_size_edittext" />
 
                 <TextView
                     android:id="@+id/txtOrderDate"
-                    android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="@dimen/margin_tiny" />
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:textColor="@color/cell_textview_color"
+                    android:textSize="@dimen/font_size_edittext" />
 
                 <LinearLayout
                     android:id="@+id/llAddress"
@@ -60,30 +60,30 @@
                             android:id="@+id/txtCustomerName"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:textSize="@dimen/font_size_edittext"
-                            android:textColor="@color/cell_textview_color"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textColor="@color/cell_textview_color"
+                            android:textSize="@dimen/font_size_edittext" />
 
                         <TextView
                             android:id="@+id/txtStreetName"
                             android:layout_width="match_parent"
-                            android:textSize="@dimen/font_size_edittext"
-                            android:textColor="@color/cell_textview_color"
                             android:layout_height="0dp"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textColor="@color/cell_textview_color"
+                            android:textSize="@dimen/font_size_edittext" />
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/txtOrderTime"
                         android:layout_width="0dp"
-                        android:textSize="@dimen/font_size_edittext"
-                        android:textColor="@color/cell_textview_color"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_tiny"
                         android:layout_weight="1"
-                        android:gravity="right" />
+                        android:gravity="right"
+                        android:textColor="@color/cell_textview_color"
+                        android:textSize="@dimen/font_size_edittext" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -97,38 +97,36 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.55"
+                        android:layout_weight="0.45"
                         android:orientation="vertical"
                         android:weightSum="3">
 
                         <TextView
                             android:id="@+id/txtSuburb"
                             android:layout_width="match_parent"
-                            android:textSize="@dimen/font_size_edittext"
-                            android:textColor="@color/cell_textview_color"
                             android:layout_height="0dp"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textColor="@color/cell_textview_color"
+                            android:textSize="@dimen/font_size_edittext" />
 
                         <TextView
                             android:id="@+id/txtTotalPrice"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:textSize="@dimen/font_size_edittext"
-                            android:textColor="@color/cell_textview_color"
                             android:layout_weight="1"
-                            android:paddingBottom="@dimen/margin_all" />
+                            android:textColor="@color/cell_textview_color"
+                            android:textSize="@dimen/font_size_edittext" />
 
                         <TextView
                             android:id="@+id/txtItemCount"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:textSize="@dimen/font_size_edittext"
-                            android:textColor="@color/cell_textview_color"
                             android:layout_margin="@dimen/margin_tiny"
                             android:layout_weight="1"
-                            android:paddingBottom="@dimen/margin_all" />
+                            android:textColor="@color/cell_textview_color"
+                            android:textSize="@dimen/font_size_edittext" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -137,20 +135,19 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_margin="@dimen/margin_tiny"
-                        android:layout_weight="0.45"
-                        android:gravity="center"
-                        >
+                        android:layout_weight="0.55"
+                        android:gravity="center">
 
                         <TextView
                             android:id="@+id/txtOrderStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_tiny"
                             android:drawablePadding="@dimen/margin_tiny"
                             android:gravity="center"
                             android:padding="@dimen/margin_all"
-                            android:layout_margin="@dimen/margin_tiny"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/font_size_button"  />
+                            android:textSize="@dimen/font_size_button" />
 
                     </LinearLayout>
 

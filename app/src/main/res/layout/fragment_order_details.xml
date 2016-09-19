@@ -5,12 +5,13 @@
     android:background="@color/white"
     android:clickable="true">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/rootContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:scrollbars="none">
+
 
         <RelativeLayout
             android:id="@+id/rlOrderDetails"
@@ -64,6 +65,7 @@
                             android:layout_below="@id/txtOrderNumber"
                             android:orientation="horizontal"
                             android:weightSum="2">
+
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -145,7 +147,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
-                                android:layout_weight="1"
+                                android:layout_weight="1.1"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -156,10 +158,10 @@
                                     android:layout_margin="@dimen/margin_tiny"
                                     android:background="@drawable/button_background_green"
                                     android:drawableLeft="@drawable/mobilenumber"
-                                    android:drawablePadding="@dimen/margin_small"
+                                    android:drawablePadding="@dimen/margin_tiny"
                                     android:padding="@dimen/margin_button"
                                     android:textColor="@color/white"
-                                    android:textSize="@dimen/font_size_button" />
+                                    android:textSize="@dimen/font_normal_textview" />
 
                             </LinearLayout>
 
@@ -167,7 +169,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right|bottom"
-                                android:layout_weight="1"
+                                android:layout_weight="0.9"
                                 android:gravity="bottom"
                                 android:orientation="vertical"
                                 android:weightSum="2">
@@ -179,7 +181,7 @@
                                     android:layout_gravity="right|bottom"
                                     android:layout_margin="@dimen/margin_tiny"
                                     android:drawableLeft="@drawable/completed"
-                                    android:drawablePadding="@dimen/margin_all"
+                                    android:drawablePadding="@dimen/margin_tiny"
                                     android:gravity="right|bottom"
                                     android:textColor="@color/app_theme_1"
                                     android:textSize="@dimen/font_size_edittext" />
@@ -189,8 +191,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|bottom"
-                                    android:drawablePadding="@dimen/margin_all"
                                     android:layout_margin="@dimen/margin_tiny"
+                                    android:drawablePadding="@dimen/margin_all"
                                     android:gravity="right|bottom"
                                     android:textColor="@color/app_theme_1"
                                     android:textSize="@dimen/font_size_edittext" />
@@ -404,7 +406,7 @@
 
 
         </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <include layout="@layout/progressbar" />
 </RelativeLayout>
