@@ -125,21 +125,21 @@ public class OrderDetailFragment extends BaseFragment {
     TextView txtStoreAddress;
 
 
-    @BindView(R.id.lltAccpeted)
-    LinearLayout lltAccpeted;
+    @BindView(R.id.lltAccepted)
+    LinearLayout lltAccepted;
     @BindView(R.id.lltPurchasing)
     LinearLayout lltPurchasing;
-    @BindView(R.id.lltShiping)
-    LinearLayout lltShiping;
+    @BindView(R.id.lltShipping)
+    LinearLayout lltShipping;
     @BindView(R.id.lltCompleted)
     LinearLayout lltCompleted;
 
-    @BindView(R.id.imgAccpeted)
-    ImageView imgAccpeted;
+    @BindView(R.id.imgAccepted)
+    ImageView imgAccepted;
     @BindView(R.id.imgPurchasing)
     ImageView imgPurchasing;
-    @BindView(R.id.imgShiping)
-    ImageView imgShiping;
+    @BindView(R.id.imgShipping)
+    ImageView imgShipping;
     @BindView(R.id.imgCompleted)
     ImageView imgCompleted;
 
@@ -147,14 +147,14 @@ public class OrderDetailFragment extends BaseFragment {
     TextView txtAccepted;
     @BindView(R.id.txtxPurchasing)
     TextView txtxPurchasing;
-    @BindView(R.id.txtShiping)
-    TextView txtShiping;
+    @BindView(R.id.txtShipping)
+    TextView txtShipping;
     @BindView(R.id.txtCompleted)
     TextView txtCompleted;
 
-    private boolean isAccpted = false;
+    private boolean isAccepted = false;
     private boolean isPurchasing = false;
-    private boolean isShiping = false;
+    private boolean isShipping = false;
     private boolean isCompleted = false;
 
     private boolean isOrderStatusCompleted = true;
@@ -383,86 +383,86 @@ public class OrderDetailFragment extends BaseFragment {
 
             if (statusCode == IWebService.KEY_REQ_STATUS_ACCEPTED) {
 
-                lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
-                imgAccpeted.setImageResource(R.drawable.accepted);
+                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                imgAccepted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
-                lltAccpeted.setClickable(false);
+                lltAccepted.setClickable(false);
 
-                isAccpted = false;
+                isAccepted = false;
                 isPurchasing = true;
-                isShiping = false;
+                isShipping = false;
                 isCompleted = false;
 
 
             } else if (statusCode == IWebService.KEY_REQ_STATUS_PUECHASING) {
 
-                lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
-                imgAccpeted.setImageResource(R.drawable.accepted);
+                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                imgAccepted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
-                lltAccpeted.setClickable(false);
+                lltAccepted.setClickable(false);
 
                 lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
                 txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
 
-                isAccpted = false;
+                isAccepted = false;
                 isPurchasing = false;
-                isShiping = true;
+                isShipping = true;
                 isCompleted = false;
 
             } else if (statusCode == IWebService.KEY_REQ_STATUS_SHIPPING) {
-                lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
-                imgAccpeted.setImageResource(R.drawable.accepted);
+                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                imgAccepted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
-                lltAccpeted.setClickable(false);
+                lltAccepted.setClickable(false);
 
                 lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
                 txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
 
-                lltShiping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
-                imgShiping.setImageResource(R.drawable.shipping);
-                txtShiping.setTextColor(getResources().getColor(R.color.white));
-                lltShiping.setClickable(false);
+                lltShipping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
+                imgShipping.setImageResource(R.drawable.shipping);
+                txtShipping.setTextColor(getResources().getColor(R.color.white));
+                lltShipping.setClickable(false);
 
-                isAccpted = false;
+                isAccepted = false;
                 isPurchasing = false;
-                isShiping = false;
+                isShipping = false;
                 isCompleted = true;
 
             } else if (statusCode == IWebService.KEY_REQ_STATUS_COMPLETED) {
-                lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
-                imgAccpeted.setImageResource(R.drawable.accepted);
+                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                imgAccepted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
-                lltAccpeted.setClickable(false);
+                lltAccepted.setClickable(false);
 
                 lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
                 txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
 
-                lltShiping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
-                imgShiping.setImageResource(R.drawable.shipping);
-                txtShiping.setTextColor(getResources().getColor(R.color.white));
-                lltShiping.setClickable(false);
+                lltShipping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
+                imgShipping.setImageResource(R.drawable.shipping);
+                txtShipping.setTextColor(getResources().getColor(R.color.white));
+                lltShipping.setClickable(false);
 
                 lltCompleted.setBackgroundColor(getResources().getColor(R.color.order_datails_completed));
                 imgCompleted.setImageResource(R.drawable.completed_white);
                 txtCompleted.setTextColor(getResources().getColor(R.color.white));
                 lltCompleted.setClickable(false);
 
-                isAccpted = false;
+                isAccepted = false;
                 isPurchasing = false;
-                isShiping = false;
+                isShipping = false;
                 isCompleted = false;
 
             }
         } else {
-            isAccpted = true;
+            isAccepted = true;
             isPurchasing = false;
-            isShiping = false;
+            isShipping = false;
             isCompleted = false;
 
         }

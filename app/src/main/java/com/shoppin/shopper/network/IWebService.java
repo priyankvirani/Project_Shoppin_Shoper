@@ -5,7 +5,8 @@ package com.shoppin.shopper.network;
  * Created by ubuntu on 10/8/16.
 */
 
-public interface IWebService {
+public interface
+IWebService {
 
     //String MAIN_URL = " http://192.168.0.1/shoppin/service/index.php/";
 
