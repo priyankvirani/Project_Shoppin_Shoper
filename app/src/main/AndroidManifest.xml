@@ -59,6 +59,8 @@
             </intent-filter>
         </service>
         <!-- [END firebase_iid_service] -->
+
+        <service android:name="com.shoppin.shopper.intentservices.MyIntentService"></service>
     </application>
 
 </manifest>

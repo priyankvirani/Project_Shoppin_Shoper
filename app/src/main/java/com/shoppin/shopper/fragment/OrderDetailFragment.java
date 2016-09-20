@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,6 +31,7 @@ import com.shoppin.shopper.adapter.ProductDetailsAdapter;
 import com.shoppin.shopper.adapter.SelectionAdapter;
 import com.shoppin.shopper.database.DBAdapter;
 import com.shoppin.shopper.database.IDatabase;
+import com.shoppin.shopper.intentservices.MyIntentService;
 import com.shoppin.shopper.model.Product;
 import com.shoppin.shopper.model.StatusOptionValue;
 import com.shoppin.shopper.network.DataRequest;
@@ -118,8 +121,8 @@ public class OrderDetailFragment extends BaseFragment {
     @BindView(R.id.txtItemCount)
     TextView txtItemCount;
 
-    @BindView(R.id.txtPreferedStore)
-    TextView txtPreferedStore;
+    @BindView(R.id.txtPreferredStore)
+    TextView txtPreferredStore;
 
     @BindView(R.id.txtStoreAddress)
     TextView txtStoreAddress;
@@ -223,6 +226,8 @@ public class OrderDetailFragment extends BaseFragment {
                 } else {
                     Utils.showAlert(getActivity(), null, getActivity().getString(R.string.error_not_allowed));
                 }
+
+
             }
         });
 
@@ -230,10 +235,17 @@ public class OrderDetailFragment extends BaseFragment {
         txtphoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:"
-                        + txtphoneNumber.getText().toString()));
-                startActivity(intent);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:"
+                            + txtphoneNumber.getText().toString()));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "SIM ERROR",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -279,11 +291,11 @@ public class OrderDetailFragment extends BaseFragment {
                                     txtCustomerName.setText(dataJObject.getString(IWebService.KEY_RES_CUSTOMER_NAME));
                                     txtItemCount.setText(dataJObject.getString(IWebService.KEY_RES_ITEM_COUNT));
 
-                                    if (Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_PREFERRED_STORE_ID)) == IWebService.KEY_REQ_PREFRRED_STORE_ID) {
-                                        txtPreferedStore.setVisibility(View.GONE);
+                                    if (Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_PREFERRED_STORE_ID)) == IWebService.KEY_REQ_PREFERRED_STORE_ID) {
+                                        txtPreferredStore.setVisibility(View.GONE);
                                         txtStoreAddress.setVisibility(View.GONE);
                                     } else {
-                                        txtPreferedStore.setText(Html.fromHtml("<b>" + getActivity().getString(R.string.prefered_store) + "</b>" + " " + dataJObject.getString(IWebService.KEY_RES_STORE_NAME)));
+                                        txtPreferredStore.setText(Html.fromHtml("<b>" + getActivity().getString(R.string.preferred_store) + "</b>" + " " + dataJObject.getString(IWebService.KEY_RES_STORE_NAME)));
                                         txtStoreAddress.setText(dataJObject.getString(IWebService.KEY_RES_STORE_ADDRESS));
                                     }
 
@@ -294,7 +306,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                                     }
                                     if (isHistory) {
-                                        if (Integer.valueOf(dataJObject.getString(IWebService.KEY_REQ_STATUS)) != IWebService.KEY_REQ_STATUS_CANECLED) {
+                                        if (Integer.valueOf(dataJObject.getString(IWebService.KEY_REQ_STATUS)) != IWebService.KEY_REQ_STATUS_CANCELLED) {
                                             txtShippingDate.setText(dataJObject.getString(IWebService.KEY_RES_SHIPPING_DATE));
                                             txtShippingTime.setText(dataJObject.getString(IWebService.KEY_RES_SHIPPING_TIME));
                                             txtShippingDate.setVisibility(View.VISIBLE);
@@ -304,7 +316,7 @@ public class OrderDetailFragment extends BaseFragment {
                                             txtShippingTime.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getActivity()
 
                                                     , R.drawable.cancel), null);
-                                            txtShippingTime.setText(getActivity().getString(R.string.order_status_canceled));
+                                            txtShippingTime.setText(getActivity().getString(R.string.order_status_cancelled));
                                             txtShippingTime.setTextColor(getActivity().getResources().getColor(R.color.red));
                                         }
                                     } else {
@@ -314,14 +326,14 @@ public class OrderDetailFragment extends BaseFragment {
 
                                     if (Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)) ==
                                             IWebService.KEY_REQ_STATUS_ON_HOLD || Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)) ==
-                                            IWebService.KEY_REQ_STATUS_CANECLED) {
+                                            IWebService.KEY_REQ_STATUS_CANCELLED) {
                                         setOrderStatus(Integer.valueOf(dataJObject.getString(IWebService.KET_RES_PREV_STATUS)));
                                     } else {
                                         setOrderStatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
                                     }
 
                                     if (Integer.valueOf(dataJObject.getString(IWebService.KEY_REQ_STATUS)) == IWebService.KEY_REQ_STATUS_COMPLETED
-                                            || Integer.valueOf(dataJObject.getString(IWebService.KEY_REQ_STATUS)) == IWebService.KEY_REQ_STATUS_CANECLED) {
+                                            || Integer.valueOf(dataJObject.getString(IWebService.KEY_REQ_STATUS)) == IWebService.KEY_REQ_STATUS_CANCELLED) {
                                         productDetailsAdapter.setOrderStatusCompleted(false);
                                         isOrderStatusCompleted = false;
                                     }
@@ -509,6 +521,8 @@ public class OrderDetailFragment extends BaseFragment {
 
                             setOrderStatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
 
+
+
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -632,7 +646,7 @@ public class OrderDetailFragment extends BaseFragment {
 
 
             DataRequest signinDataRequest = new DataRequest(getActivity());
-            signinDataRequest.execute(IWebService.UPDATE_ORDERITEM_AVAILIBILITY, productstatusParam.toString(), new DataRequest.CallBack() {
+            signinDataRequest.execute(IWebService.UPDATE_ORDER_ITEM_AVAILABILITY, productstatusParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
 
@@ -705,7 +719,7 @@ public class OrderDetailFragment extends BaseFragment {
                                     public void onClick(View arg0) {
                                         // TODO Auto-generated method stub
                                         if (statusOptionValueArrayList.get(position).status == IWebService.KEY_REQ_STATUS_ON_HOLD ||
-                                                statusOptionValueArrayList.get(position).status == IWebService.KEY_REQ_STATUS_CANECLED) {
+                                                statusOptionValueArrayList.get(position).status == IWebService.KEY_REQ_STATUS_CANCELLED) {
                                             showAlertOrderEmployeeComment(getActivity(), position);
                                         } else if (statusOptionValueArrayList.get(position).status == IWebService.KEY_REQ_STATUS_SHIPPING) {
                                             if (productCheckProductStatus()) {

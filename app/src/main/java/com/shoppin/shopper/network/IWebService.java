@@ -3,13 +3,12 @@ package com.shoppin.shopper.network;
 
 /**
  * Created by ubuntu on 10/8/16.
-*/
+ */
 
 public interface
 IWebService {
 
     //String MAIN_URL = " http://192.168.0.1/shoppin/service/index.php/";
-
     String MAIN_URL = " http://dddemo.net/php/shoppin/service/index.php/";
 
     String KEY_RES_DATA = "data";
@@ -21,14 +20,14 @@ IWebService {
     String ORDER_REQUEST = MAIN_URL + "shopper/OrderRequests";
     String ORDER_ACTION = MAIN_URL + "shopper/OrderAction";
     String ORDER_DETAILS = MAIN_URL + "shopper/OrderDetail";
-    String UPDATE_ORDERITEM_AVAILIBILITY = MAIN_URL + "shopper/UpdateOrderItemAvailibility";
+    String UPDATE_ORDER_ITEM_AVAILABILITY = MAIN_URL + "shopper/UpdateOrderItemAvailability";
     String ORDER_HISTORY = MAIN_URL + "shopper/OrderHistory";
     String ONGOING_ORDER = MAIN_URL + "shopper/OngoingOrders";
     String EMPLOYEE_APP_VERSION = MAIN_URL + "app/VersionEmployee";
     String DEVICE_REGISTRATION = MAIN_URL + "shopper/DeviceRegistration";
     String GET_EMPLOYEE_PROFILE = MAIN_URL + "shopper/GetEmployeeProfile";
     String UPDATE_EMPLOYEE_PROFILE = MAIN_URL + "shopper/UpdateEmployeeProfile";
-    String EMPLOYEE_SIGNOUT = MAIN_URL + "shopper/EmployeeLogout";
+    String EMPLOYEE_SIGN_OUT = MAIN_URL + "shopper/EmployeeLogout";
 
     /**
      * Request Params
@@ -39,7 +38,7 @@ IWebService {
     String KEY_REQ_EMPLOYEE_DEVICE_TYPE = "employee_device_type";
     String KEY_REQ_EMPLOYEE_DEVICE_TOKEN = "employee_device_token";
     String KEY_REQ_EMPLOYEE_DEVICE_ID = "employee_device_id";
-    String KEY_REQ_DEVICE_TYPE ="device_type";
+    String KEY_REQ_DEVICE_TYPE = "device_type";
 
 
     String KEY_REQ_EMPLOYEE_ID = "employee_id";
@@ -60,9 +59,9 @@ IWebService {
     int KEY_REQ_STATUS_SHIPPING = 5;
     int KEY_REQ_STATUS_COMPLETED = 6;
     int KEY_REQ_STATUS_ON_HOLD = 7;
-    int KEY_REQ_STATUS_CANECLED = 8;
+    int KEY_REQ_STATUS_CANCELLED = 8;
 
-    int KEY_REQ_PREFRRED_STORE_ID = 0;
+    int KEY_REQ_PREFERRED_STORE_ID = 0;
 
 
     int KEY_REQ_STATUS_PRODUCT_AVAILABLE = 1;
@@ -70,12 +69,10 @@ IWebService {
     int KEY_REQ_STATUS_PRODUCT_NORMAL = 0;
 
 
-
     String KEY_REQ_PRODUCT_COMMENTS = "comment";
     String KEY_REQ_NULL = "null";
     String KEY_REQ_STATUS = "status";
     String KEY_REQ_CURRENT_APP_VERSION = "current_version";
-
 
 
     /**
@@ -89,7 +86,7 @@ IWebService {
     String KEY_RES_EMPLOYEE_SUBURB_ID = "employee_suburb_id";
 
 
-    String KEY_RES_UPDATE_REQUIRE ="update_require";
+    String KEY_RES_UPDATE_REQUIRE = "update_require";
 
     String KEY_RES_ORDER_LIST = "order_list";
     String KEY_RES_PRODUCT_LIST = "product_list";
@@ -97,8 +94,6 @@ IWebService {
     String KEY_RES_OPTION_LIST = "option_list";
     String KEY_RES_STATUS_LIST = "status_list";
     String KET_RES_SUBURB_LIST = "suburb_list";
-
-
 
 
     String KEY_RES_ORDER_NAME = "order_number";

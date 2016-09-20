@@ -88,7 +88,7 @@ public class MyAccountFragment extends BaseFragment {
                 signOutParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_ID, UniqueId.getUniqueId(getActivity()));
 
                 DataRequest signOutDataRequest = new DataRequest(getActivity());
-                signOutDataRequest.execute(IWebService.EMPLOYEE_SIGNOUT, signOutParam.toString(), new DataRequest.CallBack() {
+                signOutDataRequest.execute(IWebService.EMPLOYEE_SIGN_OUT, signOutParam.toString(), new DataRequest.CallBack() {
                     public void onPreExecute() {
                         rlvGlobalProgressbar.setVisibility(View.VISIBLE);
                     }

@@ -94,10 +94,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.txtCustomerName.setText(orderHistoryArrayList.get(position).customerName);
         holder.txtItemCount.setText(orderHistoryArrayList.get(position).itemCount);
 
-        if(orderHistoryArrayList.get(position).status == IWebService.KEY_REQ_STATUS_CANECLED){
+        if(orderHistoryArrayList.get(position).status == IWebService.KEY_REQ_STATUS_CANCELLED){
             holder.txtStatusDate.setVisibility(View.INVISIBLE);
             holder.txtStatusTime.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.cancel), null);
-            holder.txtStatusTime.setText(mContext.getString(R.string.order_status_canceled));
+            holder.txtStatusTime.setText(mContext.getString(R.string.order_status_cancelled));
             holder.txtStatusTime.setTextColor(mContext.getResources().getColor(R.color.red));
         }else{
             holder.txtStatusDate.setVisibility(View.VISIBLE);

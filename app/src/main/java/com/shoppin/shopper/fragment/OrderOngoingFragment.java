@@ -1,9 +1,15 @@
 package com.shoppin.shopper.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +25,7 @@ import com.shoppin.shopper.database.IDatabase;
 import com.shoppin.shopper.model.OngoingOrder;
 import com.shoppin.shopper.network.DataRequest;
 import com.shoppin.shopper.network.IWebService;
+import com.shoppin.shopper.receivers.MyBroadCastReceiver;
 
 import org.json.JSONObject;
 
@@ -42,6 +49,7 @@ public class OrderOngoingFragment extends BaseFragment {
 
     private OngoingOrderAdapter orderOngoingAdapter;
     private ArrayList<OngoingOrder> orderOngoingArrayList;
+    private MyBroadCastReceiver myRecevier = new MyBroadCastReceiver();
 
 
     @Nullable
@@ -54,13 +62,12 @@ public class OrderOngoingFragment extends BaseFragment {
         orderOngoingArrayList = new ArrayList<>();
         orderOngoingAdapter = new OngoingOrderAdapter(getActivity(), orderOngoingArrayList);
         recyclerListOrderOngoing.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
         recyclerListOrderOngoing.setAdapter(orderOngoingAdapter);
         getOngoingOrderData();
 
-
         return layoutView;
     }
+
 
 
     public void getOngoingOrderData() {
@@ -125,7 +132,7 @@ public class OrderOngoingFragment extends BaseFragment {
         NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
         if (navigationDrawerActivity != null) {
             ((NavigationDrawerActivity) getActivity()).setToolbarTitle(getActivity().getResources().getString(R.string.fragment_order_ongoing));
-            getOngoingOrderData();
+            //getOngoingOrderData();
         }
     }
 }

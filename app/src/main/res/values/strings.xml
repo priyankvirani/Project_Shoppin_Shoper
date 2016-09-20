@@ -22,7 +22,7 @@
     <string name="dollar_sign">$ </string>
     <string name="order_status">Status</string>
     <string name="order_select_status">Select Status</string>
-    <string name="prefered_store">Preferred Store :</string>
+    <string name="preferred_store">Preferred Store :</string>
     <string name="accept">Accept</string>
     <string name="update">Update</string>
 
@@ -67,7 +67,7 @@
     <string name="order_status_purchasing">Purchasing</string>
     <string name="order_status_shipping">Shipping</string>
     <string name="order_status_completed">Completed</string>
-    <string name="order_status_canceled">Canceled</string>
+    <string name="order_status_cancelled">Cancelled</string>
 
     <!--fragment name-->
     <string name="fragment_order_ongoing">Order Ongoing</string>

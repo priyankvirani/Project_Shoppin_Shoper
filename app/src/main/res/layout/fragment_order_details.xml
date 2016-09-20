@@ -208,7 +208,7 @@
             </android.support.v7.widget.CardView>
 
             <TextView
-                android:id="@+id/txtPreferedStore"
+                android:id="@+id/txtPreferredStore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/card_view"
@@ -224,7 +224,7 @@
                 android:id="@+id/txtStoreAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtPreferedStore"
+                android:layout_below="@id/txtPreferredStore"
                 android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
                 android:textColor="@color/cell_textview_color"

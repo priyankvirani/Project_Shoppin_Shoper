@@ -1,13 +1,20 @@
 package com.shoppin.shopper.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -58,9 +65,9 @@ public class OrderRequestFragment extends BaseFragment {
         orderRequestAdapter = new OrderRequestAdapter(getActivity(), orderRequestArrayList);
         lvOrderRecyList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         lvOrderRecyList.setAdapter(orderRequestAdapter);
-                orderRequestAdapter.setOnStatusChangeListener(new OrderRequestAdapter.OnStatusChangeListener() {
+        orderRequestAdapter.setOnStatusChangeListener(new OrderRequestAdapter.OnStatusChangeListener() {
             @Override
-            public void onStatusChange(int position , boolean status) {
+            public void onStatusChange(int position, boolean status) {
                 if (status) {
                     sendOrderStatus(position, IWebService.KEY_REQ_STATUS_ACCEPTED);
                 } else {
@@ -68,6 +75,7 @@ public class OrderRequestFragment extends BaseFragment {
                 }
             }
         });
+
 
         getOrderRequestData();
 
@@ -80,7 +88,7 @@ public class OrderRequestFragment extends BaseFragment {
 
             JSONObject orderRequestParam = new JSONObject();
             orderRequestParam.put(IWebService.KEY_REQ_ORDER_SUBURB_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID));
-            orderRequestParam.put(IWebService.KEY_REQ_EMPLOYEE_ID,DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
+            orderRequestParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
 
 
             DataRequest getOrderDataRequest = new DataRequest(getActivity());
@@ -154,9 +162,9 @@ public class OrderRequestFragment extends BaseFragment {
 
                         if (!DataRequest.hasError(getActivity(), response, true)) {
                             NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
-                            if(navigationDrawerActivity!=null) {
+                            if (navigationDrawerActivity != null) {
                                 navigationDrawerActivity.switchContent(OrderDetailFragment
-                                        .newInstance(orderRequestArrayList.get(position).order_number,false));
+                                        .newInstance(orderRequestArrayList.get(position).order_number, false));
                             }
                             getOrderRequestData();
 
@@ -174,15 +182,19 @@ public class OrderRequestFragment extends BaseFragment {
         }
     }
 
+
+
+
     @Override
     public void updateFragment() {
         super.updateFragment();
         NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
         if (navigationDrawerActivity != null) {
             navigationDrawerActivity.setToolbarTitle(getActivity().getResources().getString(R.string.fragment_order_request));
-            getOrderRequestData();
+            //getOrderRequestData();
         }
 
     }
+
 
 }
