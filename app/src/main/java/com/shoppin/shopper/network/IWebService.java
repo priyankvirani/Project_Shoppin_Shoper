@@ -3,7 +3,7 @@ package com.shoppin.shopper.network;
 
 /**
  * Created by ubuntu on 10/8/16.
- */
+*/
 
 public interface IWebService {
 

@@ -432,33 +432,32 @@ public class OrderDetailFragment extends BaseFragment {
                 isShiping = false;
                 isCompleted = true;
 
-            } else {
-                if (statusCode == IWebService.KEY_REQ_STATUS_COMPLETED) {
-                    lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
-                    imgAccpeted.setImageResource(R.drawable.accepted);
-                    txtAccepted.setTextColor(getResources().getColor(R.color.white));
-                    lltAccpeted.setClickable(false);
+            } else if (statusCode == IWebService.KEY_REQ_STATUS_COMPLETED) {
+                lltAccpeted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                imgAccpeted.setImageResource(R.drawable.accepted);
+                txtAccepted.setTextColor(getResources().getColor(R.color.white));
+                lltAccpeted.setClickable(false);
 
-                    lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
-                    imgPurchasing.setImageResource(R.drawable.purchasing);
-                    txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
-                    lltPurchasing.setClickable(false);
+                lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
+                imgPurchasing.setImageResource(R.drawable.purchasing);
+                txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
+                lltPurchasing.setClickable(false);
 
-                    lltShiping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
-                    imgShiping.setImageResource(R.drawable.shipping);
-                    txtShiping.setTextColor(getResources().getColor(R.color.white));
-                    lltShiping.setClickable(false);
+                lltShiping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
+                imgShiping.setImageResource(R.drawable.shipping);
+                txtShiping.setTextColor(getResources().getColor(R.color.white));
+                lltShiping.setClickable(false);
 
-                    lltCompleted.setBackgroundColor(getResources().getColor(R.color.order_datails_completed));
-                    imgCompleted.setImageResource(R.drawable.completed_white);
-                    txtCompleted.setTextColor(getResources().getColor(R.color.white));
-                    lltCompleted.setClickable(false);
+                lltCompleted.setBackgroundColor(getResources().getColor(R.color.order_datails_completed));
+                imgCompleted.setImageResource(R.drawable.completed_white);
+                txtCompleted.setTextColor(getResources().getColor(R.color.white));
+                lltCompleted.setClickable(false);
 
-                    isAccpted = false;
-                    isPurchasing = false;
-                    isShiping = false;
-                    isCompleted = false;
-                }
+                isAccpted = false;
+                isPurchasing = false;
+                isShiping = false;
+                isCompleted = false;
+
             }
         } else {
             isAccpted = true;
