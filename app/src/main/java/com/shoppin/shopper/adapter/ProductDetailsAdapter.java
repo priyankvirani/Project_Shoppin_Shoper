@@ -86,8 +86,6 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Log.e(TAG, "status :  " + isOrderStatusCompleted);
-
         holder.txtProductName.setText(productArrayList.get(position).productName);
         holder.txtProductPrice.setText(mContext.getString(R.string.dollar_sign) + productArrayList.get(position).productPrice);
         holder.txtProductPrice.setPaintFlags(holder.txtProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

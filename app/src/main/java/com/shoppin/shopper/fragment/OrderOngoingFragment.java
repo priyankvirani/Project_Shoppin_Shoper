@@ -25,7 +25,7 @@ import com.shoppin.shopper.database.IDatabase;
 import com.shoppin.shopper.model.OngoingOrder;
 import com.shoppin.shopper.network.DataRequest;
 import com.shoppin.shopper.network.IWebService;
-import com.shoppin.shopper.receivers.MyBroadCastReceiver;
+import com.shoppin.shopper.utils.IConstants;
 
 import org.json.JSONObject;
 
@@ -49,7 +49,6 @@ public class OrderOngoingFragment extends BaseFragment {
 
     private OngoingOrderAdapter orderOngoingAdapter;
     private ArrayList<OngoingOrder> orderOngoingArrayList;
-    private MyBroadCastReceiver myRecevier = new MyBroadCastReceiver();
 
 
     @Nullable
@@ -65,9 +64,37 @@ public class OrderOngoingFragment extends BaseFragment {
         recyclerListOrderOngoing.setAdapter(orderOngoingAdapter);
         getOngoingOrderData();
 
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+
+        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE);
+        // Here you can add additional actions which then would be received by the BroadcastReceiver
+
+        broadcastManager.registerReceiver(receiver, intentFilter);
+
+
         return layoutView;
     }
 
+    @Override
+    public void onDestroyView() {
+        Log.e(TAG,"onDestroyView");
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        super.onDestroyView();
+    }
+
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG,"onReceive");
+            String action = intent.getAction();
+            if (action != null && action.equals(IConstants.UPDATE)) {
+                // perform your update
+                getOngoingOrderData();
+            }
+
+        }
+    };
 
 
     public void getOngoingOrderData() {

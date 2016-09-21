@@ -26,6 +26,7 @@ import com.shoppin.shopper.database.IDatabase;
 import com.shoppin.shopper.model.OrderRequest;
 import com.shoppin.shopper.network.DataRequest;
 import com.shoppin.shopper.network.IWebService;
+import com.shoppin.shopper.utils.IConstants;
 
 import org.json.JSONObject;
 
@@ -79,8 +80,34 @@ public class OrderRequestFragment extends BaseFragment {
 
         getOrderRequestData();
 
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+
+        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE);
+        // Here you can add additional actions which then would be received by the BroadcastReceiver
+
+        broadcastManager.registerReceiver(receiver, intentFilter);
+
         return layoutView;
     }
+    @Override
+    public void onDestroyView() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        super.onDestroyView();
+    }
+
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+            if (action != null && action.equals(IConstants.UPDATE)) {
+                // perform your update
+                getOrderRequestData();
+            }
+
+        }
+    };
 
     public void getOrderRequestData() {
         orderRequestArrayList.clear();

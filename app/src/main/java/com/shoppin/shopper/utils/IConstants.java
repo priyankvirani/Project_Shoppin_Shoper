@@ -5,6 +5,8 @@ package com.shoppin.shopper.utils;
  */
 public interface IConstants {
 
+    String UPDATE ="update";
+
     interface IDrawerMenu {
 
         String ONGOING_ORDERS = "Order Ongoing";

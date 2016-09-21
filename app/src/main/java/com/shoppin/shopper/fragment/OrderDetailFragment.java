@@ -31,11 +31,11 @@ import com.shoppin.shopper.adapter.ProductDetailsAdapter;
 import com.shoppin.shopper.adapter.SelectionAdapter;
 import com.shoppin.shopper.database.DBAdapter;
 import com.shoppin.shopper.database.IDatabase;
-import com.shoppin.shopper.intentservices.MyIntentService;
 import com.shoppin.shopper.model.Product;
 import com.shoppin.shopper.model.StatusOptionValue;
 import com.shoppin.shopper.network.DataRequest;
 import com.shoppin.shopper.network.IWebService;
+import com.shoppin.shopper.utils.IConstants;
 import com.shoppin.shopper.utils.Utils;
 
 import org.json.JSONObject;
@@ -44,6 +44,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.shoppin.shopper.R.string.order_status;
 
 
 /**
@@ -73,6 +75,7 @@ public class OrderDetailFragment extends BaseFragment {
     private SelectionAdapter<StatusOptionValue> filterStatusAdapter;
 
     private String order_number;
+    private int order_status;
     private boolean isHistory = false;
 
     @BindView(R.id.rlvGlobalProgressbar)
@@ -171,13 +174,10 @@ public class OrderDetailFragment extends BaseFragment {
 
         productArrayList = new ArrayList<>();
         statusOptionValueArrayList = new ArrayList<>();
-        LinearLayoutManager verticalLayoutManagaerdate
-                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-
         productDetailsAdapter = new ProductDetailsAdapter(getActivity(),
                 productArrayList, OrderDetailFragment.this);
 
-        recyclerListOrderDetails.setLayoutManager(verticalLayoutManagaerdate);
+        recyclerListOrderDetails.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerListOrderDetails.setNestedScrollingEnabled(false);
         recyclerListOrderDetails.setAdapter(productDetailsAdapter);
 
@@ -221,12 +221,22 @@ public class OrderDetailFragment extends BaseFragment {
         txtStatusOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOrderStatusCompleted) {
-                    showAlertStatusOption();
-                } else {
-                    Utils.showAlert(getActivity(), null, getActivity().getString(R.string.error_not_allowed));
-                }
 
+
+                if (order_status == IWebService.KEY_REQ_STATUS_PLACED) {
+                    showAlertStatusOption();
+
+                } else {
+                    if (checkProductStatus()) {
+                        if (isOrderStatusCompleted) {
+                            showAlertStatusOption();
+                        } else {
+                            Utils.showAlert(getActivity(), null, getActivity().getString(R.string.error_not_allowed));
+                        }
+                    } else {
+                        Utils.showAlert(getActivity(), null, getActivity().getString(R.string.error_update_product_status));
+                    }
+                }
 
             }
         });
@@ -298,8 +308,9 @@ public class OrderDetailFragment extends BaseFragment {
                                         txtPreferredStore.setText(Html.fromHtml("<b>" + getActivity().getString(R.string.preferred_store) + "</b>" + " " + dataJObject.getString(IWebService.KEY_RES_STORE_NAME)));
                                         txtStoreAddress.setText(dataJObject.getString(IWebService.KEY_RES_STORE_ADDRESS));
                                     }
+                                    order_status = Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS));
 
-                                    if (Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)) == IWebService.KEY_REQ_STATUS_PLACED) {
+                                    if (order_status == IWebService.KEY_REQ_STATUS_PLACED) {
                                         txtStatusOption.setText(getResources().getString(R.string.order_select_status));
                                     } else {
                                         txtStatusOption.setText(dataJObject.getString(IWebService.KEY_RES_STATUS_LABEL));
@@ -514,13 +525,16 @@ public class OrderDetailFragment extends BaseFragment {
                                     .size(); i++) {
                                 statusOptionValueArrayList.get(i).isSelected = false;
                             }
+                            Intent intent = new Intent(IConstants.UPDATE);
+                            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+                            broadcastManager.sendBroadcast(intent);
 
+                            order_status = Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS));
                             statusOptionValueArrayList.get(position).isSelected = true;
                             txtStatusOption.setText(statusOptionValueArrayList.get(position).statusLabel);
                             filterStatusAdapter.notifyDataSetChanged();
 
                             setOrderStatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
-
 
 
                         }
@@ -660,9 +674,8 @@ public class OrderDetailFragment extends BaseFragment {
                         if (!DataRequest.hasError(getActivity(), response, false)) {
 
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
-
-
-                            Log.e(TAG, "Status Name : " + dataJObject.getString(IWebService.KEY_REQ_SET_VALUE));
+                            productArrayList.get(position).productAvailability = Integer.valueOf(dataJObject.getString(IWebService.KEY_REQ_SET_VALUE));
+                            //Log.e(TAG, "Status Name : " + dataJObject.getString(IWebService.KEY_REQ_SET_VALUE));
                             productDetailsAdapter.notifyDataSetChanged();
 
                         }
@@ -678,6 +691,22 @@ public class OrderDetailFragment extends BaseFragment {
             e.printStackTrace();
         }
 
+
+    }
+
+    private boolean checkProductStatus() {
+        boolean isProductAvailable = false;
+        for (int i = 0; i < productArrayList.size(); i++) {
+            if (productArrayList.get(i).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE
+                    || productArrayList.get(i).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
+                Log.e(TAG, "Product avalibillity : " + productArrayList.get(i).productAvailability);
+                isProductAvailable = true;
+                break;
+            }
+
+
+        }
+        return isProductAvailable;
 
     }
 
