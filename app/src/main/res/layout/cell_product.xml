@@ -19,7 +19,8 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_weight="2"
             android:scaleType="fitXY"
-            android:src="@drawable/placeholder" />
+            android:src="@drawable/placeholder"
+            android:adjustViewBounds="false" />
 
         <LinearLayout
             android:layout_width="0dp"

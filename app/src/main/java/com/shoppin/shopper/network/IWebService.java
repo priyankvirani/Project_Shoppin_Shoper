@@ -10,6 +10,7 @@ IWebService {
 
     //String MAIN_URL = " http://192.168.0.1/shoppin/service/index.php/";
     String MAIN_URL = " http://dddemo.net/php/shoppin/service/index.php/";
+    String TRANSACTION_REQUEST = "https://sec.paymentexpress.com/pxaccess/pxpay.aspx";
 
     String KEY_RES_DATA = "data";
     String KEY_RES_SUCCESS = "success";

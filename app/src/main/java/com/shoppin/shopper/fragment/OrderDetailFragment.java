@@ -45,8 +45,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.shoppin.shopper.R.string.order_status;
-
 
 /**
  * Created by ubuntu on 15/8/16.

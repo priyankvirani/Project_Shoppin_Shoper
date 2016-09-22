@@ -31,6 +31,7 @@
 
 
 
+
     <!-- Error messages -->
     <string name="error_app_update">Need to update app</string>
     <string name="error_technichal_problem">Having some technical problem</string>
@@ -40,6 +41,7 @@
     <string name="error_valid_suburb">Select valid suburb</string>
     <string name="error_update_product_status">Please update product status..</string>
     <string name="error_not_allowed">Not allowed.</string>
+    <string name="error_no_record_found">No Record Found..</string>
 
 
 
@@ -76,6 +78,11 @@
     <string name="fragment_order_history">Order History</string>
     <string name="fragment_my_account">My Account</string>
     <string name="fragment_order_details">Order Details</string>
+
+
+    <!--payment express-->
+    <string name="PxPayUserId">Sample2_Dev</string>
+    <string name="PxPayKey">a111e223a88ba584b00fd7b5e750ce2724d721de4a099f4bc1f201ceb00f7c8b</string>
 
 
 </resources>

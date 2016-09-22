@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,6 +41,12 @@ public class OrderHistoryFragment extends BaseFragment {
 
     @BindView(R.id.recyclerListOrderHistory)
     RecyclerView recyclerListOrderHistory;
+
+    @BindView(R.id.llEmptyList)
+    LinearLayout llEmptyList;
+
+    @BindView(R.id.txtEmptyList)
+    TextView txtEmptyList;
 
     private OrderHistoryAdapter orderHistoryAdapter;
     private ArrayList<OrderHistory> orderOngoingArrayList;
@@ -79,7 +87,7 @@ public class OrderHistoryFragment extends BaseFragment {
                     rlvGlobalProgressbar.setVisibility(View.GONE);
                     try {
 
-                        if (!DataRequest.hasError(getActivity(), response, true)) {
+                        if (!DataRequest.hasError(getActivity(), response, false)) {
 
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
@@ -97,8 +105,11 @@ public class OrderHistoryFragment extends BaseFragment {
                                 //Log.e(TAG, "Size :  " + productArrayList.size());
                                 orderOngoingArrayList.addAll(tmpProductArrayList);
                                 orderHistoryAdapter.notifyDataSetChanged();
+                                llEmptyList.setVisibility(View.GONE);
                             }
 
+                        } else {
+                            llEmptyList.setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

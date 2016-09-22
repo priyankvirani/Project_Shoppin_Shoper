@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -35,6 +37,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.google.android.gms.analytics.internal.zzy.s;
+
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -50,6 +54,12 @@ public class OrderRequestFragment extends BaseFragment {
 
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
+
+    @BindView(R.id.llEmptyList)
+    LinearLayout llEmptyList;
+
+    @BindView(R.id.txtEmptyList)
+    TextView txtEmptyList;
 
     private OrderRequestAdapter orderRequestAdapter;
     private ArrayList<OrderRequest> orderRequestArrayList;
@@ -89,6 +99,7 @@ public class OrderRequestFragment extends BaseFragment {
 
         return layoutView;
     }
+
     @Override
     public void onDestroyView() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
@@ -131,7 +142,7 @@ public class OrderRequestFragment extends BaseFragment {
                     rlvGlobalProgressbar.setVisibility(View.GONE);
                     try {
 
-                        if (!DataRequest.hasError(getActivity(), response, true)) {
+                        if (!DataRequest.hasError(getActivity(), response, false)) {
 
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
@@ -148,8 +159,11 @@ public class OrderRequestFragment extends BaseFragment {
                                 //Log.e(TAG, "Size :  " + orderRequestArrayList.size());
                                 orderRequestArrayList.addAll(tmpOrderRequestArrayList);
                                 orderRequestAdapter.notifyDataSetChanged();
+                                llEmptyList.setVisibility(View.GONE);
                             }
 
+                        } else {
+                            llEmptyList.setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -208,8 +222,6 @@ public class OrderRequestFragment extends BaseFragment {
             e.printStackTrace();
         }
     }
-
-
 
 
     @Override

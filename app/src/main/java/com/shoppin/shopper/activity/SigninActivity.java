@@ -46,6 +46,7 @@ public class SigninActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
+
     }
 
     @OnClick(R.id.txtSignin)

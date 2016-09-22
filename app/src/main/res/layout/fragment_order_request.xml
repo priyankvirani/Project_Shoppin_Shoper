@@ -13,4 +13,5 @@
 
     <include layout="@layout/progressbar" />
 
+    <include layout="@layout/empty_order_list" />
 </RelativeLayout>

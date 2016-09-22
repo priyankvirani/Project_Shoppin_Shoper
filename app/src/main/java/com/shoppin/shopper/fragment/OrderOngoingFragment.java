@@ -13,9 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
@@ -34,6 +37,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.google.android.gms.analytics.internal.zzy.B;
+import static com.google.android.gms.analytics.internal.zzy.b;
+
 /**
  * Created by ubuntu on 15/8/16.
  */
@@ -46,6 +52,13 @@ public class OrderOngoingFragment extends BaseFragment {
 
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
+
+    @BindView(R.id.llEmptyList)
+    LinearLayout llEmptyList;
+
+    @BindView(R.id.txtEmptyList)
+    TextView txtEmptyList;
+
 
     private OngoingOrderAdapter orderOngoingAdapter;
     private ArrayList<OngoingOrder> orderOngoingArrayList;
@@ -77,7 +90,6 @@ public class OrderOngoingFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-        Log.e(TAG,"onDestroyView");
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
         super.onDestroyView();
     }
@@ -86,7 +98,7 @@ public class OrderOngoingFragment extends BaseFragment {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e(TAG,"onReceive");
+
             String action = intent.getAction();
             if (action != null && action.equals(IConstants.UPDATE)) {
                 // perform your update
@@ -118,11 +130,13 @@ public class OrderOngoingFragment extends BaseFragment {
                     rlvGlobalProgressbar.setVisibility(View.GONE);
                     try {
 
-                        if (!DataRequest.hasError(getActivity(), response, true)) {
+                        if (!DataRequest.hasError(getActivity(), response, false)) {
 
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
                             Gson gson = new Gson();
+
+
 
                             ArrayList<OngoingOrder> tmpOrderRequestArrayList = gson.fromJson(
                                     dataJObject.getJSONArray(
@@ -131,13 +145,18 @@ public class OrderOngoingFragment extends BaseFragment {
                                     new TypeToken<ArrayList<OngoingOrder>>() {
                                     }.getType());
 
+
                             if (tmpOrderRequestArrayList != null) {
-                                //Log.e(TAG, "Size :  " + orderRequestArrayList.size());
                                 orderOngoingArrayList.addAll(tmpOrderRequestArrayList);
                                 orderOngoingAdapter.notifyDataSetChanged();
+                                llEmptyList.setVisibility(View.GONE);
                             }
 
+                        }else{
+                            llEmptyList.setVisibility(View.VISIBLE);
                         }
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

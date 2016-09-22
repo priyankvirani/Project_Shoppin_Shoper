@@ -24,6 +24,7 @@ import com.shoppin.shopper.utils.Utils;
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
     private static final String TAG = FirebaseMessagingService.class.getSimpleName();
+    private Context mContext;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -61,7 +62,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-            notificationBuilder.setColor(Color.parseColor("#39432C"));
+            notificationBuilder.setColor(getResources().getColor(R.color.app_theme_1));
         } else {
             notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
 
