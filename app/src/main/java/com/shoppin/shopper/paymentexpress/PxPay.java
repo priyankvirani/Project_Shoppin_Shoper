@@ -3,7 +3,9 @@ package com.shoppin.shopper.paymentexpress;
 import android.content.Context;
 import android.util.Log;
 
+import com.shoppin.shopper.R;
 import com.shoppin.shopper.network.DataRequest;
+import com.shoppin.shopper.network.IWebService;
 
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
@@ -80,7 +82,18 @@ public class PxPay {
                         }
 
                         public void onPostExecute(String response) {
-                            Log.e(TAG, "response" + response);
+                            try {
+                                Log.e(TAG,"response "+response);
+                                Log.e(TAG, "Result " + ProcessResponse(context.getResources().getString(R.string.pxpay_userid),
+                                        context.getResources().getString(R.string.pxpay_key),
+                                        response, IWebService.TRANSACTION_REQUEST, context));
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
 //                            try {
 //
 //                                if (!DataRequest.hasError(context, response, true)) {
@@ -89,6 +102,7 @@ public class PxPay {
 //                            } catch (Exception e) {
 //                                e.printStackTrace();
 //                            }
+
 
                         }
                     }

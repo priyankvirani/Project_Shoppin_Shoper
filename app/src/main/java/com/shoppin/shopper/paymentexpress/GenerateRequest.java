@@ -28,7 +28,6 @@ public class GenerateRequest {
 	  private String UrlSuccess = "";
 	  private String UrlFail = "";
 	  private String Opt = "";
-	  
 	  private String Xml;
 	  
 	  public GenerateRequest() {

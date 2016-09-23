@@ -1,16 +1,23 @@
 package com.shoppin.shopper.network;
 
 
+import static android.R.attr.data;
+
 /**
  * Created by ubuntu on 10/8/16.
  */
 
 public interface
 IWebService {
+    /* for payment express*/
 
+    String TRANSACTION_REQUEST = "https://sec.paymentexpress.com/pxaccess/pxpay.aspx";
+    String ON_TRANSACTION_SUCCESS = "https://www.dpsdemo.com/SandboxSuccess.aspx%3C/UrlSuccess";
+    String ON_TRANSACTION_FAIL= "https://www.dpsdemo.com/SandboxSuccess.aspx%3C/UrlFail";
+
+    /*for shoper order data*/
     //String MAIN_URL = " http://192.168.0.1/shoppin/service/index.php/";
     String MAIN_URL = " http://dddemo.net/php/shoppin/service/index.php/";
-    String TRANSACTION_REQUEST = "https://sec.paymentexpress.com/pxaccess/pxpay.aspx";
 
     String KEY_RES_DATA = "data";
     String KEY_RES_SUCCESS = "success";

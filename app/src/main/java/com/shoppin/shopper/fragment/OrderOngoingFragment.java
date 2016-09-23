@@ -37,8 +37,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.google.android.gms.analytics.internal.zzy.B;
-import static com.google.android.gms.analytics.internal.zzy.b;
+
 
 /**
  * Created by ubuntu on 15/8/16.

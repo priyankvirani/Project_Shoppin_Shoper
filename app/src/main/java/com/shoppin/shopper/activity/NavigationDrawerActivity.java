@@ -29,6 +29,9 @@ import com.shoppin.shopper.fragment.OrderHistoryFragment;
 import com.shoppin.shopper.fragment.OrderOngoingFragment;
 import com.shoppin.shopper.fragment.OrderRequestFragment;
 import com.shoppin.shopper.model.NavigationDrawerMenu;
+import com.shoppin.shopper.network.IWebService;
+import com.shoppin.shopper.paymentexpress.GenerateRequest;
+import com.shoppin.shopper.paymentexpress.PxPay;
 
 import java.util.ArrayList;
 
@@ -41,7 +44,7 @@ import static com.shoppin.shopper.utils.IConstants.IDrawerMenu;
 public class NavigationDrawerActivity extends BaseActivity {
 
     private static final String TAG = NavigationDrawerActivity.class.getSimpleName();
-    public static String ISREQUESTNOTIFICATION ="orderrequest";
+    public static String ISREQUESTNOTIFICATION = "orderrequest";
     private boolean isRequestNotification = false;
 
     @BindView(R.id.txtFragmentTitle)
@@ -147,8 +150,8 @@ public class NavigationDrawerActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        if(getIntent()!=null){
-            isRequestNotification = intent.getBooleanExtra(ISREQUESTNOTIFICATION,false);
+        if (getIntent() != null) {
+            isRequestNotification = intent.getBooleanExtra(ISREQUESTNOTIFICATION, false);
         }
 
         //Log.d(TAG, "suburb_id = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_ID));
@@ -167,9 +170,9 @@ public class NavigationDrawerActivity extends BaseActivity {
         if (content == null) {
             Log.i(TAG, "content is null");
             isNavMenuchange = true;
-            if(isRequestNotification){
+            if (isRequestNotification) {
                 switchContent(new OrderRequestFragment());
-            }else{
+            } else {
                 switchContent(new OrderOngoingFragment());
             }
 
@@ -206,6 +209,31 @@ public class NavigationDrawerActivity extends BaseActivity {
     public void searchProduct() {
         Toast.makeText(this, "Under development",
                 Toast.LENGTH_SHORT).show();
+
+        GenerateRequest generateRequest = new GenerateRequest();
+        generateRequest.setPxPayUserId(getResources().getString(R.string.pxpay_userid));
+        generateRequest.setPxPayKey(getResources().getString(R.string.pxpay_key));
+        generateRequest.setAmountInput("1.00");
+        generateRequest.setCurrencyInput(getResources().getString(R.string.pxpay_currency_input));
+        generateRequest.setEmailAddress("name@name.com");
+        generateRequest.setMerchantReference(">Purchase Example");
+        generateRequest.setTxnData1("Name");
+        generateRequest.setTxnData2("Mobile Number");
+        generateRequest.setTxnData3("Address");
+        generateRequest.setTxnType(getResources().getString(R.string.pxpay_txt_type));
+        generateRequest.setTxnId("TxnID");
+        generateRequest.setBillingId("BillingId");
+        generateRequest.setEnableAddBillCard("EnableAddBillCard");
+        generateRequest.setUrlSuccess(IWebService.ON_TRANSACTION_SUCCESS);
+        generateRequest.setUrlFail(IWebService.ON_TRANSACTION_FAIL);
+        generateRequest.setOpt("Opt");
+        generateRequest.setXml("Xml");
+
+        PxPay.GenerateRequest(getResources().getString(R.string.pxpay_userid)
+                , getResources().getString(R.string.pxpay_key),
+                generateRequest, IWebService.TRANSACTION_REQUEST,
+                NavigationDrawerActivity.this);
+
 //        isNavMenuchange = true;
 //        switchContent(new HomeFragment());
     }

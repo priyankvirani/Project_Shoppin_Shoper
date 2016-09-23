@@ -81,8 +81,10 @@
 
 
     <!--payment express-->
-    <string name="PxPayUserId">Sample2_Dev</string>
-    <string name="PxPayKey">a111e223a88ba584b00fd7b5e750ce2724d721de4a099f4bc1f201ceb00f7c8b</string>
+    <string name="pxpay_userid">Sample2_Dev</string>
+    <string name="pxpay_key">a111e223a88ba584b00fd7b5e750ce2724d721de4a099f4bc1f201ceb00f7c8b</string>
+    <string name="pxpay_currency_input">NZD</string>
+    <string name="pxpay_txt_type">Purchase</string>
 
 
 </resources>
