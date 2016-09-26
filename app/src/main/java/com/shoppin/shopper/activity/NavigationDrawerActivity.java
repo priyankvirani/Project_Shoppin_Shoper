@@ -3,7 +3,6 @@ package com.shoppin.shopper.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -44,7 +43,7 @@ import static com.shoppin.shopper.utils.IConstants.IDrawerMenu;
 public class NavigationDrawerActivity extends BaseActivity {
 
     private static final String TAG = NavigationDrawerActivity.class.getSimpleName();
-    public static String ISREQUESTNOTIFICATION = "orderrequest";
+    public static String IS_REQUEST_NOTIFICATION = "order.request";
     private boolean isRequestNotification = false;
 
     @BindView(R.id.txtFragmentTitle)
@@ -151,7 +150,7 @@ public class NavigationDrawerActivity extends BaseActivity {
 
         Intent intent = getIntent();
         if (getIntent() != null) {
-            isRequestNotification = intent.getBooleanExtra(ISREQUESTNOTIFICATION, false);
+            isRequestNotification = intent.getBooleanExtra(IS_REQUEST_NOTIFICATION, false);
         }
 
         //Log.d(TAG, "suburb_id = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_ID));
@@ -372,7 +371,7 @@ public class NavigationDrawerActivity extends BaseActivity {
             Log.i(TAG, " getSupportFragmentManager backStackEntryCount = "
                     + backStackEntryCount);
             // hide left drawer
-            if (drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
                 hideDrawersAndShowContent();
             }
             // logic for two time back press exit app
