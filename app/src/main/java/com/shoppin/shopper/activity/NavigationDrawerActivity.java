@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nispok.snackbar.Snackbar;
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.adapter.NavigationDrawerMenuAdapter;
 import com.shoppin.shopper.fragment.BaseFragment;
@@ -207,8 +208,10 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     @OnClick(R.id.imgSearch)
     public void searchProduct() {
-        Toast.makeText(this, "Under development",
-                Toast.LENGTH_SHORT).show();
+
+        Snackbar.with(getApplicationContext()) // context
+                .text("Under development") // text to display
+                .show(this); // activity where it is displayed
 
         GenerateRequest generateRequest = new GenerateRequest();
         generateRequest.setPxPayUserId(getResources().getString(R.string.pxpay_userid));
@@ -229,9 +232,10 @@ public class NavigationDrawerActivity extends BaseActivity {
         generateRequest.setOpt("Opt");
         generateRequest.setXml("Xml");
 
+
         PxPay.GenerateRequest(getResources().getString(R.string.pxpay_userid)
                 , getResources().getString(R.string.pxpay_key),
-                generateRequest, IWebService.TRANSACTION_REQUEST,
+                generateRequest, IWebService.TRANSACTION_REQUEST_TEST,
                 NavigationDrawerActivity.this);
 
 //        isNavMenuchange = true;
@@ -343,6 +347,8 @@ public class NavigationDrawerActivity extends BaseActivity {
 
         Log.i(TAG, "fragmentTag = " + fragmentTag);
         FragmentTransaction ft = manager.beginTransaction();
+        //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+        ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out,R.anim.fade_in, R.anim.fade_out);
 //        ft.setCustomAnimations(R.anim.pop_enter, R.anim.pop_exit, R.anim.enter,
 //                R.anim.exit);
         Fragment tmpMyFragment = manager.findFragmentById(R.id.contentFrame);
@@ -381,8 +387,11 @@ public class NavigationDrawerActivity extends BaseActivity {
                 if (getApplicationContext() == null) {
                     return;
                 } else {
-                    Toast.makeText(this, "Please click BACK again to exit",
-                            Toast.LENGTH_SHORT).show();
+
+                    Snackbar.with(getApplicationContext()) // context
+                            .text("Please click BACK again to exit") // text to display
+                            .show(this); // activity where it is displayed
+
                 }
                 new Handler().postDelayed(new Runnable() {
 
