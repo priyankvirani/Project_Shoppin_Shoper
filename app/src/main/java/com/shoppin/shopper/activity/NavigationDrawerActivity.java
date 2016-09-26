@@ -3,6 +3,7 @@ package com.shoppin.shopper.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nispok.snackbar.Snackbar;
 import com.shoppin.shopper.R;
@@ -32,7 +32,6 @@ import com.shoppin.shopper.fragment.OrderRequestFragment;
 import com.shoppin.shopper.model.NavigationDrawerMenu;
 import com.shoppin.shopper.network.IWebService;
 import com.shoppin.shopper.paymentexpress.GenerateRequest;
-import com.shoppin.shopper.paymentexpress.PxPay;
 
 import java.util.ArrayList;
 
@@ -233,10 +232,10 @@ public class NavigationDrawerActivity extends BaseActivity {
         generateRequest.setXml("Xml");
 
 
-        PxPay.GenerateRequest(getResources().getString(R.string.pxpay_userid)
-                , getResources().getString(R.string.pxpay_key),
-                generateRequest, IWebService.TRANSACTION_REQUEST_TEST,
-                NavigationDrawerActivity.this);
+//        PxPay.GenerateRequest(getResources().getString(R.string.pxpay_userid)
+//                , getResources().getString(R.string.pxpay_key),
+//                generateRequest, IWebService.TRANSACTION_REQUEST_TEST,
+//                NavigationDrawerActivity.this);
 
 //        isNavMenuchange = true;
 //        switchContent(new HomeFragment());
@@ -348,7 +347,7 @@ public class NavigationDrawerActivity extends BaseActivity {
         Log.i(TAG, "fragmentTag = " + fragmentTag);
         FragmentTransaction ft = manager.beginTransaction();
         //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-        ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out,R.anim.fade_in, R.anim.fade_out);
+        ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
 //        ft.setCustomAnimations(R.anim.pop_enter, R.anim.pop_exit, R.anim.enter,
 //                R.anim.exit);
         Fragment tmpMyFragment = manager.findFragmentById(R.id.contentFrame);
@@ -364,6 +363,7 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+
         Log.i(TAG, "Back");
 
         FragmentManager manager = getSupportFragmentManager();
@@ -372,7 +372,7 @@ public class NavigationDrawerActivity extends BaseActivity {
             Log.i(TAG, " getSupportFragmentManager backStackEntryCount = "
                     + backStackEntryCount);
             // hide left drawer
-            if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            if (drawerLayout.isDrawerOpen(Gravity.LEFT)){
                 hideDrawersAndShowContent();
             }
             // logic for two time back press exit app

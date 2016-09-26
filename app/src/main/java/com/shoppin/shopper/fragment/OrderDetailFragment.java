@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nispok.snackbar.Snackbar;
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.adapter.ProductDetailsAdapter;
@@ -250,8 +251,10 @@ public class OrderDetailFragment extends BaseFragment {
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "SIM ERROR",
-                            Toast.LENGTH_SHORT).show();
+
+                    Snackbar.with(getActivity().getApplicationContext()) // context
+                            .text("SIM ERROR") // text to display
+                            .show(getActivity()); // activity where it is displayed
                 }
 
             }
@@ -260,7 +263,6 @@ public class OrderDetailFragment extends BaseFragment {
 
         return layoutView;
     }
-
 
     public void getOrderDetailData() {
         try {
@@ -714,7 +716,7 @@ public class OrderDetailFragment extends BaseFragment {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
                 getActivity());
-        LayoutInflater inflater = getLayoutInflater(getArguments());
+        LayoutInflater inflater =  (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.dialog_selection, null);
         dialogBuilder.setView(dialogView);
         final AlertDialog alertDialog = dialogBuilder.create();

@@ -71,7 +71,7 @@ public class PxPay {
 
     }
 
-    private static String SubmitXml(String Xml, String Url, final Context context) throws Exception {
+    private static String SubmitXml(String Xml, final String Url, final Context context) throws Exception {
         String responseBody = null;
         try {
             DataRequest getOrderDetailsRequest = new DataRequest(context);
@@ -86,7 +86,7 @@ public class PxPay {
                                 Log.e(TAG,"response "+response);
                                 Log.e(TAG, "Result " + ProcessResponse(context.getResources().getString(R.string.pxpay_userid),
                                         context.getResources().getString(R.string.pxpay_key),
-                                        response, IWebService.TRANSACTION_REQUEST, context));
+                                        response,Url , context));
 
 
                             } catch (Exception e) {
