@@ -16,10 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.nispok.snackbar.Snackbar;
+
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.adapter.NavigationDrawerMenuAdapter;
 import com.shoppin.shopper.fragment.BaseFragment;
@@ -31,6 +34,7 @@ import com.shoppin.shopper.fragment.OrderRequestFragment;
 import com.shoppin.shopper.model.NavigationDrawerMenu;
 import com.shoppin.shopper.network.IWebService;
 import com.shoppin.shopper.paymentexpress.GenerateRequest;
+import com.shoppin.shopper.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -38,6 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.attr.duration;
 import static com.shoppin.shopper.utils.IConstants.IDrawerMenu;
 
 public class NavigationDrawerActivity extends BaseActivity {
@@ -48,6 +53,9 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     @BindView(R.id.txtFragmentTitle)
     public TextView txtFragmentTitle;
+
+    @BindView(R.id.llvContent)
+    LinearLayout llvContent;
 
     /**
      * Container for all fragments
@@ -146,7 +154,10 @@ public class NavigationDrawerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
 
+
         ButterKnife.bind(this);
+
+
 
         Intent intent = getIntent();
         if (getIntent() != null) {
@@ -206,10 +217,7 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     @OnClick(R.id.imgSearch)
     public void searchProduct() {
-
-        Snackbar.with(getApplicationContext()) // context
-                .text("Under development") // text to display
-                .show(this); // activity where it is displayed
+        Toast.makeText(NavigationDrawerActivity.this, "Under Devlopment", Toast.LENGTH_SHORT).show();
 
         GenerateRequest generateRequest = new GenerateRequest();
         generateRequest.setPxPayUserId(getResources().getString(R.string.pxpay_userid));
@@ -386,10 +394,7 @@ public class NavigationDrawerActivity extends BaseActivity {
                 if (getApplicationContext() == null) {
                     return;
                 } else {
-
-                    Snackbar.with(getApplicationContext()) // context
-                            .text("Please click BACK again to exit") // text to display
-                            .show(this); // activity where it is displayed
+                    Toast.makeText(NavigationDrawerActivity.this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
                 }
                 new Handler().postDelayed(new Runnable() {

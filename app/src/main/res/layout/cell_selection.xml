@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -8,17 +8,27 @@
         android:id="@+id/txtSelectionValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/margin_small"
         android:button="@null"
         android:gravity="center_vertical"
-        android:padding="@dimen/margin_small"
         android:textColor="@color/text_black"
         android:textSize="@dimen/font_size_edittext" />
 
     <!--android:button="@drawable/custom_checkbox"-->
+    <ImageView
+        android:id="@+id/imgStatusBgDot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_small"
+        android:src="@drawable/transparentimg" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@+id/txtSelectionValue"
         android:background="@color/gray_50" />
 
-</LinearLayout>
+</RelativeLayout>

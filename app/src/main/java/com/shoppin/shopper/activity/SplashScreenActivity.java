@@ -1,12 +1,17 @@
 package com.shoppin.shopper.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.RelativeLayout;
 
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.database.DBAdapter;
@@ -18,19 +23,47 @@ import com.shoppin.shopper.utils.Utils;
 
 import org.json.JSONObject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static final String TAG = SplashScreenActivity.class.getSimpleName();
 
     private static long SLEEP_TIME = 2;
 
+    @BindView(R.id.rlvContent)
+    RelativeLayout rlvContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        ButterKnife.bind(this);
+
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(SplashScreenActivity.this);
+
+        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE);
+        // Here you can add additional actions which then would be received by the BroadcastReceiver
+
+        broadcastManager.registerReceiver(receiver, intentFilter);
+
         checkForInternet();
 
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+            if (action != null && action.equals(IConstants.UPDATE)) {
+                // perform your update
+                checkForInternet();
+            }
+
+        }
+    };
 
     private void startApp() {
         IntentLauncher launcher = new IntentLauncher();
@@ -39,38 +72,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void checkForInternet() {
         if (!Utils.isInternetAvailable(SplashScreenActivity.this, false)) {
-            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    this);
-            alertDialogBuilder.setCancelable(false);
-            alertDialogBuilder.setMessage(R.string.error_internet_check);
-            alertDialogBuilder.setPositiveButton(R.string.retry,
-                    new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Log.d(TAG, "onClick");
-                            if (!Utils.isInternetAvailable(
-                                    SplashScreenActivity.this, false)) {
-                                AlertDialog alertDialog = alertDialogBuilder
-                                        .create();
-                                alertDialog.show();
-                            } else {
-                                appVersionVerify();
-                            }
-                        }
-                    });
-            alertDialogBuilder.setNegativeButton(R.string.cancel,
-                    new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    });
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-
+            Utils.showSnackbarAlert(SplashScreenActivity.this, IConstants.UPDATE, getString(R.string.error_internet_check));
         } else {
             appVersionVerify();
         }

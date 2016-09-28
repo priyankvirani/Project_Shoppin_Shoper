@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlvNoInternet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+    <TextView
+        android:id="@+id/txtNoInternet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/margin_small"
+        android:text="No internet connection"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_title" />
+
+    <TextView
+        android:id="@+id/txtTapToRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtNoInternet"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/margin_small"
+        android:text="Tap to retry"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_title"
+        android:textStyle="bold" />
+
+</RelativeLayout>

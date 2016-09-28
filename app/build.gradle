@@ -56,9 +56,8 @@ dependencies {
     compile 'com.google.firebase:firebase-core:9.4.0'
     compile 'com.google.firebase:firebase-messaging:9.4.0'
 
-    //Snackbar
-    compile 'com.nispok:snackbar:2.11.+'
-
+    //Progress Bar
+    compile 'com.crystal:crystalpreloaders:1.0.0'
 
 
 }

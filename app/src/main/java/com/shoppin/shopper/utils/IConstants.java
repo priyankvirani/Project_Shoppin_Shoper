@@ -5,7 +5,7 @@ package com.shoppin.shopper.utils;
  */
 public interface IConstants {
 
-    String UPDATE ="update";
+    String UPDATE ="com.shoppin.shopper.update";
 
     interface IDrawerMenu {
 

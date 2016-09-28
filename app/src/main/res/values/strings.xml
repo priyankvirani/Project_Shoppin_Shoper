@@ -42,6 +42,7 @@
     <string name="error_update_product_status">Please update product status..</string>
     <string name="error_not_allowed">Not allowed.</string>
     <string name="error_no_record_found">No Record Found..</string>
+    <string name="error_sim_card">SIM ERROR</string>
 
 
 

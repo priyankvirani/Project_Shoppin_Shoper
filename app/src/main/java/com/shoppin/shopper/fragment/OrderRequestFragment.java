@@ -27,6 +27,7 @@ import com.shoppin.shopper.model.OrderRequest;
 import com.shoppin.shopper.network.DataRequest;
 import com.shoppin.shopper.network.IWebService;
 import com.shoppin.shopper.utils.IConstants;
+import com.shoppin.shopper.utils.Utils;
 
 import org.json.JSONObject;
 
@@ -51,11 +52,17 @@ public class OrderRequestFragment extends BaseFragment {
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
 
+    @BindView(R.id.rlvContent)
+    RelativeLayout rlvContent;
+
     @BindView(R.id.llEmptyList)
     LinearLayout llEmptyList;
 
     @BindView(R.id.txtEmptyList)
     TextView txtEmptyList;
+
+
+
 
     private OrderRequestAdapter orderRequestAdapter;
     private ArrayList<OrderRequest> orderRequestArrayList;
@@ -159,7 +166,13 @@ public class OrderRequestFragment extends BaseFragment {
                             }
 
                         } else {
-                            llEmptyList.setVisibility(View.VISIBLE);
+                            if(!Utils.isInternetAvailable(getActivity(),false)) {
+                                Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE, getString(R.string.error_internet_check));
+                                llEmptyList.setVisibility(View.VISIBLE);
+                            }else{
+                                llEmptyList.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

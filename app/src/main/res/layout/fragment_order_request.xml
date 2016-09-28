@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/rlvContent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clickable="true">
@@ -14,4 +15,6 @@
     <include layout="@layout/progressbar" />
 
     <include layout="@layout/empty_order_list" />
+
+    <include layout="@layout/no_internet_connection" />
 </RelativeLayout>

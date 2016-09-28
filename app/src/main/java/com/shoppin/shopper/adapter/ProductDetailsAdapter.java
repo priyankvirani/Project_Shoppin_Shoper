@@ -3,7 +3,6 @@ package com.shoppin.shopper.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,7 +141,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
                         }
                     }
                 }else{
-                    Utils.showAlert(mContext,null,mContext.getString(R.string.error_not_allowed));
+                    Utils.showSnackbarAlert(mContext,"",mContext.getString(R.string.error_not_allowed));
                 }
 
                 }

@@ -29,14 +29,20 @@ import com.shoppin.shopper.model.OngoingOrder;
 import com.shoppin.shopper.network.DataRequest;
 import com.shoppin.shopper.network.IWebService;
 import com.shoppin.shopper.utils.IConstants;
+import com.shoppin.shopper.utils.Utils;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 
 
 /**
@@ -48,6 +54,9 @@ public class OrderOngoingFragment extends BaseFragment {
     private static final String TAG = OrderOngoingFragment.class.getSimpleName();
     @BindView(R.id.recyclerListOrderOngoing)
     RecyclerView recyclerListOrderOngoing;
+
+    @BindView(R.id.rlvContent)
+    RelativeLayout rlvContent;
 
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
@@ -122,7 +131,6 @@ public class OrderOngoingFragment extends BaseFragment {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
                     orderOngoingArrayList.clear();
                     orderOngoingAdapter.notifyDataSetChanged();
-
                 }
 
                 public void onPostExecute(String response) {
@@ -134,7 +142,6 @@ public class OrderOngoingFragment extends BaseFragment {
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
                             Gson gson = new Gson();
-
 
 
                             ArrayList<OngoingOrder> tmpOrderRequestArrayList = gson.fromJson(
@@ -151,8 +158,14 @@ public class OrderOngoingFragment extends BaseFragment {
                                 llEmptyList.setVisibility(View.GONE);
                             }
 
-                        }else{
-                            llEmptyList.setVisibility(View.VISIBLE);
+                        } else {
+                            if(!Utils.isInternetAvailable(getActivity(),false)) {
+                                Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE, getString(R.string.error_internet_check));
+                                llEmptyList.setVisibility(View.VISIBLE);
+                            }else{
+                                llEmptyList.setVisibility(View.VISIBLE);
+                            }
+
                         }
 
 
@@ -161,6 +174,7 @@ public class OrderOngoingFragment extends BaseFragment {
                     }
 
                 }
+
             });
 
         } catch (Exception e) {

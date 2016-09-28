@@ -1,7 +1,12 @@
 package com.shoppin.shopper.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +26,8 @@ import com.shoppin.shopper.database.IDatabase;
 import com.shoppin.shopper.model.OrderHistory;
 import com.shoppin.shopper.network.DataRequest;
 import com.shoppin.shopper.network.IWebService;
+import com.shoppin.shopper.utils.IConstants;
+import com.shoppin.shopper.utils.Utils;
 
 import org.json.JSONObject;
 
@@ -38,6 +45,9 @@ public class OrderHistoryFragment extends BaseFragment {
     private static final String TAG = OrderHistoryFragment.class.getSimpleName();
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
+
+    @BindView(R.id.rlvContent)
+    RelativeLayout rlvContent;
 
     @BindView(R.id.recyclerListOrderHistory)
     RecyclerView recyclerListOrderHistory;
@@ -64,9 +74,29 @@ public class OrderHistoryFragment extends BaseFragment {
         recyclerListOrderHistory.setAdapter(orderHistoryAdapter);
         getOrderHistoryData();
 
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+
+        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE);
+        // Here you can add additional actions which then would be received by the BroadcastReceiver
+
+        broadcastManager.registerReceiver(receiver, intentFilter);
+
 
         return layoutView;
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+            if (action != null && action.equals(IConstants.UPDATE)) {
+                // perform your update
+                getOrderHistoryData();
+            }
+
+        }
+    };
 
     public void getOrderHistoryData() {
         try {
@@ -109,7 +139,14 @@ public class OrderHistoryFragment extends BaseFragment {
                             }
 
                         } else {
-                            llEmptyList.setVisibility(View.VISIBLE);
+
+                            if(!Utils.isInternetAvailable(getActivity(),false)) {
+                                Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE, getString(R.string.error_internet_check));
+                                llEmptyList.setVisibility(View.VISIBLE);
+                            }else{
+                                llEmptyList.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlvGlobalProgressbar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,15 +29,24 @@
             wheel:barColor="@color/app_theme_1"
             wheel:progressIndeterminate="true" />-->
 
-    <ProgressBar
+    <!--<ProgressBar-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:indeterminate="true"-->
+    <!--android:indeterminateDrawable="@drawable/circle_pro"-->
+    <!--android:padding="@dimen/margin_tiny"-->
+    <!--android:visibility="visible" />-->
+
+    <com.crystal.crystalpreloaders.widgets.CrystalPreloader
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:indeterminateDrawable="@drawable/circle_pro"
-        android:padding="@dimen/margin_tiny"
-        android:visibility="visible" />
+        app:crs_pl_bg_color="#fff"
+        app:crs_pl_fg_color="@color/app_theme_1"
+        app:crs_pl_size="very_small"
+        app:crs_pl_style="skype_balls" />
 
-    <!--android:background="@drawable/circle_shadow"-->
+
+    <!--android:background="@drawable/\"-->
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 
 import com.shoppin.shopper.R;
 
@@ -51,8 +52,12 @@ public class SelectionAdapter<T> extends RecyclerView.Adapter<SelectionAdapter.M
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+
         @BindView(R.id.txtSelectionValue)
         public CheckBox txtSelectionValue;
+
+        @BindView(R.id.imgStatusBgDot)
+        public ImageView imgStatusBgDot;
 
         MyViewHolder(View itemView) {
             super(itemView);

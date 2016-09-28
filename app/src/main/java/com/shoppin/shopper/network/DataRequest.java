@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.shoppin.shopper.R;
 
@@ -21,7 +23,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.shoppin.shopper.utils.Utils.showAlert;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+import static com.shoppin.shopper.utils.Utils.showSnackbarAlert;
 
 /**
  * Created by ubuntu on 10/8/16.
@@ -54,7 +57,7 @@ public class DataRequest {
                     if (mainJObject.has(IWebService.KEY_RES_SUCCESS)) {
                         if (!mainJObject.getBoolean(IWebService.KEY_RES_SUCCESS)) {
                             if (isShowAlert) {
-                                showAlert(
+                                showSnackbarAlert(
                                         context,
                                         null,
                                         mainJObject
@@ -71,7 +74,8 @@ public class DataRequest {
             } else {
                 try {
                     if (isShowAlert) {
-                        showAlert(context,
+
+                        showSnackbarAlert(context,
                                 null,
                                 context.getString(R.string.error_technichal_problem));
                     }

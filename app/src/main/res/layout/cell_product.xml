@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/txtProductName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:padding="@dimen/margin_tiny"
@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/txtProductOption"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_tiny"
                 android:textColor="@color/black"
@@ -57,7 +57,7 @@
 
             <TextView
                 android:id="@+id/txtProductSalePrice"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_tiny"
                 android:textColor="@color/app_theme_1"
@@ -89,7 +89,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_centerVertical="true"
                     android:drawablePadding="5dp"
                     android:padding="@dimen/margin_tiny"
                     android:src="@drawable/round"

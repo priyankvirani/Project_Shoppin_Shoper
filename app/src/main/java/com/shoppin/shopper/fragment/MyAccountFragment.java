@@ -56,6 +56,9 @@ public class MyAccountFragment extends BaseFragment {
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
 
+    @BindView(R.id.rlvContent)
+    RelativeLayout rlvContent;
+
     @BindView(R.id.llProfileDetqails)
     LinearLayout llProfileDetqails;
 
@@ -156,7 +159,7 @@ public class MyAccountFragment extends BaseFragment {
                                             new TypeToken<ArrayList<Suburb>>() {
                                             }.getType());
                                     if (tmpSuburbArrayList != null) {
-                                        Log.e(TAG, "size = " + tmpSuburbArrayList.size());
+                                        //Log.e(TAG, "size = " + tmpSuburbArrayList.size());
                                         suburbArrayList.addAll(tmpSuburbArrayList);
                                         suburbArrayAdapter.notifyDataSetChanged();
                                     }

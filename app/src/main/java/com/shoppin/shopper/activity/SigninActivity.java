@@ -32,6 +32,9 @@ public class SigninActivity extends AppCompatActivity {
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
 
+    @BindView(R.id.rlvContent)
+    RelativeLayout rlvContent;
+
     @BindView(R.id.etxSigninId)
     EditText etxSigninId;
 

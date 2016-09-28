@@ -21,11 +21,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.nispok.snackbar.Snackbar;
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.adapter.ProductDetailsAdapter;
@@ -86,8 +84,17 @@ public class OrderDetailFragment extends BaseFragment {
     @BindView(R.id.rlOrderDetails)
     RelativeLayout rlOrderDetails;
 
+    @BindView(R.id.rlStatusOption)
+    RelativeLayout rlStatusOption;
+
+    @BindView(R.id.rlvContent)
+    RelativeLayout rlvContent;
+
     @BindView(R.id.txtStatusOption)
     TextView txtStatusOption;
+
+    @BindView(R.id.imgStatusBgDot)
+    ImageView imgStatusBgDot;
 
 
     @BindView(R.id.txtOrderNumber)
@@ -217,7 +224,7 @@ public class OrderDetailFragment extends BaseFragment {
 
         getOrderDetailData();
 
-        txtStatusOption.setOnClickListener(new View.OnClickListener() {
+        rlStatusOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -230,10 +237,10 @@ public class OrderDetailFragment extends BaseFragment {
                         if (isOrderStatusCompleted) {
                             showAlertStatusOption();
                         } else {
-                            Utils.showAlert(getActivity(), null, getActivity().getString(R.string.error_not_allowed));
+                            Utils.showSnackbarAlert(getActivity(), null, getActivity().getString(R.string.error_not_allowed));
                         }
                     } else {
-                        Utils.showAlert(getActivity(), null, getActivity().getString(R.string.error_update_product_status));
+                        Utils.showSnackbarAlert(getActivity(), null, getActivity().getString(R.string.error_update_product_status));
                     }
                 }
 
@@ -251,12 +258,8 @@ public class OrderDetailFragment extends BaseFragment {
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
-
-                    Snackbar.with(getActivity().getApplicationContext()) // context
-                            .text("SIM ERROR") // text to display
-                            .show(getActivity()); // activity where it is displayed
+                    Utils.showSnackbarAlert(getActivity(), "", getString(R.string.error_sim_card));
                 }
-
             }
         });
 
@@ -314,6 +317,13 @@ public class OrderDetailFragment extends BaseFragment {
                                         txtStatusOption.setText(getResources().getString(R.string.order_select_status));
                                     } else {
                                         txtStatusOption.setText(dataJObject.getString(IWebService.KEY_RES_STATUS_LABEL));
+
+                                    }
+                                    if (order_status == IWebService.KEY_REQ_STATUS_PLACED) {
+                                        imgStatusBgDot.setVisibility(View.GONE);
+                                    } else {
+                                        imgStatusBgDot.setVisibility(View.VISIBLE);
+                                        imgStatusBgDot.setBackgroundColor(setStatusBackGroundColor(order_status));
 
                                     }
                                     if (isHistory) {
@@ -406,7 +416,7 @@ public class OrderDetailFragment extends BaseFragment {
 
             if (statusCode == IWebService.KEY_REQ_STATUS_ACCEPTED) {
 
-                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_details_accepted));
                 imgAccepted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
                 lltAccepted.setClickable(false);
@@ -419,12 +429,12 @@ public class OrderDetailFragment extends BaseFragment {
 
             } else if (statusCode == IWebService.KEY_REQ_STATUS_PUECHASING) {
 
-                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_details_accepted));
                 imgAccepted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
                 lltAccepted.setClickable(false);
 
-                lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
+                lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_details_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
                 txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
@@ -435,17 +445,17 @@ public class OrderDetailFragment extends BaseFragment {
                 isCompleted = false;
 
             } else if (statusCode == IWebService.KEY_REQ_STATUS_SHIPPING) {
-                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_details_accepted));
                 imgAccepted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
                 lltAccepted.setClickable(false);
 
-                lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
+                lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_details_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
                 txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
 
-                lltShipping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
+                lltShipping.setBackgroundColor(getResources().getColor(R.color.order_details_shipping));
                 imgShipping.setImageResource(R.drawable.shipping);
                 txtShipping.setTextColor(getResources().getColor(R.color.white));
                 lltShipping.setClickable(false);
@@ -456,22 +466,22 @@ public class OrderDetailFragment extends BaseFragment {
                 isCompleted = true;
 
             } else if (statusCode == IWebService.KEY_REQ_STATUS_COMPLETED) {
-                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_datails_accepted));
+                lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_details_accepted));
                 imgAccepted.setImageResource(R.drawable.accepted);
                 txtAccepted.setTextColor(getResources().getColor(R.color.white));
                 lltAccepted.setClickable(false);
 
-                lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_datails_purchasing));
+                lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_details_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
                 txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
 
-                lltShipping.setBackgroundColor(getResources().getColor(R.color.order_datails_shiping));
+                lltShipping.setBackgroundColor(getResources().getColor(R.color.order_details_shipping));
                 imgShipping.setImageResource(R.drawable.shipping);
                 txtShipping.setTextColor(getResources().getColor(R.color.white));
                 lltShipping.setClickable(false);
 
-                lltCompleted.setBackgroundColor(getResources().getColor(R.color.order_datails_completed));
+                lltCompleted.setBackgroundColor(getResources().getColor(R.color.order_details_completed));
                 imgCompleted.setImageResource(R.drawable.completed_white);
                 txtCompleted.setTextColor(getResources().getColor(R.color.white));
                 lltCompleted.setClickable(false);
@@ -532,6 +542,13 @@ public class OrderDetailFragment extends BaseFragment {
                             order_status = Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS));
                             statusOptionValueArrayList.get(position).isSelected = true;
                             txtStatusOption.setText(statusOptionValueArrayList.get(position).statusLabel);
+                            if (order_status == IWebService.KEY_REQ_STATUS_PLACED) {
+                                imgStatusBgDot.setVisibility(View.GONE);
+                            } else {
+                                imgStatusBgDot.setVisibility(View.VISIBLE);
+                                imgStatusBgDot.setBackgroundColor(setStatusBackGroundColor(order_status));
+
+                            }
                             filterStatusAdapter.notifyDataSetChanged();
 
                             setOrderStatus(Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS)));
@@ -716,7 +733,7 @@ public class OrderDetailFragment extends BaseFragment {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
                 getActivity());
-        LayoutInflater inflater =  (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.dialog_selection, null);
         dialogBuilder.setView(dialogView);
         final AlertDialog alertDialog = dialogBuilder.create();
@@ -731,6 +748,8 @@ public class OrderDetailFragment extends BaseFragment {
                     @Override
                     public void bindValues(SelectionAdapter.MyViewHolder holder, final int position) {
                         // TODO Auto-generated method stub
+                        holder.imgStatusBgDot.setBackgroundColor(setStatusBackGroundColor(statusOptionValueArrayList
+                                .get(position).status));
 
                         holder.txtSelectionValue.setText(statusOptionValueArrayList
                                 .get(position).statusLabel);
@@ -757,7 +776,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                                             } else {
 
-                                                Utils.showAlert(getActivity(), null, getActivity().getString(R.string.error_update_product_status));
+                                                Utils.showSnackbarAlert(getActivity(), null, getActivity().getString(R.string.error_update_product_status));
 
                                             }
                                         } else {
@@ -786,6 +805,27 @@ public class OrderDetailFragment extends BaseFragment {
             }
         }
         return true;
+    }
+
+    private int setStatusBackGroundColor(int status) {
+        int bgTextView = -1;
+        if (IWebService.KEY_REQ_STATUS_REJECTED == status) {
+            bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_reject);
+        } else if (IWebService.KEY_REQ_STATUS_ACCEPTED == status) {
+            bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_accept);
+        } else if (IWebService.KEY_REQ_STATUS_PUECHASING == status) {
+            bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_purchasing);
+        } else if (IWebService.KEY_REQ_STATUS_SHIPPING == status) {
+            bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_shipping);
+        } else if (IWebService.KEY_REQ_STATUS_COMPLETED == status) {
+            bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_completed);
+        } else if (IWebService.KEY_REQ_STATUS_ON_HOLD == status) {
+            bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_on_hold);
+        } else if (IWebService.KEY_REQ_STATUS_CANCELLED == status) {
+            bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_cancel);
+        }
+
+        return bgTextView;
     }
 
     @Override

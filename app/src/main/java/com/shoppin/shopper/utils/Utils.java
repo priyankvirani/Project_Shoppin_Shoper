@@ -1,14 +1,22 @@
 package com.shoppin.shopper.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shoppin.shopper.R;
@@ -66,6 +74,7 @@ public class Utils {
         }
     }
 
+
     /**
      * Check for internet connection
      */
@@ -97,6 +106,61 @@ public class Utils {
      * @param title
      * @param message
      */
+
+    public static void showSnackbarAlert(final Context context, final String title, final String message) {
+        if (context instanceof Activity) {
+            final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
+            String btnString = null;
+            if (title.equals(IConstants.UPDATE)) {
+                btnString = context.getString(R.string.retry);
+            } else {
+                btnString = context.getString(R.string.ok);
+            }
+
+            final Snackbar snackBar = Snackbar.make(viewGroup, message, Snackbar.LENGTH_INDEFINITE);
+
+            snackBar.setAction(btnString, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Utils.isInternetAvailable(context, false)) {
+                        snackBar.dismiss();
+                    } else {
+                        Utils.showSnackbarAlert(context, title, message);
+                    }
+                    if (title.equals(IConstants.UPDATE)) {
+                        Log.e(TAG, "equal true");
+                        Intent intent = new Intent(IConstants.UPDATE);
+                        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(context);
+                        broadcastManager.sendBroadcast(intent);
+                    }
+                }
+            });
+
+            snackBar.setActionTextColor(Color.RED);
+
+            // Changing action button text color
+            View sbView = snackBar.getView();
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(Color.WHITE);
+            snackBar.show();
+        }
+
+
+    }
+    public static void showToastShort1(Context context, String message) {
+        if (context instanceof Activity) {
+            final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
+            Snackbar.make(viewGroup, message, Snackbar.LENGTH_LONG)
+                    .setAction("CLOSE", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    })
+                    .setActionTextColor(context.getResources().getColor(android.R.color.holo_red_light))
+                    .show();
+        }
+    }
     public static void showAlert(Context context, String title, String message) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
@@ -116,7 +180,6 @@ public class Utils {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-
     /**
      * Share with other apps
      */
@@ -127,6 +190,13 @@ public class Utils {
         sharingIntent.setType("text/plain");
         context.startActivity(Intent.createChooser(sharingIntent,
                 "Share using : "));
+    }
+
+    public static void showSnackbar(Activity activity, String displayText) {
+/*
+        Snackbar.with(activity.getApplicationContext()) // context
+                .text(displayText) // text to display
+                .show(activity); // activity where it is displayed*/
     }
 
 

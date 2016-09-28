@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/rlvContent"
     android:background="@color/white"
     android:clickable="true">
 
@@ -31,7 +32,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/cardview_background">
+                    android:background="@color/card_view_background">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -44,7 +45,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:textColor="@color/cell_textview_color"
+                            android:textColor="@color/cell_text_view_color"
                             android:textSize="@dimen/font_size_edittext" />
 
 
@@ -54,7 +55,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:textColor="@color/cell_textview_color"
+                            android:textColor="@color/cell_text_view_color"
                             android:textSize="@dimen/font_size_edittext" />
 
 
@@ -80,7 +81,7 @@
                                     android:layout_height="0dp"
                                     android:layout_margin="@dimen/margin_tiny"
                                     android:layout_weight="1"
-                                    android:textColor="@color/cell_textview_color"
+                                    android:textColor="@color/cell_text_view_color"
                                     android:textSize="@dimen/font_size_edittext" />
 
                                 <TextView
@@ -89,7 +90,7 @@
                                     android:layout_height="0dp"
                                     android:layout_margin="@dimen/margin_tiny"
                                     android:layout_weight="1"
-                                    android:textColor="@color/cell_textview_color"
+                                    android:textColor="@color/cell_text_view_color"
                                     android:textSize="@dimen/font_size_edittext" />
                             </LinearLayout>
 
@@ -100,7 +101,7 @@
                                 android:layout_margin="@dimen/margin_tiny"
                                 android:layout_weight="1"
                                 android:gravity="right"
-                                android:textColor="@color/cell_textview_color"
+                                android:textColor="@color/cell_text_view_color"
                                 android:textSize="@dimen/font_size_edittext" />
                         </LinearLayout>
 
@@ -111,7 +112,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/llAddress"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:textColor="@color/cell_textview_color"
+                            android:textColor="@color/cell_text_view_color"
                             android:textSize="@dimen/font_size_edittext" />
 
 
@@ -133,7 +134,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/txtOrderPrice"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:textColor="@color/cell_textview_color"
+                            android:textColor="@color/cell_text_view_color"
                             android:textSize="@dimen/font_size_edittext" />
 
                         <LinearLayout
@@ -217,7 +218,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:drawableLeft="@drawable/store"
                 android:drawablePadding="@dimen/margin_tiny"
-                android:textColor="@color/cell_textview_color"
+                android:textColor="@color/cell_text_view_color"
                 android:textSize="@dimen/font_size_edittext" />
 
             <TextView
@@ -227,22 +228,42 @@
                 android:layout_below="@id/txtPreferredStore"
                 android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
-                android:textColor="@color/cell_textview_color"
+                android:textColor="@color/cell_text_view_color"
                 android:textSize="@dimen/font_size_edittext" />
 
-            <TextView
-                android:id="@+id/txtStatusOption"
+            <RelativeLayout
+                android:id="@+id/rlStatusOption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtStoreAddress"
                 android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/bg_option_dropdown" />
+                android:background="@drawable/bg_option_dropdown">
+
+                <ImageView
+                    android:id="@+id/imgStatusBgDot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/transparentimg" />
+
+                <TextView
+                    android:id="@+id/txtStatusOption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/imgStatusBgDot"
+                    android:paddingLeft="@dimen/margin_tiny"
+                    android:textColor="@color/cell_text_view_color"
+                    android:textSize="@dimen/font_size_edittext" />
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:id="@+id/lltOrderStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtStatusOption"
+                android:layout_below="@id/rlStatusOption"
                 android:orientation="horizontal"
                 android:weightSum="4">
 
@@ -409,4 +430,5 @@
     </android.support.v4.widget.NestedScrollView>
 
     <include layout="@layout/progressbar" />
+
 </RelativeLayout>

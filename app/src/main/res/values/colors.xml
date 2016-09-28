@@ -6,11 +6,10 @@
 
     <color name="colorPrimary">@color/app_theme_1</color>
     <color name="colorPrimaryDark">@color/app_theme_2</color>
-    <color name="colorAccent">@color/app_theme_3</color>
+    <color name="colorAccent">@color/black</color>
 
     <color name="app_theme_1">#80cc28</color>
     <color name="app_theme_2">#649f1f</color>
-    <!--<color name="app_theme_3">#FF4081</color>-->
     <color name="app_theme_3">#ffffff</color>
 
     <color name="white">#ffffff</color>
@@ -24,21 +23,26 @@
     <color name="red">#E65100</color>
     <color name="blue">#0091EA</color>
     <color name="yellow">#E7C00B</color>
-    <color name="cardview_background">#F0F0F0</color>
+    <color name="card_view_background">#F0F0F0</color>
 
-    <color name="order_datails_accepted">#a9e662</color>
-    <color name="order_datails_purchasing">#9cdb52</color>
-    <color name="order_datails_shiping">#8fd044</color>
-    <color name="order_datails_completed">#80cc28</color>
+    <!--status button bg-->
+    <color name="order_details_accepted">#a9e662</color>
+    <color name="order_details_purchasing">#9cdb52</color>
+    <color name="order_details_shipping">#8fd044</color>
+    <color name="order_details_completed">#80cc28</color>
 
-
-    <color name="cell_textview_color">#464646</color>
-
-
+    <color name="cell_text_view_color">#464646</color>
     <color name="order_status_default_bg">#f0f0f0</color>
 
+    <!--select status bg color-->
 
-
+    <color name="order_bg_reject">#ff0000</color>
+    <color name="order_bg_accept">#26c954</color>
+    <color name="order_bg_purchasing">#1ab1d1</color>
+    <color name="order_bg_shipping">#e7c00c</color>
+    <color name="order_bg_completed">#80cc28</color>
+    <color name="order_bg_on_hold">#361eea</color>
+    <color name="order_bg_cancel">#ff0000</color>
 
 
 

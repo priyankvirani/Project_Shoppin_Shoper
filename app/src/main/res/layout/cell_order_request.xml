@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/cardview_background">
+            android:background="@color/card_view_background">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                     android:id="@+id/txtOrderNumber"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
+                    android:textColor="@color/cell_text_view_color"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_tiny" />
 
@@ -35,7 +35,7 @@
                     android:id="@+id/txtOrderDate"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
+                    android:textColor="@color/cell_text_view_color"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_margin="@dimen/margin_tiny" />
@@ -54,7 +54,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/font_size_edittext"
-                        android:textColor="@color/cell_textview_color"
+                        android:textColor="@color/cell_text_view_color"
                         android:layout_margin="@dimen/margin_tiny"
                         android:layout_weight="1" />
 
@@ -63,7 +63,7 @@
                         android:layout_width="0dp"
                         android:gravity="right"
                         android:textSize="@dimen/font_size_edittext"
-                        android:textColor="@color/cell_textview_color"
+                        android:textColor="@color/cell_text_view_color"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_tiny"
                         android:layout_weight="1" />
@@ -75,14 +75,14 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/llAddress"
                     android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
+                    android:textColor="@color/cell_text_view_color"
                     android:layout_margin="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/txtTotalPrice"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
+                    android:textColor="@color/cell_text_view_color"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtSuburb"
                     android:layout_margin="@dimen/margin_tiny" />
@@ -91,7 +91,7 @@
                     android:id="@+id/txtItemCount"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/font_size_edittext"
-                    android:textColor="@color/cell_textview_color"
+                    android:textColor="@color/cell_text_view_color"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtTotalPrice"
                     android:layout_margin="@dimen/margin_tiny" />
