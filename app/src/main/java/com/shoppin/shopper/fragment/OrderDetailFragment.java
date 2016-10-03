@@ -54,13 +54,15 @@ public class OrderDetailFragment extends BaseFragment {
     private static final String TAG = OrderDetailFragment.class.getSimpleName();
     public static final String ORDER_NUMBER = "order_number";
     public static final String ISHISTORY = "ishistory";
+    public static final String PREVIOUS_FRAGMENT = "previous.fragment";
 
 
-    public static OrderDetailFragment newInstance(String order_number, boolean isHistory) {
+    public static OrderDetailFragment newInstance(String order_number, boolean isHistory, String previousFragment) {
         OrderDetailFragment orderDetailFragment = new OrderDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ORDER_NUMBER, order_number);
         bundle.putBoolean(ISHISTORY, isHistory);
+        bundle.putString(PREVIOUS_FRAGMENT, previousFragment);
         orderDetailFragment.setArguments(bundle);
         return orderDetailFragment;
     }
@@ -71,6 +73,7 @@ public class OrderDetailFragment extends BaseFragment {
     private ArrayList<StatusOptionValue> statusOptionValueArrayList;
     private SelectionAdapter<StatusOptionValue> filterStatusAdapter;
 
+    private String previousFragment;
     private String order_number;
     private int order_status;
     private boolean isHistory = false;
@@ -217,7 +220,9 @@ public class OrderDetailFragment extends BaseFragment {
 
         if (getArguments() != null) {
             order_number = getArguments().getString(ORDER_NUMBER);
+            previousFragment = getArguments().getString(PREVIOUS_FRAGMENT);
             isHistory = getArguments().getBoolean(ISHISTORY);
+
             //Log.e(TAG, "Order Number :  -  " + order_number);
 
         }
@@ -237,10 +242,10 @@ public class OrderDetailFragment extends BaseFragment {
                         if (isOrderStatusCompleted) {
                             showAlertStatusOption();
                         } else {
-                            Utils.showSnackbarAlert(getActivity(), null, getActivity().getString(R.string.error_not_allowed));
+                            Utils.showSnackbarAlert(getActivity(), "", getActivity().getString(R.string.error_not_allowed));
                         }
                     } else {
-                        Utils.showSnackbarAlert(getActivity(), null, getActivity().getString(R.string.error_update_product_status));
+                        Utils.showSnackbarAlert(getActivity(), "", getActivity().getString(R.string.error_update_product_status));
                     }
                 }
 
@@ -294,7 +299,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                                     Gson gson = new Gson();
 
-                                    txtOrderNumber.setText(dataJObject.getString(IWebService.KEY_REQ_ORDER_NUMBER));
+                                    txtOrderNumber.setText(dataJObject.getString(IWebService.KEY_RES_ORDER_NAMBER));
                                     txtStreetName.setText(dataJObject.getString(IWebService.KEY_RES_ADDRESS1));
                                     txtSuburb.setText(dataJObject.getString(IWebService.KEY_RES_SUBURB_NAME) + ", " + dataJObject.getString(IWebService.KEY_RES_ZIP));
                                     txtphoneNumber.setText(dataJObject.getString(IWebService.KEY_RES_CUSTOMER_MOBILE));
@@ -535,9 +540,8 @@ public class OrderDetailFragment extends BaseFragment {
                                     .size(); i++) {
                                 statusOptionValueArrayList.get(i).isSelected = false;
                             }
-                            Intent intent = new Intent(IConstants.UPDATE);
-                            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
-                            broadcastManager.sendBroadcast(intent);
+
+                            Utils.upDateList(getActivity(), previousFragment);
 
                             order_status = Integer.valueOf(dataJObject.getString(IWebService.KEY_RES_STATUS));
                             statusOptionValueArrayList.get(position).isSelected = true;
@@ -776,7 +780,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                                             } else {
 
-                                                Utils.showSnackbarAlert(getActivity(), null, getActivity().getString(R.string.error_update_product_status));
+                                                Utils.showSnackbarAlert(getActivity(), "", getActivity().getString(R.string.error_update_product_status));
 
                                             }
                                         } else {

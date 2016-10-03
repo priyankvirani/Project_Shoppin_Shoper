@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crystal.crystalpreloaders.widgets.CrystalPreloader;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shopper.R;
@@ -47,7 +49,7 @@ public class OrderRequestFragment extends BaseFragment {
     public static final String ORDER_NUMBER = "order_number";
 
     @BindView(R.id.recyclerListOrderRequest)
-    RecyclerView lvOrderRecyList;
+    RecyclerView recyclerListOrderRequest;
 
     @BindView(R.id.rlvGlobalProgressbar)
     RelativeLayout rlvGlobalProgressbar;
@@ -67,6 +69,15 @@ public class OrderRequestFragment extends BaseFragment {
     private OrderRequestAdapter orderRequestAdapter;
     private ArrayList<OrderRequest> orderRequestArrayList;
 
+    private boolean loading = true;
+    private int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private LinearLayoutManager mLayoutManager;
+    private int pageNumber = 0;
+
+
+    @BindView(R.id.listViewProgressbar)
+    CrystalPreloader listViewProgressbar;
+
 
     @Nullable
     @Override
@@ -77,8 +88,9 @@ public class OrderRequestFragment extends BaseFragment {
 
         orderRequestArrayList = new ArrayList<>();
         orderRequestAdapter = new OrderRequestAdapter(getActivity(), orderRequestArrayList);
-        lvOrderRecyList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        lvOrderRecyList.setAdapter(orderRequestAdapter);
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerListOrderRequest.setLayoutManager(mLayoutManager);
+        recyclerListOrderRequest.setAdapter(orderRequestAdapter);
         orderRequestAdapter.setOnStatusChangeListener(new OrderRequestAdapter.OnStatusChangeListener() {
             @Override
             public void onStatusChange(int position, boolean status) {
@@ -95,10 +107,48 @@ public class OrderRequestFragment extends BaseFragment {
 
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
 
-        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE);
+        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE_ORDER_REQUEST);
         // Here you can add additional actions which then would be received by the BroadcastReceiver
 
         broadcastManager.registerReceiver(receiver, intentFilter);
+
+        recyclerListOrderRequest.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+//                    Log.e(TAG, "ARREY SIZE        :" + orderOngoingArrayList.size());
+//                    Log.e(TAG, "visibleItemCount  :" + visibleItemCount);
+//                    Log.e(TAG, "totalItemCount    :" + orderOngoingArrayList.size());
+//                    Log.e(TAG, "pastVisiblesItems :" + orderOngoingArrayList.size());
+
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+
+                            pageNumber++;
+                            Log.e(TAG, "IN Last Item Wow !");
+                            listViewProgressbar.setVisibility(View.VISIBLE);
+                            //Do pagination.. i.e. fetch new data
+                            getOrderRequestData();
+                        }
+                    }
+                }
+            }
+        });
 
         return layoutView;
     }
@@ -115,7 +165,7 @@ public class OrderRequestFragment extends BaseFragment {
         public void onReceive(Context context, Intent intent) {
 
             String action = intent.getAction();
-            if (action != null && action.equals(IConstants.UPDATE)) {
+            if (action != null && action.equals(IConstants.UPDATE_ORDER_REQUEST)) {
                 // perform your update
                 getOrderRequestData();
             }
@@ -124,30 +174,34 @@ public class OrderRequestFragment extends BaseFragment {
     };
 
     public void getOrderRequestData() {
-        orderRequestArrayList.clear();
+       // orderRequestArrayList.clear();
         try {
 
             JSONObject orderRequestParam = new JSONObject();
             orderRequestParam.put(IWebService.KEY_REQ_ORDER_SUBURB_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID));
             orderRequestParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
-
+            orderRequestParam.put(IWebService.KEY_REQ_PAGE_NO, pageNumber);
 
             DataRequest getOrderDataRequest = new DataRequest(getActivity());
             getOrderDataRequest.execute(IWebService.ORDER_REQUEST, orderRequestParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
-                    orderRequestArrayList.clear();
+                    //orderRequestArrayList.clear();
                     orderRequestAdapter.notifyDataSetChanged();
 
                 }
 
                 public void onPostExecute(String response) {
                     rlvGlobalProgressbar.setVisibility(View.GONE);
+                    listViewProgressbar.setVisibility(View.GONE);
                     try {
 
                         if (!DataRequest.hasError(getActivity(), response, false)) {
 
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
+                            if (dataJObject == null) {
+                                loading = false;
+                            }
 
                             Gson gson = new Gson();
 
@@ -167,9 +221,9 @@ public class OrderRequestFragment extends BaseFragment {
 
                         } else {
                             if(!Utils.isInternetAvailable(getActivity(),false)) {
-                                Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE, getString(R.string.error_internet_check));
+                                Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE_ORDER_REQUEST, getString(R.string.error_internet_check));
                                 llEmptyList.setVisibility(View.VISIBLE);
-                            }else{
+                            }else if(orderRequestArrayList == null){
                                 llEmptyList.setVisibility(View.VISIBLE);
                             }
 
@@ -198,8 +252,8 @@ public class OrderRequestFragment extends BaseFragment {
             orderStatusParam.put(IWebService.KEY_RES_STATUS, status);
             orderStatusParam.put(IWebService.KEY_REQ_PRODUCT_COMMENTS, IWebService.KEY_REQ_NULL);
 
-            DataRequest signinDataRequest = new DataRequest(getActivity());
-            signinDataRequest.execute(IWebService.ORDER_ACTION, orderStatusParam.toString(), new DataRequest.CallBack() {
+            DataRequest signInDataRequest = new DataRequest(getActivity());
+            signInDataRequest.execute(IWebService.ORDER_ACTION, orderStatusParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
                     rlvGlobalProgressbar.setVisibility(View.VISIBLE);
 
@@ -214,7 +268,7 @@ public class OrderRequestFragment extends BaseFragment {
                             NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
                             if (navigationDrawerActivity != null) {
                                 navigationDrawerActivity.switchContent(OrderDetailFragment
-                                        .newInstance(orderRequestArrayList.get(position).order_number, false));
+                                        .newInstance(orderRequestArrayList.get(position).order_number, false,IConstants.UPDATE_ORDER_REQUEST));
                             }
                             getOrderRequestData();
 

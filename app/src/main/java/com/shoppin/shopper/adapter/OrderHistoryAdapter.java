@@ -14,6 +14,7 @@ import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.fragment.OrderDetailFragment;
 import com.shoppin.shopper.model.OrderHistory;
 import com.shoppin.shopper.network.IWebService;
+import com.shoppin.shopper.utils.IConstants;
 
 import java.util.ArrayList;
 
@@ -115,7 +116,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
                 if (navigationDrawerActivity != null) {
                     navigationDrawerActivity.switchContent(OrderDetailFragment
-                            .newInstance(orderHistoryArrayList.get(position).order_number, true));
+                            .newInstance(orderHistoryArrayList.get(position).order_number, true, IConstants.UPDATE_ORDER_HISTORY));
                 }
             }
         });

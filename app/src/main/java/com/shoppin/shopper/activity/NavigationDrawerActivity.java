@@ -1,5 +1,6 @@
 package com.shoppin.shopper.activity;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -158,7 +159,6 @@ public class NavigationDrawerActivity extends BaseActivity {
         ButterKnife.bind(this);
 
 
-
         Intent intent = getIntent();
         if (getIntent() != null) {
             isRequestNotification = intent.getBooleanExtra(IS_REQUEST_NOTIFICATION, false);
@@ -214,7 +214,6 @@ public class NavigationDrawerActivity extends BaseActivity {
 //        return super.onOptionsItemSelected(item);
 //    }
 
-
     @OnClick(R.id.imgSearch)
     public void searchProduct() {
         Toast.makeText(NavigationDrawerActivity.this, "Under Devlopment", Toast.LENGTH_SHORT).show();
@@ -246,6 +245,14 @@ public class NavigationDrawerActivity extends BaseActivity {
 
 //        isNavMenuchange = true;
 //        switchContent(new HomeFragment());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
     }
 
 
@@ -325,9 +332,9 @@ public class NavigationDrawerActivity extends BaseActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /*
+    /**
      * For switching fragments
-     */
+     **/
     public void switchContent(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
 //        To hide keyboard on fragment change
@@ -412,7 +419,8 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     /**
      * Set title
-     */
+     **/
+
     public void setToolbarTitle(String toolbarTitle) {
         txtFragmentTitle.setText(toolbarTitle);
     }

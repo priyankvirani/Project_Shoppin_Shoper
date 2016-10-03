@@ -5,7 +5,11 @@ package com.shoppin.shopper.utils;
  */
 public interface IConstants {
 
-    String UPDATE ="com.shoppin.shopper.update";
+    String UPDATE_SPLASH_SCREEN = "com.shoppin.shopper.fragment.splashscreenactivity";
+    String UPDATE_ORDER_ON_GOING = "com.shoppin.shopper.fragment.orderongoingfragment";
+    String UPDATE_ORDER_REQUEST = "com.shoppin.shopper.fragment.orderrequestfragment";
+    String UPDATE_ORDER_HISTORY = "com.shoppin.shopper.fragment.orderhistoryfragment";
+
 
     interface IDrawerMenu {
 
@@ -23,7 +27,7 @@ public interface IConstants {
 
     }
 
-    interface  ISignin {
+    interface ISignin {
 
         String DEVICE_TYPE = "android";
     }

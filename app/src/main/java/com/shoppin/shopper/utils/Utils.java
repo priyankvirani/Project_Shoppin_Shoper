@@ -111,7 +111,10 @@ public class Utils {
         if (context instanceof Activity) {
             final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
             String btnString = null;
-            if (title.equals(IConstants.UPDATE)) {
+            if (title.equals(IConstants.UPDATE_SPLASH_SCREEN) ||
+                    title.equals(IConstants.UPDATE_ORDER_ON_GOING) ||
+                    title.equals(IConstants.UPDATE_ORDER_REQUEST) ||
+                    title.equals(IConstants.UPDATE_ORDER_HISTORY)) {
                 btnString = context.getString(R.string.retry);
             } else {
                 btnString = context.getString(R.string.ok);
@@ -127,12 +130,8 @@ public class Utils {
                     } else {
                         Utils.showSnackbarAlert(context, title, message);
                     }
-                    if (title.equals(IConstants.UPDATE)) {
-                        Log.e(TAG, "equal true");
-                        Intent intent = new Intent(IConstants.UPDATE);
-                        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(context);
-                        broadcastManager.sendBroadcast(intent);
-                    }
+                    upDateList(context, title);
+
                 }
             });
 
@@ -147,6 +146,32 @@ public class Utils {
 
 
     }
+
+    public static void upDateList(Context context, String title) {
+
+        if (title.equals(IConstants.UPDATE_SPLASH_SCREEN)) {
+            //Log.e(TAG, "equal true");
+            Intent intent = new Intent(IConstants.UPDATE_SPLASH_SCREEN);
+            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(context);
+            broadcastManager.sendBroadcast(intent);
+        } else if (title.equals(IConstants.UPDATE_ORDER_ON_GOING)) {
+            //Log.e(TAG, "equal true");
+            Intent intent = new Intent(IConstants.UPDATE_ORDER_ON_GOING);
+            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(context);
+            broadcastManager.sendBroadcast(intent);
+        } else if (title.equals(IConstants.UPDATE_ORDER_REQUEST)) {
+            //Log.e(TAG, "equal true");
+            Intent intent = new Intent(IConstants.UPDATE_ORDER_REQUEST);
+            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(context);
+            broadcastManager.sendBroadcast(intent);
+        } else if (title.equals(IConstants.UPDATE_ORDER_HISTORY)) {
+            //Log.e(TAG, "equal true");
+            Intent intent = new Intent(IConstants.UPDATE_ORDER_HISTORY);
+            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(context);
+            broadcastManager.sendBroadcast(intent);
+        }
+    }
+
     public static void showToastShort1(Context context, String message) {
         if (context instanceof Activity) {
             final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
@@ -161,6 +186,7 @@ public class Utils {
                     .show();
         }
     }
+
     public static void showAlert(Context context, String title, String message) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);

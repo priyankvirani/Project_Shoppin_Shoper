@@ -15,6 +15,7 @@ import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.fragment.OrderDetailFragment;
 import com.shoppin.shopper.model.OngoingOrder;
 import com.shoppin.shopper.network.IWebService;
+import com.shoppin.shopper.utils.IConstants;
 
 import java.util.ArrayList;
 
@@ -94,7 +95,7 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         holder.txtCustomerName.setText(ongoingOrderArrayList.get(position).customerName);
         holder.txtItemCount.setText(ongoingOrderArrayList.get(position).itemCount);
 
-        setOrderStatus(position,holder.txtOrderStatus,holder.llOrderStatus);
+        setOrderStatus(position, holder.txtOrderStatus, holder.llOrderStatus);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +104,7 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
                 NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
                 if (navigationDrawerActivity != null) {
                     navigationDrawerActivity.switchContent(OrderDetailFragment
-                            .newInstance(ongoingOrderArrayList.get(position).order_number, false));
+                            .newInstance(ongoingOrderArrayList.get(position).order_number, false, IConstants.UPDATE_ORDER_ON_GOING));
                 }
             }
         });
@@ -115,7 +116,7 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
         return ongoingOrderArrayList.size();
     }
 
-    public void setOrderStatus(int position, TextView txtorderStatus,LinearLayout llOrderStatus) {
+    public void setOrderStatus(int position, TextView txtorderStatus, LinearLayout llOrderStatus) {
         if (ongoingOrderArrayList.get(position).status == IWebService.KEY_REQ_STATUS_ACCEPTED) {
 
             llOrderStatus.setBackgroundResource(R.drawable.button_background_green);

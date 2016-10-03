@@ -17,11 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crystal.crystalpreloaders.widgets.CrystalPreloader;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
+import com.shoppin.shopper.activity.SplashScreenActivity;
 import com.shoppin.shopper.adapter.OngoingOrderAdapter;
 import com.shoppin.shopper.database.DBAdapter;
 import com.shoppin.shopper.database.IDatabase;
@@ -33,12 +34,6 @@ import com.shoppin.shopper.utils.Utils;
 
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -71,6 +66,15 @@ public class OrderOngoingFragment extends BaseFragment {
     private OngoingOrderAdapter orderOngoingAdapter;
     private ArrayList<OngoingOrder> orderOngoingArrayList;
 
+    private boolean loading = true;
+    private int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private LinearLayoutManager mLayoutManager;
+    private int pageNumber = 0;
+
+
+    @BindView(R.id.listViewProgressbar)
+    CrystalPreloader listViewProgressbar;
+
 
     @Nullable
     @Override
@@ -81,16 +85,55 @@ public class OrderOngoingFragment extends BaseFragment {
 
         orderOngoingArrayList = new ArrayList<>();
         orderOngoingAdapter = new OngoingOrderAdapter(getActivity(), orderOngoingArrayList);
-        recyclerListOrderOngoing.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerListOrderOngoing.setLayoutManager(mLayoutManager);
         recyclerListOrderOngoing.setAdapter(orderOngoingAdapter);
         getOngoingOrderData();
 
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
 
-        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE);
+        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE_ORDER_ON_GOING);
         // Here you can add additional actions which then would be received by the BroadcastReceiver
 
         broadcastManager.registerReceiver(receiver, intentFilter);
+
+
+        recyclerListOrderOngoing.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+//
+//                    Log.e(TAG, "ARREY SIZE        :" + orderOngoingArrayList.size());
+//                    Log.e(TAG, "visibleItemCount  :" + visibleItemCount);
+//                    Log.e(TAG, "totalItemCount    :" + totalItemCount);
+//                    Log.e(TAG, "pastVisiblesItems :" + pastVisiblesItems);
+
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+                            pageNumber++;
+                            Log.e(TAG, "IN Last Item Wow !");
+                            listViewProgressbar.setVisibility(View.VISIBLE);
+                            //Do pagination.. i.e. fetch new data
+                            getOngoingOrderData();
+                        }
+                    }
+                }
+            }
+        });
 
 
         return layoutView;
@@ -108,8 +151,9 @@ public class OrderOngoingFragment extends BaseFragment {
         public void onReceive(Context context, Intent intent) {
 
             String action = intent.getAction();
-            if (action != null && action.equals(IConstants.UPDATE)) {
+            if (action != null && action.equals(IConstants.UPDATE_ORDER_ON_GOING)) {
                 // perform your update
+                Log.e(TAG, "IN Last Item Wow !");
                 getOngoingOrderData();
             }
 
@@ -118,64 +162,77 @@ public class OrderOngoingFragment extends BaseFragment {
 
 
     public void getOngoingOrderData() {
-        orderOngoingArrayList.clear();
+        //orderOngoingArrayList.clear();
         try {
 
             JSONObject ongoingOrderParam = new JSONObject();
             ongoingOrderParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
-
+            ongoingOrderParam.put(IWebService.KEY_REQ_PAGE_NO, pageNumber);
 
             DataRequest setdataRequest = new DataRequest(getActivity());
             setdataRequest.execute(IWebService.ONGOING_ORDER, ongoingOrderParam.toString(), new DataRequest.CallBack() {
-                public void onPreExecute() {
-                    rlvGlobalProgressbar.setVisibility(View.VISIBLE);
-                    orderOngoingArrayList.clear();
-                    orderOngoingAdapter.notifyDataSetChanged();
-                }
+                        public void onPreExecute() {
+                            rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+                            //orderOngoingArrayList.clear();
+                            orderOngoingAdapter.notifyDataSetChanged();
+                        }
 
-                public void onPostExecute(String response) {
-                    rlvGlobalProgressbar.setVisibility(View.GONE);
-                    try {
+                        public void onPostExecute(String response) {
+                            rlvGlobalProgressbar.setVisibility(View.GONE);
 
-                        if (!DataRequest.hasError(getActivity(), response, false)) {
+                            new android.os.Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    listViewProgressbar.setVisibility(View.GONE);
+                                }
+                            }, 5000);
 
-                            JSONObject dataJObject = DataRequest.getJObjWebdata(response);
+                            try {
 
-                            Gson gson = new Gson();
+                                if (!DataRequest.hasError(getActivity(), response, false)) {
 
-
-                            ArrayList<OngoingOrder> tmpOrderRequestArrayList = gson.fromJson(
-                                    dataJObject.getJSONArray(
-                                            IWebService.KEY_RES_ORDER_LIST)
-                                            .toString(),
-                                    new TypeToken<ArrayList<OngoingOrder>>() {
-                                    }.getType());
+                                    JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
 
-                            if (tmpOrderRequestArrayList != null) {
-                                orderOngoingArrayList.addAll(tmpOrderRequestArrayList);
-                                orderOngoingAdapter.notifyDataSetChanged();
-                                llEmptyList.setVisibility(View.GONE);
-                            }
 
-                        } else {
-                            if(!Utils.isInternetAvailable(getActivity(),false)) {
-                                Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE, getString(R.string.error_internet_check));
-                                llEmptyList.setVisibility(View.VISIBLE);
-                            }else{
-                                llEmptyList.setVisibility(View.VISIBLE);
+                                    Gson gson = new Gson();
+
+
+                                    ArrayList<OngoingOrder> tmpOrderRequestArrayList = gson.fromJson(
+                                            dataJObject.getJSONArray(
+                                                    IWebService.KEY_RES_ORDER_LIST)
+                                                    .toString(),
+                                            new TypeToken<ArrayList<OngoingOrder>>() {
+                                            }.getType());
+
+
+                                    if (tmpOrderRequestArrayList != null) {
+                                        orderOngoingArrayList.addAll(tmpOrderRequestArrayList);
+                                        orderOngoingAdapter.notifyDataSetChanged();
+                                        llEmptyList.setVisibility(View.GONE);
+                                    }
+
+                                } else {
+                                    if (!Utils.isInternetAvailable(getActivity(), false)) {
+                                        Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE_ORDER_ON_GOING, getString(R.string.error_internet_check));
+                                        llEmptyList.setVisibility(View.VISIBLE);
+                                    } else if (orderOngoingArrayList == null) {
+                                        llEmptyList.setVisibility(View.VISIBLE);
+
+                                    }
+
+                                }
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
 
                         }
 
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
 
-                }
-
-            });
+            );
 
         } catch (Exception e) {
             e.printStackTrace();

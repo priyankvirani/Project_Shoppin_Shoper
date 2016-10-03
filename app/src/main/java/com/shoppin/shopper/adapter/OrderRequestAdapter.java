@@ -12,6 +12,7 @@ import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.fragment.OrderDetailFragment;
 import com.shoppin.shopper.model.OrderRequest;
+import com.shoppin.shopper.utils.IConstants;
 
 import java.util.ArrayList;
 
@@ -110,7 +111,7 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
                 NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
                 if(navigationDrawerActivity!=null) {
                     navigationDrawerActivity.switchContent(OrderDetailFragment
-                            .newInstance(orderRequestArrayList.get(position).order_number,false));
+                            .newInstance(orderRequestArrayList.get(position).order_number,false, IConstants.UPDATE_ORDER_REQUEST));
                 }
             }
         });

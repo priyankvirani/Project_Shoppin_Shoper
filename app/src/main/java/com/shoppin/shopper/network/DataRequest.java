@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonArray;
 import com.shoppin.shopper.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -107,6 +109,29 @@ public class DataRequest {
             e.printStackTrace();
         }
         return dataJObject;
+    }
+
+    /**
+     * Return jsonobject from ws response
+     *
+     * @param jsonData
+     * @return
+     */
+
+    public static Boolean checkSuccess(String jsonData) {
+
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+
+            if (!jsonObject.getBoolean(IWebService.KEY_RES_SUCCESS)) {
+                Log.e(TAG,"if "+jsonObject.getBoolean(IWebService.KEY_RES_SUCCESS));
+                return false;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**

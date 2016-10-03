@@ -56,7 +56,7 @@ public class SigninActivity extends AppCompatActivity {
     void singIn() {
 
         try {
-            if (SignInValidation()) {
+            if (signInValidation()) {
                 JSONObject loginParam = new JSONObject();
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_MOBILE, etxSigninId.getText().toString());
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_PASSWORD, etxPassword.getText().toString());
@@ -97,7 +97,7 @@ public class SigninActivity extends AppCompatActivity {
         }
     }
 
-    private boolean SignInValidation() {
+    private boolean signInValidation() {
         boolean isValid = true;
         etxSigninId.setError(null);
         etxPassword.setError(null);

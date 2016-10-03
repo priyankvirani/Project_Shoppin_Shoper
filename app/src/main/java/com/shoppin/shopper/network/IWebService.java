@@ -1,8 +1,6 @@
 package com.shoppin.shopper.network;
 
 
-import static android.R.attr.data;
-
 /**
  * Created by ubuntu on 10/8/16.
  */
@@ -60,6 +58,7 @@ IWebService {
     String KEY_REQ_ORDER_NUMBER = "order_number";
     String KEY_REQ_ORDER_ITEM_ID = "order_item_id";
     String KEY_REQ_SET_VALUE = "set_value";
+    String KEY_REQ_PAGE_NO = "page_no";
 
     int KEY_REQ_STATUS_PLACED = 1;
     int KEY_REQ_STATUS_REJECTED = 2;
@@ -105,7 +104,7 @@ IWebService {
     String KET_RES_SUBURB_LIST = "suburb_list";
 
 
-    String KEY_RES_ORDER_NAME = "order_number";
+    String KEY_RES_ORDER_NAMBER = "order_number";
     String KEY_RES_ORDER_SLOT_ID = "order_slot_id";
     String KEY_RES_SHIPPING_ADDRESS_ID = "shipping_address_id";
     String KEY_RES_SUBURB_NAME = "suburb_name";
@@ -132,8 +131,6 @@ IWebService {
     String KEY_RES_SALEPRICE_1 = "saleprice1";
     String KEY_RES_PRODUCT_NAME = "productName";
     String KEY_RES_PRODUCT_COMMENTS = "comment";
-
-
     String KEY_RES_SET_VALUE = "set_value";
 
 

@@ -43,7 +43,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(SplashScreenActivity.this);
 
-        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE);
+        IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE_SPLASH_SCREEN);
         // Here you can add additional actions which then would be received by the BroadcastReceiver
 
         broadcastManager.registerReceiver(receiver, intentFilter);
@@ -57,7 +57,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             String action = intent.getAction();
-            if (action != null && action.equals(IConstants.UPDATE)) {
+            if (action != null && action.equals(IConstants.UPDATE_SPLASH_SCREEN)) {
                 // perform your update
                 checkForInternet();
             }
@@ -72,7 +72,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void checkForInternet() {
         if (!Utils.isInternetAvailable(SplashScreenActivity.this, false)) {
-            Utils.showSnackbarAlert(SplashScreenActivity.this, IConstants.UPDATE, getString(R.string.error_internet_check));
+            Utils.showSnackbarAlert(SplashScreenActivity.this, IConstants.UPDATE_SPLASH_SCREEN, getString(R.string.error_internet_check));
         } else {
             appVersionVerify();
         }
@@ -104,9 +104,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-            Log.e(TAG, "Employee ID : - " + DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_ID));
-            Log.e(TAG, "Employee SUBURB ID : - " + DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID));
-
+            //Log.e(TAG, "Employee ID : - " + DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_ID));
+            //Log.e(TAG, "Employee SUBURB ID : - " + DBAdapter.getMapKeyValueString(SplashScreenActivity.this, IDatabase.IMap.KEY_EMPLOYEE_SUBURB_ID));
 
         }
     }
