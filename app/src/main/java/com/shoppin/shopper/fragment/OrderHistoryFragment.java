@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.adapter.OrderHistoryAdapter;
+import com.shoppin.shopper.adapter.OngoingOrderAdapter;
 import com.shoppin.shopper.database.DBAdapter;
 import com.shoppin.shopper.database.IDatabase;
 import com.shoppin.shopper.model.OrderHistory;
@@ -60,28 +62,35 @@ public class OrderHistoryFragment extends BaseFragment {
     @BindView(R.id.txtEmptyList)
     TextView txtEmptyList;
 
+    @BindView(R.id.swipeContainer)
+    SwipeRefreshLayout swipeContainer;
+
     private OrderHistoryAdapter orderHistoryAdapter;
-    private ArrayList<OrderHistory> orderOngoingArrayList;
+    private ArrayList<OrderHistory> orderHistoryArrayList;
+
+
+    @BindView(R.id.listViewProgressbar)
+    CrystalPreloader listViewProgressbar;
+
 
     private boolean loading = true;
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
     private LinearLayoutManager mLayoutManager;
     private int pageNumber = 0;
-
-
-    @BindView(R.id.listViewProgressbar)
-    CrystalPreloader listViewProgressbar;
+    private boolean isPullRefresh = true;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layoutView = inflater.inflate(R.layout.fragment_order_history, container, false);
         ButterKnife.bind(this, layoutView);
-        orderOngoingArrayList = new ArrayList<>();
-        orderHistoryAdapter = new OrderHistoryAdapter(getActivity(),
-                orderOngoingArrayList);
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        orderHistoryArrayList = new ArrayList<>();
+        mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerListOrderHistory.setLayoutManager(mLayoutManager);
+
+
+        orderHistoryAdapter = new OrderHistoryAdapter(getActivity(),
+                orderHistoryArrayList,recyclerListOrderHistory);
         recyclerListOrderHistory.setAdapter(orderHistoryAdapter);
         getOrderHistoryData();
 
@@ -92,43 +101,42 @@ public class OrderHistoryFragment extends BaseFragment {
 
         broadcastManager.registerReceiver(receiver, intentFilter);
 
-        recyclerListOrderHistory.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        orderHistoryAdapter.setOnLoadMoreListener(new OngoingOrderAdapter.OnLoadMoreListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
+            public void onLoadMore() {
+                //add null , so the adapter will check view_type and show progress bar at bottom
+                orderHistoryArrayList.add(null);
+                orderHistoryAdapter.notifyItemInserted(orderHistoryArrayList.size() - 1);
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+                //Load more data for reyclerview
 
+                if (loading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
 
-                if (dy > 0) //check for scroll down
-                {
-                    visibleItemCount = mLayoutManager.getChildCount();
-                    totalItemCount = mLayoutManager.getItemCount();
-                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+                    //loading = false;
+                    pageNumber++;
+                    //Do pagination.. i.e. fetch new data
+                    getOrderHistoryData();
 
-//                    Log.e(TAG, "ARREY SIZE        :" + orderOngoingArrayList.size());
-//                    Log.e(TAG, "visibleItemCount  :" + visibleItemCount);
-//                    Log.e(TAG, "totalItemCount    :" + orderOngoingArrayList.size());
-//                    Log.e(TAG, "pastVisiblesItems :" + orderOngoingArrayList.size());
-
-
-                    if (loading) {
-                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                            loading = false;
-
-                            pageNumber++;
-                            Log.e(TAG, "IN Last Item Wow !");
-                            listViewProgressbar.setVisibility(View.VISIBLE);
-                            //Do pagination.. i.e. fetch new data
-                            getOrderHistoryData();
-                        }
-                    }
                 }
+
+
             }
         });
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                isPullRefresh = false;
+                orderHistoryArrayList.clear();
+                pageNumber = 0;
+                getOrderHistoryData();
+
+            }
+        });
+        swipeContainer.setColorSchemeResources(R.color.app_theme_1,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
 
         return layoutView;
@@ -141,6 +149,8 @@ public class OrderHistoryFragment extends BaseFragment {
             String action = intent.getAction();
             if (action != null && action.equals(IConstants.UPDATE_ORDER_HISTORY)) {
                 // perform your update
+                orderHistoryArrayList.clear();
+                pageNumber = 0;
                 getOrderHistoryData();
             }
 
@@ -156,9 +166,16 @@ public class OrderHistoryFragment extends BaseFragment {
             DataRequest setdataRequest = new DataRequest(getActivity());
             setdataRequest.execute(IWebService.ORDER_HISTORY, orderHistoryParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
-                    rlvGlobalProgressbar.setVisibility(View.VISIBLE);
-                    //orderOngoingArrayList.clear();
-                    orderHistoryAdapter.notifyDataSetChanged();
+                    if (orderHistoryArrayList == null) {
+                        rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+                    }
+                    loading = false;
+
+                    if (pageNumber > 0) {
+                        orderHistoryArrayList.remove(orderHistoryArrayList.size() - 1);
+                        orderHistoryAdapter.notifyItemRemoved(orderHistoryArrayList.size());
+                    }
+
 
                 }
 
@@ -174,7 +191,6 @@ public class OrderHistoryFragment extends BaseFragment {
 
                             if (dataJObject == null) {
                                 loading = false;
-
                             }
 
                             Gson gson = new Gson();
@@ -188,9 +204,19 @@ public class OrderHistoryFragment extends BaseFragment {
                                     }.getType());
 
                             if (tmpProductArrayList != null) {
-                                //Log.e(TAG, "Size :  " + productArrayList.size());
-                                orderOngoingArrayList.addAll(tmpProductArrayList);
+                                orderHistoryArrayList.addAll(tmpProductArrayList);
+
+                                loading = true;
+                                if (pageNumber == 0) {
+                                    orderHistoryAdapter.notifyDataSetChanged();
+                                    swipeContainer.setRefreshing(false);
+                                }
+                                if (isPullRefresh) {
+                                    recyclerListOrderHistory.scrollToPosition(mLayoutManager.findLastCompletelyVisibleItemPosition() + 1);
+                                }
                                 orderHistoryAdapter.notifyDataSetChanged();
+                                orderHistoryAdapter.setLoaded();
+
                                 llEmptyList.setVisibility(View.GONE);
                             }
 
@@ -199,11 +225,13 @@ public class OrderHistoryFragment extends BaseFragment {
                             if (!Utils.isInternetAvailable(getActivity(), false)) {
                                 Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE_ORDER_HISTORY, getString(R.string.error_internet_check));
                                 llEmptyList.setVisibility(View.VISIBLE);
-                            } else if (orderOngoingArrayList == null) {
+                            } else if (orderHistoryArrayList == null) {
                                 llEmptyList.setVisibility(View.VISIBLE);
                             }
 
                         }
+                        Log.e(TAG, "Array list Size  : " + orderHistoryArrayList.size());
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

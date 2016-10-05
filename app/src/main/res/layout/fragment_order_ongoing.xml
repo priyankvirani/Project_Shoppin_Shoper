@@ -7,30 +7,38 @@
     android:background="@color/white"
     android:clickable="true">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerListOrderOngoing"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none" />
+        android:layout_height="match_parent">
 
-    <include layout="@layout/progressbar" />
 
-    <include layout="@layout/empty_order_list" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerListOrderOngoing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/listViewProgressbar"
+            android:scrollbars="none" />
 
-    <include layout="@layout/no_internet_connection" />
+        <include layout="@layout/progressbar" />
 
-    <com.crystal.crystalpreloaders.widgets.CrystalPreloader
-        android:id="@+id/listViewProgressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:crs_pl_bg_color="#fff"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:visibility="gone"
-        app:crs_pl_fg_color="@color/app_theme_1"
-        app:crs_pl_size="very_small"
-        app:crs_pl_style="circular" />
+        <include layout="@layout/empty_order_list" />
 
+        <include layout="@layout/no_internet_connection" />
+
+        <com.crystal.crystalpreloaders.widgets.CrystalPreloader
+            android:id="@+id/listViewProgressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:visibility="gone"
+            app:crs_pl_bg_color="#fff"
+            app:crs_pl_fg_color="@color/app_theme_1"
+            app:crs_pl_size="very_small"
+            app:crs_pl_style="circular" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

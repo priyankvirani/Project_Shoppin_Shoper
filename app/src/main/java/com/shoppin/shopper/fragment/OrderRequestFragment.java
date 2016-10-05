@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.adapter.OrderRequestAdapter;
+import com.shoppin.shopper.adapter.OngoingOrderAdapter;
 import com.shoppin.shopper.database.DBAdapter;
 import com.shoppin.shopper.database.IDatabase;
 import com.shoppin.shopper.model.OrderRequest;
@@ -63,20 +65,22 @@ public class OrderRequestFragment extends BaseFragment {
     @BindView(R.id.txtEmptyList)
     TextView txtEmptyList;
 
-
+    @BindView(R.id.swipeContainer)
+    SwipeRefreshLayout swipeContainer;
 
 
     private OrderRequestAdapter orderRequestAdapter;
     private ArrayList<OrderRequest> orderRequestArrayList;
 
+
+    @BindView(R.id.listViewProgressbar)
+    CrystalPreloader listViewProgressbar;
+
     private boolean loading = true;
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
     private LinearLayoutManager mLayoutManager;
     private int pageNumber = 0;
-
-
-    @BindView(R.id.listViewProgressbar)
-    CrystalPreloader listViewProgressbar;
+    private boolean isPullRefresh = true;
 
 
     @Nullable
@@ -87,9 +91,10 @@ public class OrderRequestFragment extends BaseFragment {
         ButterKnife.bind(this, layoutView);
 
         orderRequestArrayList = new ArrayList<>();
-        orderRequestAdapter = new OrderRequestAdapter(getActivity(), orderRequestArrayList);
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerListOrderRequest.setLayoutManager(mLayoutManager);
+
+        orderRequestAdapter = new OrderRequestAdapter(getActivity(), orderRequestArrayList, recyclerListOrderRequest);
         recyclerListOrderRequest.setAdapter(orderRequestAdapter);
         orderRequestAdapter.setOnStatusChangeListener(new OrderRequestAdapter.OnStatusChangeListener() {
             @Override
@@ -112,43 +117,42 @@ public class OrderRequestFragment extends BaseFragment {
 
         broadcastManager.registerReceiver(receiver, intentFilter);
 
-        recyclerListOrderRequest.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        orderRequestAdapter.setOnLoadMoreListener(new OngoingOrderAdapter.OnLoadMoreListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
+            public void onLoadMore() {
+                //add null , so the adapter will check view_type and show progress bar at bottom
+                orderRequestArrayList.add(null);
+                orderRequestAdapter.notifyItemInserted(orderRequestArrayList.size() - 1);
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+                //Load more data for reyclerview
 
+                if (loading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
 
-                if (dy > 0) //check for scroll down
-                {
-                    visibleItemCount = mLayoutManager.getChildCount();
-                    totalItemCount = mLayoutManager.getItemCount();
-                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+                    //loading = false;
+                    pageNumber++;
+                    //Do pagination.. i.e. fetch new data
+                    getOrderRequestData();
 
-//                    Log.e(TAG, "ARREY SIZE        :" + orderOngoingArrayList.size());
-//                    Log.e(TAG, "visibleItemCount  :" + visibleItemCount);
-//                    Log.e(TAG, "totalItemCount    :" + orderOngoingArrayList.size());
-//                    Log.e(TAG, "pastVisiblesItems :" + orderOngoingArrayList.size());
-
-
-                    if (loading) {
-                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                            loading = false;
-
-                            pageNumber++;
-                            Log.e(TAG, "IN Last Item Wow !");
-                            listViewProgressbar.setVisibility(View.VISIBLE);
-                            //Do pagination.. i.e. fetch new data
-                            getOrderRequestData();
-                        }
-                    }
                 }
+
+
             }
         });
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                isPullRefresh = false;
+                orderRequestArrayList.clear();
+                pageNumber = 0;
+                getOrderRequestData();
+
+            }
+        });
+        swipeContainer.setColorSchemeResources(R.color.app_theme_1,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         return layoutView;
     }
@@ -167,6 +171,8 @@ public class OrderRequestFragment extends BaseFragment {
             String action = intent.getAction();
             if (action != null && action.equals(IConstants.UPDATE_ORDER_REQUEST)) {
                 // perform your update
+                orderRequestArrayList.clear();
+                pageNumber = 0;
                 getOrderRequestData();
             }
 
@@ -174,7 +180,7 @@ public class OrderRequestFragment extends BaseFragment {
     };
 
     public void getOrderRequestData() {
-       // orderRequestArrayList.clear();
+        // orderRequestArrayList.clear();
         try {
 
             JSONObject orderRequestParam = new JSONObject();
@@ -185,9 +191,16 @@ public class OrderRequestFragment extends BaseFragment {
             DataRequest getOrderDataRequest = new DataRequest(getActivity());
             getOrderDataRequest.execute(IWebService.ORDER_REQUEST, orderRequestParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
-                    rlvGlobalProgressbar.setVisibility(View.VISIBLE);
-                    //orderRequestArrayList.clear();
-                    orderRequestAdapter.notifyDataSetChanged();
+                    if (orderRequestArrayList == null) {
+                        rlvGlobalProgressbar.setVisibility(View.VISIBLE);
+                    }
+                    loading = false;
+
+                    if (pageNumber > 0) {
+                        orderRequestArrayList.remove(orderRequestArrayList.size() - 1);
+                        orderRequestAdapter.notifyItemRemoved(orderRequestArrayList.size());
+                    }
+
 
                 }
 
@@ -213,21 +226,32 @@ public class OrderRequestFragment extends BaseFragment {
                                     }.getType());
 
                             if (tmpOrderRequestArrayList != null) {
-                                //Log.e(TAG, "Size :  " + orderRequestArrayList.size());
                                 orderRequestArrayList.addAll(tmpOrderRequestArrayList);
+
+
+                                loading = true;
+                                if (pageNumber == 0) {
+                                    orderRequestAdapter.notifyDataSetChanged();
+                                    swipeContainer.setRefreshing(false);
+                                }
+                                if (isPullRefresh) {
+                                    recyclerListOrderRequest.scrollToPosition(mLayoutManager.findLastCompletelyVisibleItemPosition() + 1);
+                                }
                                 orderRequestAdapter.notifyDataSetChanged();
+                                orderRequestAdapter.setLoaded();
                                 llEmptyList.setVisibility(View.GONE);
                             }
 
                         } else {
-                            if(!Utils.isInternetAvailable(getActivity(),false)) {
+                            if (!Utils.isInternetAvailable(getActivity(), false)) {
                                 Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE_ORDER_REQUEST, getString(R.string.error_internet_check));
                                 llEmptyList.setVisibility(View.VISIBLE);
-                            }else if(orderRequestArrayList == null){
+                            } else if (orderRequestArrayList == null) {
                                 llEmptyList.setVisibility(View.VISIBLE);
                             }
 
                         }
+                        Log.e(TAG, "Array list Size  : " + orderRequestArrayList.size());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -268,7 +292,7 @@ public class OrderRequestFragment extends BaseFragment {
                             NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
                             if (navigationDrawerActivity != null) {
                                 navigationDrawerActivity.switchContent(OrderDetailFragment
-                                        .newInstance(orderRequestArrayList.get(position).order_number, false,IConstants.UPDATE_ORDER_REQUEST));
+                                        .newInstance(orderRequestArrayList.get(position).order_number, false, IConstants.UPDATE_ORDER_REQUEST));
                             }
                             getOrderRequestData();
 

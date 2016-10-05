@@ -27,6 +27,7 @@ import okhttp3.Response;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 import static com.shoppin.shopper.utils.Utils.showSnackbarAlert;
+import static java.lang.Boolean.getBoolean;
 
 /**
  * Created by ubuntu on 10/8/16.
@@ -61,7 +62,7 @@ public class DataRequest {
                             if (isShowAlert) {
                                 showSnackbarAlert(
                                         context,
-                                        null,
+                                        "",
                                         mainJObject
                                                 .getString(IWebService.KEY_RES_MESSAGE));
                             }
@@ -120,18 +121,18 @@ public class DataRequest {
 
     public static Boolean checkSuccess(String jsonData) {
 
+        boolean isSuccess = false;
 
         try {
             JSONObject jsonObject = new JSONObject(jsonData);
 
-            if (!jsonObject.getBoolean(IWebService.KEY_RES_SUCCESS)) {
-                Log.e(TAG,"if "+jsonObject.getBoolean(IWebService.KEY_RES_SUCCESS));
-                return false;
-            }
+            isSuccess = jsonObject.getBoolean(IWebService.KEY_RES_SUCCESS);
+            Log.e(TAG, "DATA :: " + isSuccess);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return true;
+        return isSuccess;
     }
 
     /**

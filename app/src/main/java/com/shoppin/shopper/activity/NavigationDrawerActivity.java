@@ -17,12 +17,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.adapter.NavigationDrawerMenuAdapter;
@@ -35,7 +33,6 @@ import com.shoppin.shopper.fragment.OrderRequestFragment;
 import com.shoppin.shopper.model.NavigationDrawerMenu;
 import com.shoppin.shopper.network.IWebService;
 import com.shoppin.shopper.paymentexpress.GenerateRequest;
-import com.shoppin.shopper.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -43,7 +40,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.R.attr.duration;
 import static com.shoppin.shopper.utils.IConstants.IDrawerMenu;
 
 public class NavigationDrawerActivity extends BaseActivity {
@@ -117,6 +113,7 @@ public class NavigationDrawerActivity extends BaseActivity {
                 int menuTagId = (int) view.getTag();
                 Fragment newContent = null;
                 switch (menuTagId) {
+
 
                     case IDrawerMenu.ONGOING_ORDERS_ID:
                         newContent = new OrderOngoingFragment();

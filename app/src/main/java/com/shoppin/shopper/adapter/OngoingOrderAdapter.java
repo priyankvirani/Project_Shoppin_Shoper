@@ -3,7 +3,9 @@ package com.shoppin.shopper.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,98 +24,59 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 /**
- * Created by ubuntu on 8/8/16.
+ * Created by ubuntu on 4/10/16.
  */
 
-public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapter.MyViewHolder> {
+public class OngoingOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = OngoingOrderAdapter.class.getSimpleName();
     private Context mContext;
     private ArrayList<OngoingOrder> ongoingOrderArrayList;
 
-    public OngoingOrderAdapter(Context context, ArrayList<OngoingOrder> orderRequestArrayList) {
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
+    private OnLoadMoreListener mOnLoadMoreListener;
+
+    private boolean isLoading;
+    private int visibleThreshold = 5;
+    private int lastVisibleItem, totalItemCount;
+    private RecyclerView demoRecyclerView;
+
+    int demo = 0;
+
+
+    public OngoingOrderAdapter(Context context, ArrayList<OngoingOrder> orderRequestArrayList,RecyclerView recyclerView) {
         this.mContext = context;
         this.ongoingOrderArrayList = orderRequestArrayList;
-    }
+        this.demoRecyclerView = recyclerView;
 
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) demoRecyclerView.getLayoutManager();
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.txtOrderNumber)
-        TextView txtOrderNumber;
-        @BindView(R.id.txtStreetName)
-        TextView txtStreetName;
-        @BindView(R.id.txtSuburb)
-        TextView txtSuburb;
-        @BindView(R.id.txtTotalPrice)
-        TextView txtTotalPrice;
-        @BindView(R.id.txtOrderDate)
-        TextView txtOrderDate;
-        @BindView(R.id.txtOrderTime)
-        TextView txtOrderTime;
-        @BindView(R.id.txtOrderStatus)
-        TextView txtOrderStatus;
-        @BindView(R.id.llOrderStatus)
-        LinearLayout llOrderStatus;
-        @BindView(R.id.txtCustomerName)
-        TextView txtCustomerName;
-        @BindView(R.id.txtItemCount)
-        TextView txtItemCount;
-
-        @BindView(R.id.card_view)
-        CardView cardView;
-
-
-        public MyViewHolder(View view) {
-            super(view);
-
-            ButterKnife.bind(this, view);
-
-        }
-    }
-
-
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cell_order_ongoing, parent, false);
-
-        return new MyViewHolder(itemView);
-    }
-
-
-    @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-
-        holder.txtOrderNumber.setText(ongoingOrderArrayList.get(position).order_number);
-        holder.txtStreetName.setText(ongoingOrderArrayList.get(position).address1);
-        holder.txtSuburb.setText(ongoingOrderArrayList.get(position).suburb_name);
-        holder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign) + ongoingOrderArrayList.get(position).total);
-        holder.txtOrderDate.setText(ongoingOrderArrayList.get(position).delivery_date);
-        holder.txtOrderTime.setText(ongoingOrderArrayList.get(position).delivery_time);
-        holder.txtCustomerName.setText(ongoingOrderArrayList.get(position).customerName);
-        holder.txtItemCount.setText(ongoingOrderArrayList.get(position).itemCount);
-
-        setOrderStatus(position, holder.txtOrderStatus, holder.llOrderStatus);
-
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        demoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View v) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-                NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
-                if (navigationDrawerActivity != null) {
-                    navigationDrawerActivity.switchContent(OrderDetailFragment
-                            .newInstance(ongoingOrderArrayList.get(position).order_number, false, IConstants.UPDATE_ORDER_ON_GOING));
+                totalItemCount = linearLayoutManager.getItemCount();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                    if (mOnLoadMoreListener != null) {
+                        mOnLoadMoreListener.onLoadMore();
+                    }
+                    isLoading = true;
                 }
             }
         });
+
+
     }
 
-
     @Override
-    public int getItemCount() {
-        return ongoingOrderArrayList.size();
+    public int getItemViewType(int position) {
+        return ongoingOrderArrayList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     public void setOrderStatus(int position, TextView txtorderStatus, LinearLayout llOrderStatus) {
@@ -151,4 +114,115 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<OngoingOrderAdapte
 
     }
 
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh;
+
+        if (viewType == VIEW_TYPE_ITEM) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.cell_order_ongoing, parent, false);
+
+            return new MainViewHolder(v);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.progress_item, parent, false);
+            demo++;
+            Log.e(TAG, "demo " + demo);
+
+            return new ProgressViewHolder(v);
+        }
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof MainViewHolder) {
+
+            MainViewHolder mainViewHolder = (MainViewHolder) holder;
+
+            mainViewHolder.txtOrderNumber.setText(ongoingOrderArrayList.get(position).order_number);
+            mainViewHolder.txtStreetName.setText(ongoingOrderArrayList.get(position).address1);
+            mainViewHolder.txtSuburb.setText(ongoingOrderArrayList.get(position).suburb_name);
+            mainViewHolder.txtTotalPrice.setText(mContext.getResources().getString(R.string.dollar_sign) + ongoingOrderArrayList.get(position).total);
+            mainViewHolder.txtOrderDate.setText(ongoingOrderArrayList.get(position).delivery_date);
+            mainViewHolder.txtOrderTime.setText(ongoingOrderArrayList.get(position).delivery_time);
+            mainViewHolder.txtCustomerName.setText(ongoingOrderArrayList.get(position).customerName);
+            mainViewHolder.txtItemCount.setText(ongoingOrderArrayList.get(position).itemCount);
+
+            setOrderStatus(position, mainViewHolder.txtOrderStatus, mainViewHolder.llOrderStatus);
+
+            mainViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) mContext;
+                    if (navigationDrawerActivity != null) {
+                        navigationDrawerActivity.switchContent(OrderDetailFragment
+                                .newInstance(ongoingOrderArrayList.get(position).order_number, false, IConstants.UPDATE_ORDER_ON_GOING));
+                    }
+                }
+            });
+
+        } else if (holder instanceof ProgressViewHolder) {
+
+
+        }
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
+        this.mOnLoadMoreListener = mOnLoadMoreListener;
+    }
+
+    public void setLoaded() {
+        isLoading = false;
+    }
+
+    @Override
+    public int getItemCount() {
+        return ongoingOrderArrayList == null ? 0 : ongoingOrderArrayList.size();
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
+
+    public static class MainViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.txtOrderNumber)
+        TextView txtOrderNumber;
+        @BindView(R.id.txtStreetName)
+        TextView txtStreetName;
+        @BindView(R.id.txtSuburb)
+        TextView txtSuburb;
+        @BindView(R.id.txtTotalPrice)
+        TextView txtTotalPrice;
+        @BindView(R.id.txtOrderDate)
+        TextView txtOrderDate;
+        @BindView(R.id.txtOrderTime)
+        TextView txtOrderTime;
+        @BindView(R.id.txtOrderStatus)
+        TextView txtOrderStatus;
+        @BindView(R.id.llOrderStatus)
+        LinearLayout llOrderStatus;
+        @BindView(R.id.txtCustomerName)
+        TextView txtCustomerName;
+        @BindView(R.id.txtItemCount)
+        TextView txtItemCount;
+
+        @BindView(R.id.card_view)
+        CardView cardView;
+
+        public MainViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+
+
+        public ProgressViewHolder(View view) {
+            super(view);
+
+        }
+    }
 }
