@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -39,6 +40,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.attr.data;
+import static com.shoppin.shopper.R.id.listViewProgressbar;
+
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -69,15 +73,13 @@ public class OrderOngoingFragment extends BaseFragment {
     private ArrayList<OngoingOrder> orderOngoingArrayList;
 
 
-    @BindView(R.id.listViewProgressbar)
-    CrystalPreloader listViewProgressbar;
-
     private boolean loading = true;
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
     private LinearLayoutManager mLayoutManager;
     private int pageNumber = 0;
 
     private boolean isPullRefresh = true;
+    protected Handler handler;
 
 
     @Nullable
@@ -87,6 +89,7 @@ public class OrderOngoingFragment extends BaseFragment {
         layoutView = inflater.inflate(R.layout.fragment_order_ongoing, container, false);
         ButterKnife.bind(this, layoutView);
 
+        handler = new Handler();
         orderOngoingArrayList = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerListOrderOngoing.setLayoutManager(mLayoutManager);
@@ -104,22 +107,19 @@ public class OrderOngoingFragment extends BaseFragment {
         orderOngoingAdapter.setOnLoadMoreListener(new OngoingOrderAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
+                Log.e(TAG, "swipeContainer : " + swipeContainer.isRefreshing());
                 //add null , so the adapter will check view_type and show progress bar at bottom
+                if (pageNumber > 0) {
+                    orderOngoingArrayList.add(null);
+                    orderOngoingAdapter.notifyItemInserted(orderOngoingArrayList.size() - 1);
+                }
 
-                orderOngoingArrayList.add(null);
-                orderOngoingAdapter.notifyItemInserted(orderOngoingArrayList.size() - 1);
+                if (loading) {
 
-                //Load more data for reyclerview
-
-                if (loading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-
-                    //loading = false;
                     pageNumber++;
                     //Do pagination.. i.e. fetch new data
                     getOngoingOrderData();
-
                 }
-
 
             }
         });
@@ -127,17 +127,18 @@ public class OrderOngoingFragment extends BaseFragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.e(TAG, "Before Size : " + orderOngoingArrayList.size());
                 isPullRefresh = false;
+                swipeContainer.setRefreshing(true);
                 orderOngoingArrayList.clear();
                 pageNumber = 0;
+                Log.e(TAG, "After Size : " + orderOngoingArrayList.size());
                 getOngoingOrderData();
+
 
             }
         });
-        swipeContainer.setColorSchemeResources(R.color.app_theme_1,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        swipeContainer.setColorSchemeResources(R.color.app_theme_1);
 
         return layoutView;
     }
@@ -156,7 +157,7 @@ public class OrderOngoingFragment extends BaseFragment {
             String action = intent.getAction();
             if (action != null && action.equals(IConstants.UPDATE_ORDER_ON_GOING)) {
                 // perform your update
-                Log.e(TAG, "IN Last Item Wow !");
+                //Log.e(TAG, "IN Last Item Wow !");
                 orderOngoingArrayList.clear();
                 pageNumber = 0;
                 getOngoingOrderData();
@@ -181,11 +182,15 @@ public class OrderOngoingFragment extends BaseFragment {
                                 rlvGlobalProgressbar.setVisibility(View.VISIBLE);
                             }
                             loading = false;
+                            if (pageNumber == 0) {
+                                orderOngoingArrayList.clear();
+                                orderOngoingAdapter.notifyDataSetChanged();
+                            }
                             if (pageNumber > 0) {
                                 orderOngoingArrayList.remove(orderOngoingArrayList.size() - 1);
                                 orderOngoingAdapter.notifyItemRemoved(orderOngoingArrayList.size());
-                            }
 
+                            }
 
                         }
 
@@ -197,11 +202,13 @@ public class OrderOngoingFragment extends BaseFragment {
 
                                 if (!DataRequest.hasError(getActivity(), response, false)) {
 
+
                                     JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
                                     if (dataJObject == null) {
                                         loading = false;
                                     }
+
                                     Gson gson = new Gson();
 
                                     ArrayList<OngoingOrder> tmpOrderRequestArrayList = gson.fromJson(
@@ -216,14 +223,15 @@ public class OrderOngoingFragment extends BaseFragment {
                                         orderOngoingArrayList.addAll(tmpOrderRequestArrayList);
 
                                         loading = true;
+
                                         if (pageNumber == 0) {
                                             orderOngoingAdapter.notifyDataSetChanged();
                                             swipeContainer.setRefreshing(false);
-
                                         }
                                         if (isPullRefresh) {
                                             recyclerListOrderOngoing.scrollToPosition(mLayoutManager.findLastCompletelyVisibleItemPosition() + 1);
                                         }
+
                                         orderOngoingAdapter.notifyItemInserted(orderOngoingArrayList.size());
                                         orderOngoingAdapter.setLoaded();
                                         llEmptyList.setVisibility(View.GONE);
@@ -233,7 +241,6 @@ public class OrderOngoingFragment extends BaseFragment {
                                 } else {
 
                                     loading = false;
-                                    listViewProgressbar.setVisibility(View.GONE);
 
                                     if (!Utils.isInternetAvailable(getActivity(), false)) {
                                         Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE_ORDER_ON_GOING, getString(R.string.error_internet_check));

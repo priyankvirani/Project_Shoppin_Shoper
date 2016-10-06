@@ -44,6 +44,7 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int lastVisibleItem, totalItemCount;
     private RecyclerView demoRecyclerView;
 
+
     int demo = 0;
 
 

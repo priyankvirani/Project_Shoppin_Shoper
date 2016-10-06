@@ -24,19 +24,6 @@
 
     <include layout="@layout/no_internet_connection" />
 
-    <com.crystal.crystalpreloaders.widgets.CrystalPreloader
-        android:id="@+id/listViewProgressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:visibility="gone"
-        app:crs_pl_bg_color="#fff"
-        app:crs_pl_fg_color="@color/app_theme_1"
-        app:crs_pl_size="very_small"
-        app:crs_pl_style="circular" />
-
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

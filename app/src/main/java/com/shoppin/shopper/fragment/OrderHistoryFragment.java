@@ -40,6 +40,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.shoppin.shopper.R.id.listViewProgressbar;
+
 /**
  * Created by ubuntu on 15/8/16.
  */
@@ -68,11 +70,6 @@ public class OrderHistoryFragment extends BaseFragment {
     private OrderHistoryAdapter orderHistoryAdapter;
     private ArrayList<OrderHistory> orderHistoryArrayList;
 
-
-    @BindView(R.id.listViewProgressbar)
-    CrystalPreloader listViewProgressbar;
-
-
     private boolean loading = true;
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
     private LinearLayoutManager mLayoutManager;
@@ -90,7 +87,7 @@ public class OrderHistoryFragment extends BaseFragment {
 
 
         orderHistoryAdapter = new OrderHistoryAdapter(getActivity(),
-                orderHistoryArrayList,recyclerListOrderHistory);
+                orderHistoryArrayList, recyclerListOrderHistory);
         recyclerListOrderHistory.setAdapter(orderHistoryAdapter);
         getOrderHistoryData();
 
@@ -181,7 +178,6 @@ public class OrderHistoryFragment extends BaseFragment {
 
                 public void onPostExecute(String response) {
                     rlvGlobalProgressbar.setVisibility(View.GONE);
-                    listViewProgressbar.setVisibility(View.GONE);
 
                     try {
 
