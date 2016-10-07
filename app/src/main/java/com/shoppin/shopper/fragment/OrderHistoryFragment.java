@@ -18,13 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.crystal.crystalpreloaders.widgets.CrystalPreloader;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.adapter.OrderHistoryAdapter;
-import com.shoppin.shopper.adapter.OngoingOrderAdapter;
 import com.shoppin.shopper.database.DBAdapter;
 import com.shoppin.shopper.database.IDatabase;
 import com.shoppin.shopper.model.OrderHistory;
@@ -39,8 +37,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.shoppin.shopper.R.id.listViewProgressbar;
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -70,11 +66,14 @@ public class OrderHistoryFragment extends BaseFragment {
     private OrderHistoryAdapter orderHistoryAdapter;
     private ArrayList<OrderHistory> orderHistoryArrayList;
 
-    private boolean loading = true;
-    private int pastVisiblesItems, visibleItemCount, totalItemCount;
     private LinearLayoutManager mLayoutManager;
     private int pageNumber = 0;
-    private boolean isPullRefresh = true;
+
+    private boolean isLoading;
+    private boolean canLoadMore = true;
+    private int pastVisibleItems, visibleItemCount, totalItemCount;
+    private boolean isTempArraySize = true;
+    private int tempArraySize;
 
     @Nullable
     @Override
@@ -87,7 +86,7 @@ public class OrderHistoryFragment extends BaseFragment {
 
 
         orderHistoryAdapter = new OrderHistoryAdapter(getActivity(),
-                orderHistoryArrayList, recyclerListOrderHistory);
+                orderHistoryArrayList);
         recyclerListOrderHistory.setAdapter(orderHistoryAdapter);
         getOrderHistoryData();
 
@@ -98,33 +97,42 @@ public class OrderHistoryFragment extends BaseFragment {
 
         broadcastManager.registerReceiver(receiver, intentFilter);
 
-        orderHistoryAdapter.setOnLoadMoreListener(new OngoingOrderAdapter.OnLoadMoreListener() {
+        recyclerListOrderHistory.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onLoadMore() {
-                //add null , so the adapter will check view_type and show progress bar at bottom
-                orderHistoryArrayList.add(null);
-                orderHistoryAdapter.notifyItemInserted(orderHistoryArrayList.size() - 1);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                Log.d(TAG, "onScrolled");
+                if (dy > 0) //check for scroll down
+                {
+                    Log.d(TAG, "dy = " + dy);
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
 
-                //Load more data for reyclerview
-
-                if (loading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-
-                    //loading = false;
-                    pageNumber++;
-                    //Do pagination.. i.e. fetch new data
-                    getOrderHistoryData();
-
+                    Log.d(TAG, "isLoading = " + isLoading);
+                    Log.d(TAG, "canLoadMore = " + canLoadMore);
+                    if (!isLoading && canLoadMore) {
+                        Log.d(TAG, "visibleItemCount = " + visibleItemCount);
+                        Log.d(TAG, "pastVisibleItems = " + pastVisibleItems);
+                        Log.d(TAG, "(visibleItemCount + pastVisibleItems) = " + (visibleItemCount + pastVisibleItems));
+                        Log.d(TAG, "totalItemCount = " + totalItemCount);
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            isLoading = true;
+                            pageNumber++;
+                            getOrderHistoryData();
+                        }
+                    }
                 }
-
-
             }
         });
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isPullRefresh = false;
+
+                canLoadMore = true;
+                swipeContainer.setRefreshing(true);
                 orderHistoryArrayList.clear();
+                orderHistoryAdapter.notifyDataSetChanged();
                 pageNumber = 0;
                 getOrderHistoryData();
 
@@ -147,6 +155,7 @@ public class OrderHistoryFragment extends BaseFragment {
             if (action != null && action.equals(IConstants.UPDATE_ORDER_HISTORY)) {
                 // perform your update
                 orderHistoryArrayList.clear();
+                orderHistoryAdapter.notifyDataSetChanged();
                 pageNumber = 0;
                 getOrderHistoryData();
             }
@@ -160,17 +169,15 @@ public class OrderHistoryFragment extends BaseFragment {
             JSONObject orderHistoryParam = new JSONObject();
             orderHistoryParam.put(IWebService.KEY_REQ_EMPLOYEE_ID, DBAdapter.getMapKeyValueString(getActivity(), IDatabase.IMap.KEY_EMPLOYEE_ID));
             orderHistoryParam.put(IWebService.KEY_REQ_PAGE_NO, pageNumber);
-            DataRequest setdataRequest = new DataRequest(getActivity());
-            setdataRequest.execute(IWebService.ORDER_HISTORY, orderHistoryParam.toString(), new DataRequest.CallBack() {
+            DataRequest setDataRequest = new DataRequest(getActivity());
+            setDataRequest.execute(IWebService.ORDER_HISTORY, orderHistoryParam.toString(), new DataRequest.CallBack() {
                 public void onPreExecute() {
-                    if (orderHistoryArrayList == null) {
+                    if (orderHistoryArrayList.isEmpty()) {
                         rlvGlobalProgressbar.setVisibility(View.VISIBLE);
                     }
-                    loading = false;
-
                     if (pageNumber > 0) {
-                        orderHistoryArrayList.remove(orderHistoryArrayList.size() - 1);
-                        orderHistoryAdapter.notifyItemRemoved(orderHistoryArrayList.size());
+                        orderHistoryArrayList.add(null);
+                        orderHistoryAdapter.notifyItemInserted(orderHistoryArrayList.size() - 1);
                     }
 
 
@@ -180,48 +187,51 @@ public class OrderHistoryFragment extends BaseFragment {
                     rlvGlobalProgressbar.setVisibility(View.GONE);
 
                     try {
-
+                        canLoadMore = false;
+                        isLoading = false;
+                        swipeContainer.setRefreshing(false);
+                        if (pageNumber > 0) {
+                            orderHistoryArrayList.remove(orderHistoryArrayList.size() - 1);
+                            orderHistoryAdapter.notifyItemRemoved(orderHistoryArrayList.size());
+                        }
                         if (!DataRequest.hasError(getActivity(), response, false)) {
 
                             JSONObject dataJObject = DataRequest.getJObjWebdata(response);
 
-                            if (dataJObject == null) {
-                                loading = false;
-                            }
-
                             Gson gson = new Gson();
 
 
-                            ArrayList<OrderHistory> tmpProductArrayList = gson.fromJson(
+                            ArrayList<OrderHistory> tmpOrderHistoryArrayList = gson.fromJson(
                                     dataJObject.getJSONArray(
                                             IWebService.KEY_RES_ORDER_LIST)
                                             .toString(),
                                     new TypeToken<ArrayList<OrderHistory>>() {
                                     }.getType());
 
-                            if (tmpProductArrayList != null) {
-                                orderHistoryArrayList.addAll(tmpProductArrayList);
+                            if (isTempArraySize) {
+                                tempArraySize = tmpOrderHistoryArrayList.size();
+                                isTempArraySize = false;
+                            }
 
-                                loading = true;
-                                if (pageNumber == 0) {
-                                    orderHistoryAdapter.notifyDataSetChanged();
-                                    swipeContainer.setRefreshing(false);
-                                }
-                                if (isPullRefresh) {
-                                    recyclerListOrderHistory.scrollToPosition(mLayoutManager.findLastCompletelyVisibleItemPosition() + 1);
-                                }
+                            if (tmpOrderHistoryArrayList.size() >= tempArraySize) {
+                                canLoadMore = true;
+                            }
+
+                            if (tmpOrderHistoryArrayList != null) {
+                                orderHistoryArrayList.addAll(tmpOrderHistoryArrayList);
                                 orderHistoryAdapter.notifyDataSetChanged();
-                                orderHistoryAdapter.setLoaded();
-
+                                swipeContainer.setRefreshing(false);
                                 llEmptyList.setVisibility(View.GONE);
+
+                            } else {
+                                llEmptyList.setVisibility(View.VISIBLE);
                             }
 
                         } else {
 
                             if (!Utils.isInternetAvailable(getActivity(), false)) {
                                 Utils.showSnackbarAlert(getActivity(), IConstants.UPDATE_ORDER_HISTORY, getString(R.string.error_internet_check));
-                                llEmptyList.setVisibility(View.VISIBLE);
-                            } else if (orderHistoryArrayList == null) {
+                            } else if (orderHistoryArrayList.isEmpty()) {
                                 llEmptyList.setVisibility(View.VISIBLE);
                             }
 

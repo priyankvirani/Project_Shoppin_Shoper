@@ -18,11 +18,12 @@
             android:layout_height="match_parent"
             android:scrollbars="none" />
 
-        <include layout="@layout/progressbar" />
-
-        <include layout="@layout/empty_order_list" />
-
-        <include layout="@layout/no_internet_connection" />
-
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/progressbar" />
+
+    <include layout="@layout/empty_order_list" />
+
+    <include layout="@layout/no_internet_connection" />
+
 </RelativeLayout>

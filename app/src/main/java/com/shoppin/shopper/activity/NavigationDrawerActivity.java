@@ -248,8 +248,8 @@ public class NavigationDrawerActivity extends BaseActivity {
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
+//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        notificationManager.cancelAll();
     }
 
 

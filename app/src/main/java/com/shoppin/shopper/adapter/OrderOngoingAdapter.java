@@ -3,7 +3,6 @@ package com.shoppin.shopper.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,49 +27,21 @@ import butterknife.ButterKnife;
  * Created by ubuntu on 4/10/16.
  */
 
-public class OngoingOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OrderOngoingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = OngoingOrderAdapter.class.getSimpleName();
+    private static final String TAG = OrderOngoingAdapter.class.getSimpleName();
     private Context mContext;
     private ArrayList<OngoingOrder> ongoingOrderArrayList;
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    private OnLoadMoreListener mOnLoadMoreListener;
-
-    private boolean isLoading;
-    private int visibleThreshold = 5;
-    private int lastVisibleItem, totalItemCount;
-    private RecyclerView demoRecyclerView;
-
-
     int demo = 0;
 
 
-    public OngoingOrderAdapter(Context context, ArrayList<OngoingOrder> orderRequestArrayList,RecyclerView recyclerView) {
+    public OrderOngoingAdapter(Context context, ArrayList<OngoingOrder> orderRequestArrayList) {
         this.mContext = context;
         this.ongoingOrderArrayList = orderRequestArrayList;
-        this.demoRecyclerView = recyclerView;
-
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) demoRecyclerView.getLayoutManager();
-
-        demoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-
-                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                    if (mOnLoadMoreListener != null) {
-                        mOnLoadMoreListener.onLoadMore();
-                    }
-                    isLoading = true;
-                }
-            }
-        });
 
 
     }
@@ -170,21 +141,9 @@ public class OngoingOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
-    }
-
-    public void setLoaded() {
-        isLoading = false;
-    }
-
     @Override
     public int getItemCount() {
         return ongoingOrderArrayList == null ? 0 : ongoingOrderArrayList.size();
-    }
-
-    public interface OnLoadMoreListener {
-        void onLoadMore();
     }
 
     public static class MainViewHolder extends RecyclerView.ViewHolder {

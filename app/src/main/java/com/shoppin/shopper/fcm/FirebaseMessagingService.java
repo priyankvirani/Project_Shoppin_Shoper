@@ -8,6 +8,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
@@ -15,6 +16,7 @@ import com.shoppin.shopper.R;
 import com.shoppin.shopper.activity.NavigationDrawerActivity;
 import com.shoppin.shopper.database.DBAdapter;
 import com.shoppin.shopper.database.IDatabase;
+import com.shoppin.shopper.utils.IConstants;
 import com.shoppin.shopper.utils.Utils;
 
 /**
@@ -32,6 +34,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         Log.e(TAG, "title: " + remoteMessage.getData().get("title"));
         if (!Utils.isNullOrEmpty(DBAdapter.getMapKeyValueString(FirebaseMessagingService.this, IDatabase.IMap.KEY_EMPLOYEE_ID))) {
             showNotification(remoteMessage.getData().get("message"));
+
+            Intent intent = new Intent(IConstants.UPDATE_ORDER_REQUEST);
+            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(FirebaseMessagingService.this);
+            broadcastManager.sendBroadcast(intent);
+
         }
 
     }

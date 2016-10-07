@@ -36,34 +36,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    private OngoingOrderAdapter.OnLoadMoreListener mOnLoadMoreListener;
 
-    private boolean isLoading;
-    private int visibleThreshold = 5;
-    private int lastVisibleItem, totalItemCount;
-    private RecyclerView demoRecyclerView;
 
-    public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderRequestArrayList, RecyclerView recyclerView) {
+
+    public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderRequestArrayList) {
         this.mContext = context;
         this.orderHistoryArrayList = orderRequestArrayList;
-        this.demoRecyclerView = recyclerView;
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) demoRecyclerView.getLayoutManager();
-        demoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
 
-                totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
-                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                    if (mOnLoadMoreListener != null) {
-                        mOnLoadMoreListener.onLoadMore();
-                    }
-                    isLoading = true;
-                }
-            }
-        });
     }
 
     @Override
@@ -130,15 +110,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if(holder instanceof ProgressViewHolder){
 
         }
-    }
-
-
-    public void setOnLoadMoreListener(OngoingOrderAdapter.OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
-    }
-
-    public void setLoaded() {
-        isLoading = false;
     }
 
     @Override
