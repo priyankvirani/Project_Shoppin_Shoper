@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -84,7 +85,6 @@ public class OrderOngoingFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        layoutView = inflater.inflate(R.layout.fragment_home, null);
         layoutView = inflater.inflate(R.layout.fragment_order_ongoing, container, false);
         ButterKnife.bind(this, layoutView);
 
@@ -278,7 +278,6 @@ public class OrderOngoingFragment extends BaseFragment {
         NavigationDrawerActivity navigationDrawerActivity = (NavigationDrawerActivity) getActivity();
         if (navigationDrawerActivity != null) {
             ((NavigationDrawerActivity) getActivity()).setToolbarTitle(getActivity().getResources().getString(R.string.fragment_order_ongoing));
-            //getOngoingOrderData();
         }
     }
 }

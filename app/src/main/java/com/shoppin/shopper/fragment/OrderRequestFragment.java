@@ -96,6 +96,7 @@ public class OrderRequestFragment extends BaseFragment {
 
         orderRequestAdapter = new OrderRequestAdapter(getActivity(), orderRequestArrayList);
         recyclerListOrderRequest.setAdapter(orderRequestAdapter);
+
         orderRequestAdapter.setOnStatusChangeListener(new OrderRequestAdapter.OnStatusChangeListener() {
             @Override
             public void onStatusChange(int position, boolean status) {
@@ -114,7 +115,6 @@ public class OrderRequestFragment extends BaseFragment {
 
         IntentFilter intentFilter = new IntentFilter(IConstants.UPDATE_ORDER_REQUEST);
         // Here you can add additional actions which then would be received by the BroadcastReceiver
-
         broadcastManager.registerReceiver(receiver, intentFilter);
 
         recyclerListOrderRequest.addOnScrollListener(new RecyclerView.OnScrollListener() {
