@@ -1,6 +1,5 @@
 package com.shoppin.shopper.activity;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -213,6 +212,7 @@ public class NavigationDrawerActivity extends BaseActivity {
 
     @OnClick(R.id.imgSearch)
     public void searchProduct() {
+
         Toast.makeText(NavigationDrawerActivity.this, "Under Devlopment", Toast.LENGTH_SHORT).show();
 
         GenerateRequest generateRequest = new GenerateRequest();
