@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.shoppin.shopper.R;
-import com.shoppin.shopper.fragment.OrderDetailFragment;
 import com.shoppin.shopper.model.Product;
 import com.shoppin.shopper.network.IWebService;
 import com.shoppin.shopper.utils.Utils;
@@ -31,16 +30,12 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
     private static final String TAG = ProductDetailsAdapter.class.getSimpleName();
     private Context mContext;
     private ArrayList<Product> productArrayList;
-    private OrderDetailFragment orderDetailFragment;
     private OnStatusChangeListener onStatusChangeListener;
     private boolean isOrderStatusCompleted = true;
 
-    public ProductDetailsAdapter(Context context, ArrayList<Product> productArrayList, OrderDetailFragment orderdetailsFragment) {
+    public ProductDetailsAdapter(Context context, ArrayList<Product> productArrayList) {
         this.mContext = context;
         this.productArrayList = productArrayList;
-        this.orderDetailFragment = orderdetailsFragment;
-
-
     }
 
     public void setOrderStatusCompleted(boolean value) {
@@ -118,39 +113,39 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
                 .into(holder.imgProduct);
 
         holder.imgItemStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                                                    @Override
+                                                    public void onClick(View v) {
 
-                if (isOrderStatusCompleted) {
-                    if (onStatusChangeListener != null) {
+                                                        if (isOrderStatusCompleted) {
+                                                            if (onStatusChangeListener != null) {
 
-                        if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
-                            productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
+                                                                if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE) {
+                                                                    productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
 
-                            onStatusChangeListener.onStatusChange(position);
-
-
-                        } else if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
-                            productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
-                            onStatusChangeListener.onStatusChange(position);
-
-                        } else {
-                            productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
-                            onStatusChangeListener.onStatusChange(position);
-
-                        }
-                    }
-                }else{
-                    Utils.showSnackbarAlert(mContext,"",mContext.getString(R.string.error_not_allowed));
-                }
-
-                }
-            }
-
-            );
+                                                                    onStatusChangeListener.onStatusChange(position);
 
 
-        }
+                                                                } else if (productArrayList.get(position).productAvailability == IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE) {
+                                                                    productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_NOT_AVAILABLE;
+                                                                    onStatusChangeListener.onStatusChange(position);
+
+                                                                } else {
+                                                                    productArrayList.get(position).productAvailability = IWebService.KEY_REQ_STATUS_PRODUCT_AVAILABLE;
+                                                                    onStatusChangeListener.onStatusChange(position);
+
+                                                                }
+                                                            }
+                                                        } else {
+                                                            Utils.showSnackbarAlert(mContext, "", mContext.getString(R.string.error_not_allowed));
+                                                        }
+
+                                                    }
+                                                }
+
+        );
+
+
+    }
 
     public void setOnStatusChangeListener(final OnStatusChangeListener onCartChangeListener) {
         this.onStatusChangeListener = onCartChangeListener;

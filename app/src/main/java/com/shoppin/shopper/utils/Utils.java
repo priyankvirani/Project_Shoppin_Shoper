@@ -73,13 +73,10 @@ public class Utils {
                     .matches();
         }
     }
-
-
     /**
      * Check for internet connection
      */
-    public static boolean isInternetAvailable(Context context,
-                                              boolean isShowAlert) {
+    public static boolean isInternetAvailable(Context context,boolean isShowAlert) {
         ConnectivityManager conMgr = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if (conMgr.getActiveNetworkInfo() != null
@@ -98,7 +95,6 @@ public class Utils {
             return false;
         }
     }
-
     /**
      * To display alerts
      *
@@ -106,7 +102,6 @@ public class Utils {
      * @param title
      * @param message
      */
-
     public static void showSnackbarAlert(final Context context, final String title, final String message) {
         if (context instanceof Activity) {
             final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
@@ -205,7 +200,6 @@ public class Utils {
     public static void showToastLong(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
-
     /**
      * Share with other apps
      */

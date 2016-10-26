@@ -151,15 +151,12 @@ public class NavigationDrawerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
 
-
         ButterKnife.bind(this);
-
 
         Intent intent = getIntent();
         if (getIntent() != null) {
             isRequestNotification = intent.getBooleanExtra(IS_REQUEST_NOTIFICATION, false);
         }
-
         //Log.d(TAG, "suburb_id = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_ID));
         //Log.d(TAG, "suburb_name = " + DBAdapter.getMapKeyValueString(NavigationDrawerActivity.this, IMap.SUBURB_NAME));
 
@@ -213,6 +210,7 @@ public class NavigationDrawerActivity extends BaseActivity {
     @OnClick(R.id.imgSearch)
     public void searchProduct() {
 
+
         Toast.makeText(NavigationDrawerActivity.this, "Under Devlopment", Toast.LENGTH_SHORT).show();
 
         GenerateRequest generateRequest = new GenerateRequest();
@@ -221,7 +219,7 @@ public class NavigationDrawerActivity extends BaseActivity {
         generateRequest.setAmountInput("1.00");
         generateRequest.setCurrencyInput(getResources().getString(R.string.pxpay_currency_input));
         generateRequest.setEmailAddress("name@name.com");
-        generateRequest.setMerchantReference(">Purchase Example");
+        generateRequest.setMerchantReference("Purchase Example");
         generateRequest.setTxnData1("Name");
         generateRequest.setTxnData2("Mobile Number");
         generateRequest.setTxnData3("Address");

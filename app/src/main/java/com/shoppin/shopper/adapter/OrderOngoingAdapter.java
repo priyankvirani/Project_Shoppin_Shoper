@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +35,6 @@ public class OrderOngoingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    int demo = 0;
-
-
     public OrderOngoingAdapter(Context context, ArrayList<OngoingOrder> orderRequestArrayList) {
         this.mContext = context;
         this.ongoingOrderArrayList = orderRequestArrayList;
@@ -58,7 +54,7 @@ public class OrderOngoingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtorderStatus.setText(ongoingOrderArrayList.get(position).statusLable);
             txtorderStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.accepted), null);
 
-        } else if (ongoingOrderArrayList.get(position).status == IWebService.KEY_REQ_STATUS_PUECHASING) {
+        } else if (ongoingOrderArrayList.get(position).status == IWebService.KEY_REQ_STATUS_PURCHASING) {
 
             llOrderStatus.setBackgroundResource(R.drawable.button_background_blue);
             txtorderStatus.setText(ongoingOrderArrayList.get(position).statusLable);
@@ -98,9 +94,6 @@ public class OrderOngoingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (viewType == VIEW_TYPE_LOADING) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.progress_item, parent, false);
-            demo++;
-            Log.e(TAG, "demo " + demo);
-
             return new ProgressViewHolder(v);
         }
         return null;

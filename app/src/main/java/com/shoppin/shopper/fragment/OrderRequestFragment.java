@@ -47,7 +47,6 @@ import butterknife.ButterKnife;
 public class OrderRequestFragment extends BaseFragment {
 
     private static final String TAG = OrderRequestFragment.class.getSimpleName();
-    public static final String ORDER_NUMBER = "order_number";
 
     @BindView(R.id.recyclerListOrderRequest)
     RecyclerView recyclerListOrderRequest;

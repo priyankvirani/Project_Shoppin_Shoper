@@ -12,6 +12,7 @@ import static com.shoppin.shopper.database.IDatabase.IMap;
  * Created by ubuntu on 27/4/16.
  */
 public class DBAdapter {
+
     private static final String TAG = DBAdapter.class.getSimpleName();
 
 

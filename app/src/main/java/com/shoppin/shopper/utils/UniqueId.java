@@ -10,6 +10,9 @@ public class UniqueId {
 
 	private static final String TAG = UniqueId.class.getSimpleName();
 
+	/**
+	 * get device unique ID.
+	 */
 	public static String getUniqueId(Context context) {
 
 		String uniqueId = null;

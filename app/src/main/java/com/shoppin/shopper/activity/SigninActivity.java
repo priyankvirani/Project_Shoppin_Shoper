@@ -60,12 +60,12 @@ public class SigninActivity extends AppCompatActivity {
                 JSONObject loginParam = new JSONObject();
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_MOBILE, etxSigninId.getText().toString());
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_PASSWORD, etxPassword.getText().toString());
-                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TYPE, IConstants.ISignin.DEVICE_TYPE);
+                loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TYPE, IConstants.ISignIn.DEVICE_TYPE);
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_TOKEN, FirebaseInstanceId.getInstance().getToken());
                 loginParam.put(IWebService.KEY_REQ_EMPLOYEE_DEVICE_ID, UniqueId.getUniqueId(SigninActivity.this));
 
-                DataRequest signinDataRequest = new DataRequest(SigninActivity.this);
-                signinDataRequest.execute(IWebService.EMPLOYEE_LOGIN, loginParam.toString(), new DataRequest.CallBack() {
+                DataRequest signInDataRequest = new DataRequest(SigninActivity.this);
+                signInDataRequest.execute(IWebService.EMPLOYEE_LOGIN, loginParam.toString(), new DataRequest.CallBack() {
                     public void onPreExecute() {
                         rlvGlobalProgressbar.setVisibility(View.VISIBLE);
                     }

@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +43,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.shoppin.shopper.utils.IConstants.IS_HISTORY;
+import static com.shoppin.shopper.utils.IConstants.ORDER_NUMBER;
+import static com.shoppin.shopper.utils.IConstants.PREVIOUS_FRAGMENT;
+
 
 /**
  * Created by ubuntu on 15/8/16.
@@ -52,16 +55,13 @@ import butterknife.ButterKnife;
 public class OrderDetailFragment extends BaseFragment {
 
     private static final String TAG = OrderDetailFragment.class.getSimpleName();
-    public static final String ORDER_NUMBER = "order_number";
-    public static final String ISHISTORY = "ishistory";
-    public static final String PREVIOUS_FRAGMENT = "previous.fragment";
 
 
     public static OrderDetailFragment newInstance(String order_number, boolean isHistory, String previousFragment) {
         OrderDetailFragment orderDetailFragment = new OrderDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ORDER_NUMBER, order_number);
-        bundle.putBoolean(ISHISTORY, isHistory);
+        bundle.putBoolean(IS_HISTORY, isHistory);
         bundle.putString(PREVIOUS_FRAGMENT, previousFragment);
         orderDetailFragment.setArguments(bundle);
         return orderDetailFragment;
@@ -116,7 +116,7 @@ public class OrderDetailFragment extends BaseFragment {
     TextView txtOrderTime;
 
     @BindView(R.id.txtphoneNumber)
-    TextView txtphoneNumber;
+    TextView txtPhoneNumber;
 
     @BindView(R.id.txtOrderPrice)
     TextView txtOrderPrice;
@@ -161,16 +161,16 @@ public class OrderDetailFragment extends BaseFragment {
     @BindView(R.id.txtAccepted)
     TextView txtAccepted;
     @BindView(R.id.txtxPurchasing)
-    TextView txtxPurchasing;
+    TextView txtPurchasing;
     @BindView(R.id.txtShipping)
     TextView txtShipping;
     @BindView(R.id.txtCompleted)
     TextView txtCompleted;
 
-    private boolean isAccepted = false;
-    private boolean isPurchasing = false;
-    private boolean isShipping = false;
-    private boolean isCompleted = false;
+    boolean isAccepted = false;
+    boolean isPurchasing = false;
+    boolean isShipping = false;
+    boolean isCompleted = false;
 
     private boolean isOrderStatusCompleted = true;
 
@@ -184,7 +184,7 @@ public class OrderDetailFragment extends BaseFragment {
         productArrayList = new ArrayList<>();
         statusOptionValueArrayList = new ArrayList<>();
         productDetailsAdapter = new ProductDetailsAdapter(getActivity(),
-                productArrayList, OrderDetailFragment.this);
+                productArrayList);
 
         recyclerListOrderDetails.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerListOrderDetails.setNestedScrollingEnabled(false);
@@ -219,9 +219,9 @@ public class OrderDetailFragment extends BaseFragment {
 
 
         if (getArguments() != null) {
-            order_number = getArguments().getString(ORDER_NUMBER);
-            previousFragment = getArguments().getString(PREVIOUS_FRAGMENT);
-            isHistory = getArguments().getBoolean(ISHISTORY);
+            order_number = getArguments().getString(IConstants.ORDER_NUMBER);
+            previousFragment = getArguments().getString(IConstants.PREVIOUS_FRAGMENT);
+            isHistory = getArguments().getBoolean(IConstants.IS_HISTORY);
 
             //Log.e(TAG, "Order Number :  -  " + order_number);
 
@@ -253,13 +253,13 @@ public class OrderDetailFragment extends BaseFragment {
         });
 
 
-        txtphoneNumber.setOnClickListener(new View.OnClickListener() {
+        txtPhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse("tel:"
-                            + txtphoneNumber.getText().toString()));
+                            + txtPhoneNumber.getText().toString()));
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -302,7 +302,7 @@ public class OrderDetailFragment extends BaseFragment {
                                     txtOrderNumber.setText(dataJObject.getString(IWebService.KEY_RES_ORDER_NAMBER));
                                     txtStreetName.setText(dataJObject.getString(IWebService.KEY_RES_ADDRESS1));
                                     txtSuburb.setText(dataJObject.getString(IWebService.KEY_RES_SUBURB_NAME) + ", " + dataJObject.getString(IWebService.KEY_RES_ZIP));
-                                    txtphoneNumber.setText(dataJObject.getString(IWebService.KEY_RES_CUSTOMER_MOBILE));
+                                    txtPhoneNumber.setText(dataJObject.getString(IWebService.KEY_RES_CUSTOMER_MOBILE));
                                     txtOrderDate.setText(dataJObject.getString(IWebService.KEY_RES_DELIVERY_DATE));
                                     txtOrderTime.setText(dataJObject.getString(IWebService.KEY_RES_DELIVERY_TIME));
                                     txtOrderPrice.setText(getActivity().getResources().getString(R.string.dollar_sign) + dataJObject.getString(IWebService.KEY_RES_TOTAL));
@@ -432,7 +432,7 @@ public class OrderDetailFragment extends BaseFragment {
                 isCompleted = false;
 
 
-            } else if (statusCode == IWebService.KEY_REQ_STATUS_PUECHASING) {
+            } else if (statusCode == IWebService.KEY_REQ_STATUS_PURCHASING) {
 
                 lltAccepted.setBackgroundColor(getResources().getColor(R.color.order_details_accepted));
                 imgAccepted.setImageResource(R.drawable.accepted);
@@ -441,7 +441,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                 lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_details_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
-                txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
+                txtPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
 
                 isAccepted = false;
@@ -457,7 +457,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                 lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_details_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
-                txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
+                txtPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
 
                 lltShipping.setBackgroundColor(getResources().getColor(R.color.order_details_shipping));
@@ -478,7 +478,7 @@ public class OrderDetailFragment extends BaseFragment {
 
                 lltPurchasing.setBackgroundColor(getResources().getColor(R.color.order_details_purchasing));
                 imgPurchasing.setImageResource(R.drawable.purchasing);
-                txtxPurchasing.setTextColor(getResources().getColor(R.color.white));
+                txtPurchasing.setTextColor(getResources().getColor(R.color.white));
                 lltPurchasing.setClickable(false);
 
                 lltShipping.setBackgroundColor(getResources().getColor(R.color.order_details_shipping));
@@ -817,7 +817,7 @@ public class OrderDetailFragment extends BaseFragment {
             bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_reject);
         } else if (IWebService.KEY_REQ_STATUS_ACCEPTED == status) {
             bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_accept);
-        } else if (IWebService.KEY_REQ_STATUS_PUECHASING == status) {
+        } else if (IWebService.KEY_REQ_STATUS_PURCHASING == status) {
             bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_purchasing);
         } else if (IWebService.KEY_REQ_STATUS_SHIPPING == status) {
             bgTextView = ContextCompat.getColor(getActivity(), R.color.order_bg_shipping);

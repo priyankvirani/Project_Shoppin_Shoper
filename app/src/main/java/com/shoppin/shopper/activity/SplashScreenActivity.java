@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.RelativeLayout;
 
 import com.shoppin.shopper.R;
@@ -148,7 +147,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void appVersionVerify() {
         JSONObject appVersionParam = new JSONObject();
         try {
-            appVersionParam.put(IWebService.KEY_REQ_DEVICE_TYPE, IConstants.ISignin.DEVICE_TYPE);
+            appVersionParam.put(IWebService.KEY_REQ_DEVICE_TYPE, IConstants.ISignIn.DEVICE_TYPE);
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             appVersionParam.put(IWebService.KEY_REQ_CURRENT_APP_VERSION, versionCode);
         } catch (Exception e) {

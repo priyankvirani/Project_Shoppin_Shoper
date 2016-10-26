@@ -36,9 +36,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-
-
-
     public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderRequestArrayList) {
         this.mContext = context;
         this.orderHistoryArrayList = orderRequestArrayList;
@@ -68,6 +65,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         return null;
     }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
@@ -107,7 +105,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 }
             });
-        } else if(holder instanceof ProgressViewHolder){
+        } else if (holder instanceof ProgressViewHolder) {
 
         }
     }

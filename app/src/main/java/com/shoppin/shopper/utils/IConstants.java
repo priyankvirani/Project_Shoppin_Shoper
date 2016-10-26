@@ -5,12 +5,24 @@ package com.shoppin.shopper.utils;
  */
 public interface IConstants {
 
+    /**
+     * for update fragment.
+     */
     String UPDATE_SPLASH_SCREEN = "com.shoppin.shopper.fragment.splashscreenactivity";
     String UPDATE_ORDER_ON_GOING = "com.shoppin.shopper.fragment.orderongoingfragment";
     String UPDATE_ORDER_REQUEST = "com.shoppin.shopper.fragment.orderrequestfragment";
     String UPDATE_ORDER_HISTORY = "com.shoppin.shopper.fragment.orderhistoryfragment";
 
+    /**
+     * for order details fragment.
+     */
+    String ORDER_NUMBER = "order_number";
+    String IS_HISTORY = "is_history";
+    String PREVIOUS_FRAGMENT = "previous_fragment";
 
+    /**
+     * navigation drawer menu list.
+     */
     interface IDrawerMenu {
 
         String ONGOING_ORDERS = "Order Ongoing";
@@ -27,7 +39,7 @@ public interface IConstants {
 
     }
 
-    interface ISignin {
+    interface ISignIn {
 
         String DEVICE_TYPE = "android";
     }

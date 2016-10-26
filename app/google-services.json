@@ -1,27 +1,58 @@
 {
   "project_info": {
-    "project_number": "350521155070",
-    "firebase_url": "https://shopper-5b2bf.firebaseio.com",
-    "project_id": "shopper-5b2bf",
-    "storage_bucket": "shopper-5b2bf.appspot.com"
+    "project_number": "437213884048",
+    "firebase_url": "https://project-shoppin-customer.firebaseio.com",
+    "project_id": "project-shoppin-customer",
+    "storage_bucket": "project-shoppin-customer.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:350521155070:android:eb149a1e82293929",
+        "mobilesdk_app_id": "1:437213884048:android:07da137ddeb3222e",
+        "android_client_info": {
+          "package_name": "com.shoppin.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437213884048-ls84h3t1s17vnh1nkligglpshaac8u5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB92dPhBl8ojFz5QrRLiofqO7dQUPVaTm8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437213884048:android:eb149a1e82293929",
         "android_client_info": {
           "package_name": "com.shoppin.shopper"
         }
       },
       "oauth_client": [
         {
-          "client_id": "350521155070-miiqjs5vgrrbdv26bqpsqcor7tka8rht.apps.googleusercontent.com",
+          "client_id": "437213884048-ls84h3t1s17vnh1nkligglpshaac8u5e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB4umQQVLZgWVJ9fschJQs-SRHDhZhBjW0"
+          "current_key": "AIzaSyB92dPhBl8ojFz5QrRLiofqO7dQUPVaTm8"
         }
       ],
       "services": {
