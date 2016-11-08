@@ -6,7 +6,7 @@ import com.shoppin.shopper.utils.Utils;
 
 public class BaseActivity extends AppCompatActivity {
 
-	//programmer21
+	//programmer21 first
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
