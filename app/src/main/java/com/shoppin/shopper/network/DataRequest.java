@@ -15,7 +15,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -37,7 +43,7 @@ public class DataRequest {
     private static final String TAG = DataRequest.class.getSimpleName();
 
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
-
+    private static final MediaType MEDIA_TYPE_XML = MediaType.parse("application/xml");
     private Context context;
     private CallBack callBack;
 
@@ -222,6 +228,58 @@ public class DataRequest {
             sendResponse(null);
         }
     }
+
+    public void pxexecute(String url, String jsonParam, CallBack setCallBack) {
+        callBack = setCallBack;
+        if (isShowProgressDialog()) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage("loading ..");
+            progressDialog.show();
+        }
+
+        callBack.onPreExecute();
+        Log.e(TAG, "url = " + url);
+        Log.e(TAG, "jsonParam = " + jsonParam);
+
+        try {
+
+            OkHttpClient client = new OkHttpClient();
+            Request request;
+
+            if (jsonParam != null) {
+
+                RequestBody body = RequestBody.create(MEDIA_TYPE_XML, jsonParam);
+                request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+            } else {
+                request = new Request.Builder()
+                        .url(url)
+                        .build();
+            }
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    sendResponse(null);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        sendResponse(response.body().string());
+                    } else {
+                        sendResponse(null);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            sendResponse(null);
+        }
+    }
+
 
     private void sendResponse(final String response) {
         if (callBack != null) {

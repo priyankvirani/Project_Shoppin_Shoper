@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_px_pay_web"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shoppin.shopper.activity.PxPayWebActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/progress_web_view" />
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/progressBar" />
+    </LinearLayout>
+
+    <com.crystal.crystalpreloaders.widgets.CrystalPreloader
+        android:id="@+id/preLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:crs_pl_bg_color="#fff"
+        android:layout_centerInParent="true"
+        app:crs_pl_fg_color="@color/app_theme_1"
+        app:crs_pl_size="very_small"
+        app:crs_pl_style="skype_balls" />
+</RelativeLayout>

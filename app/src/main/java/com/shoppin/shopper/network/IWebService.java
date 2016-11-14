@@ -11,8 +11,8 @@ IWebService {
 
     String TRANSACTION_REQUEST = "https://sec.paymentexpress.com/pxaccess/pxpay.aspx";
     String TRANSACTION_REQUEST_TEST = "https://uat.paymentexpress.com/pxaccess/pxpay.aspx";
-    String ON_TRANSACTION_SUCCESS = "https://www.dpsdemo.com/SandboxSuccess.aspx%3C/UrlSuccess";
-    String ON_TRANSACTION_FAIL= "https://www.dpsdemo.com/SandboxSuccess.aspx%3C/UrlFail";
+    String ON_TRANSACTION_SUCCESS = "https://www.dpsdemo.com/SandboxSuccess.aspx";
+    String ON_TRANSACTION_FAIL= "https://www.dpsdemo.com/SandboxSuccess.aspx";
 
     /*for shoper order data*/
     //String MAIN_URL = " http://192.168.0.1/shoppin/service/index.php/";

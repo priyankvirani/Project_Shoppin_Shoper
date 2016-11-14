@@ -1,8 +1,10 @@
 package com.shoppin.shopper.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -32,8 +34,16 @@ import com.shoppin.shopper.fragment.OrderRequestFragment;
 import com.shoppin.shopper.model.NavigationDrawerMenu;
 import com.shoppin.shopper.network.IWebService;
 import com.shoppin.shopper.paymentexpress.GenerateRequest;
+import com.shoppin.shopper.paymentexpress.PxPay;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -216,35 +226,54 @@ public class NavigationDrawerActivity extends BaseActivity {
         GenerateRequest generateRequest = new GenerateRequest();
         generateRequest.setPxPayUserId(getResources().getString(R.string.pxpay_userid));
         generateRequest.setPxPayKey(getResources().getString(R.string.pxpay_key));
-        generateRequest.setAmountInput("1.00");
-        generateRequest.setCurrencyInput(getResources().getString(R.string.pxpay_currency_input));
-        generateRequest.setEmailAddress("name@name.com");
-        generateRequest.setMerchantReference("Purchase Example");
-        generateRequest.setTxnData1("Name");
-        generateRequest.setTxnData2("Mobile Number");
-        generateRequest.setTxnData3("Address");
         generateRequest.setTxnType(getResources().getString(R.string.pxpay_txt_type));
-        generateRequest.setTxnId("TxnID");
-        generateRequest.setBillingId("BillingId");
-        generateRequest.setEnableAddBillCard("EnableAddBillCard");
+        generateRequest.setAmountInput("0.01");
+        generateRequest.setCurrencyInput(getResources().getString(R.string.pxpay_currency_input));
+        generateRequest.setMerchantReference("Purchase Example");
+        generateRequest.setTxnData1("John Doe");
+        generateRequest.setTxnData2("blah blah");
+        generateRequest.setTxnData3("98 Anzac Ave, Auckland 1010");
+        generateRequest.setEmailAddress("samplepxpayuser@paymentexpress.com");
+        Random r = new Random();
+        int Low = 111111111;
+        int High = 999999999;
+        int Result = r.nextInt(High - Low) + Low;
+        generateRequest.setTxnId(String.valueOf(Result));
+        generateRequest.setBillingId("BillingId123xyz");
+        generateRequest.setEnableAddBillCard("1");
         generateRequest.setUrlSuccess(IWebService.ON_TRANSACTION_SUCCESS);
         generateRequest.setUrlFail(IWebService.ON_TRANSACTION_FAIL);
-        generateRequest.setOpt("Opt");
-        generateRequest.setXml("Xml");
+        //generateRequest.setXml("Xml");
 
-
+//
 //        PxPay.GenerateRequest(getResources().getString(R.string.pxpay_userid)
 //                , getResources().getString(R.string.pxpay_key),
-//                generateRequest, IWebService.TRANSACTION_REQUEST_TEST,
-//                NavigationDrawerActivity.this);
+//                generateRequest, IWebService.TRANSACTION_REQUEST, NavigationDrawerActivity.this);
+
+        String uri = PxPay.GenerateRequest(getResources().getString(R.string.pxpay_userid)
+                , getResources().getString(R.string.pxpay_key),
+                generateRequest, IWebService.TRANSACTION_REQUEST,
+                NavigationDrawerActivity.this);
+
+        Toast.makeText(NavigationDrawerActivity.this, uri, Toast.LENGTH_LONG).show();
+
+
+//        Log.e(TAG,"Uri"+PxPay.GenerateRequest(getResources().getString(R.string.pxpay_userid)
+//                , getResources().getString(R.string.pxpay_key),
+//                generateRequest, IWebService.TRANSACTION_REQUEST,
+//                NavigationDrawerActivity.this));
+
 
 //        isNavMenuchange = true;
 //        switchContent(new HomeFragment());
     }
 
+
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
+
+
 
 //        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //        notificationManager.cancelAll();

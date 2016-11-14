@@ -27,11 +27,6 @@
     <string name="update">Update</string>
 
 
-
-
-
-
-
     <!-- Error messages -->
     <string name="error_app_update">Need to update app</string>
     <string name="error_technichal_problem">Having some technical problem</string>
@@ -43,7 +38,6 @@
     <string name="error_not_allowed">Not allowed.</string>
     <string name="error_no_record_found">No Record Found..</string>
     <string name="error_sim_card">SIM ERROR</string>
-
 
 
     <!-- Textview -->
@@ -82,8 +76,8 @@
 
 
     <!--payment express-->
-    <string name="pxpay_userid">Sample2_Dev</string>
-    <string name="pxpay_key">a111e223a88ba584b00fd7b5e750ce2724d721de4a099f4bc1f201ceb00f7c8b</string>
+    <string name="pxpay_userid">LetsGoShoppinHPP_dev</string>
+    <string name="pxpay_key">2348c255a9edfbacb64801668ac2db06734f8e9423dc6ac758097fcfaa9ffc0d</string>
     <string name="pxpay_currency_input">NZD</string>
     <string name="pxpay_txt_type">Purchase</string>
 
